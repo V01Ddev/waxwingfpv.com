@@ -24,12 +24,12 @@ licence:
   entries:
     - number: 'TR-IHA0H13665941'
       type:
-        tr: 'İHA-0 — Sportif / Amatör'
-        en: 'İHA-0 — Sportive / Amateur'
+        tr: 'İHA-0 (Sportif / Amatör)'
+        en: 'İHA-0 (Sportive / Amateur)'
     - number: 'TR-IHA1H13665959'
       type:
-        tr: 'İHA-1 — Sportif / Amatör'
-        en: 'İHA-1 — Sportive / Amateur'
+        tr: 'İHA-1 (Sportif / Amatör)'
+        en: 'İHA-1 (Sportive / Amateur)'
   note:
     tr: 'Uçuşlar SHGM mevzuatına uygun olarak, lisanslı pilot tarafından yapılır.'
     en: 'Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations.'
@@ -72,7 +72,7 @@ services:
       en: 'Venue film'
     description:
       tr: 'Mekânınızın içinden tek kesintisiz geçiş. Kapıdan giren müşterinin gördüğü şey.'
-      en: 'One continuous pass through your space — what a customer sees walking in the door.'
+      en: 'One continuous pass through your space. What a customer sees walking in the door.'
     deliverable:
       tr: '1 × 16:9 · 1 × 9:16 · ~1 dk'
       en: '1 × 16:9 · 1 × 9:16 · ~1 min'
@@ -134,7 +134,7 @@ process:
       tr: 'Çekim'
       en: 'Shoot'
     description:
-      tr: 'Tek oturum. Mümkünse açılıştan önce ya da kapanıştan sonra — müşteri kalabalığı olmadan.'
+      tr: 'Tek oturum. Mümkünse açılıştan önce ya da kapanıştan sonra, müşteri kalabalığı olmadan.'
       en: 'One session, ideally before opening or after closing, with no customers in the way.'
     needs:
       tr: '2–3 saat'

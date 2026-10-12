@@ -41,7 +41,7 @@ const rows = airframes.length
   : [];
 
 const valueFor = (item: (typeof items)[number], label: string) =>
-  item.specs.find((s) => s.label === label)?.value ?? '—';
+  item.specs.find((s) => s.label === label)?.value ?? '\u2013';
 ---
 
 <section class="section kit" id="kit" aria-labelledby="kit-title">
@@ -92,7 +92,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
                 <span class="frame__media">
                   <MediaPlaceholder
                     ratio={item.sample.orientation === 'vertical' ? '9:16' : '16:9'}
-                    label={`${item.name} — ${t(locale, 'kit.sample')}`}
+                    label={`${item.name}, ${t(locale, 'kit.sample')}`}
                   />
                 </span>
               </div>

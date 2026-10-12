@@ -16,8 +16,8 @@ order: 1
 featured: true
 
 goal:
-  tr: 'Yeni açılan bir kafenin içini, müşterinin kapıdan girdiği gibi göstermek: mekân, tezgâh, ışık — tek kesintisiz hareketle.'
-  en: 'Show a new coffee shop the way a customer walks into it — the room, the counter, the light — in one continuous move.'
+  tr: 'Yeni açılan bir kafenin içini, müşterinin kapıdan girdiği gibi göstermek: mekân, tezgâh ve ışık, tek kesintisiz hareketle.'
+  en: 'Show a new coffee shop the way a customer walks into it: the room, the counter and the light, in one continuous move.'
 
 result:
   tr: 'Mekânın içinden tek çekimde geçiş. Renk düzenlemesi yapıldı, 16:9 film ve 9:16 reel olarak teslim edildi.'

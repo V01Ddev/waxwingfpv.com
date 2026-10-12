@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "WaxWingFPV",
-    "title": "WaxWingFPV — İstanbul'da kafe ve restoranlar için FPV drone çekimi",
+    "title": "WaxWingFPV | İstanbul'da kafe ve restoranlar için FPV drone çekimi",
     "tagline": "İstanbul'daki kafe, restoran ve mağazalar için sinematik FPV video.",
     "description": "İstanbul'da kafe, restoran ve yerel işletmeler için sinematik FPV drone çekimi. Uçuşlar SHGM mevzuatına uygun, lisanslı pilot tarafından yapılır."
   },
@@ -38,7 +38,7 @@
   },
   "kit": {
     "heading": "Ekipman",
-    "intro": "İki hava aracı ve bir kamera. Hangisinin neye yaradığını — ve neye yaramadığını — yazarak anlatıyorum.",
+    "intro": "İki hava aracı ve bir kamera. Hangisinin neye yaradığını, neye yaramadığını da yazarak anlatıyorum.",
     "selectLabel": "Bir araç seçin",
     "bestFor": "Nerede işe yarar",
     "limits": "Nerede yaramaz",
@@ -74,7 +74,7 @@
       "business": "İşletme adı",
       "businessType": "Ne tür bir işletme",
       "message": "Ne yapmak istiyorsunuz",
-      "messageHint": "Mekân, tarih ve aklınızdaki şey — birkaç cümle yeter.",
+      "messageHint": "Mekân, tarih ve aklınızdaki şey. Birkaç cümle yeter.",
       "submit": "Teklif alın",
       "sending": "Gönderiliyor…",
       "submitHint": "WhatsApp açılır ve mesajınız hazır yazılmış olur."

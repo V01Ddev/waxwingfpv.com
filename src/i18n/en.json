@@ -1,7 +1,7 @@
 {
   "site": {
     "name": "WaxWingFPV",
-    "title": "WaxWingFPV — FPV drone filming for cafés and restaurants in Istanbul",
+    "title": "WaxWingFPV | FPV drone filming for cafés and restaurants in Istanbul",
     "tagline": "Cinematic FPV video for Istanbul's cafés, restaurants and shops.",
     "description": "Cinematic FPV drone filming for cafés, restaurants and local businesses in Istanbul. Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations."
   },
@@ -38,7 +38,7 @@
   },
   "kit": {
     "heading": "The kit",
-    "intro": "Two aircraft and a camera. What each one is good at — and what it isn't.",
+    "intro": "Two aircraft and a camera. What each one is good at, and what it isn't.",
     "selectLabel": "Choose an aircraft",
     "bestFor": "Where it works",
     "limits": "Where it doesn't",
@@ -58,7 +58,7 @@
   },
   "trust": {
     "heading": "Flights and permissions",
-    "built": "The 5-inch wasn't bought assembled: Mario 5 frame, Mamba MK4 F722 stack, F40 V2 motors — built and tuned here.",
+    "built": "The 5-inch wasn't bought assembled. Mario 5 frame, Mamba MK4 F722 stack, F40 V2 motors, built and tuned here.",
     "checklist": "Every session starts with the same written preflight checklist.",
     "licence": "Pilot licence",
     "licenceBody": "Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations.",
@@ -74,7 +74,7 @@
       "business": "Business name",
       "businessType": "What kind of business",
       "message": "What you have in mind",
-      "messageHint": "The space, a date, and what you're picturing — a couple of sentences is plenty.",
+      "messageHint": "The space, a date, and what you're picturing. A couple of sentences is plenty.",
       "submit": "Get a quote",
       "sending": "Sending…",
       "submitHint": "Opens WhatsApp with your message ready to send."

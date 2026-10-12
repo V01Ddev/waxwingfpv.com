@@ -348,7 +348,7 @@ const { locale } = Astro.props;
       // The visitor clicked a play control, so this is a user gesture and
       // sound is expected rather than an ambush.
       video.autoplay = true;
-      video.setAttribute('aria-label', `${item.title} — ${item.label}`);
+      video.setAttribute('aria-label', `${item.title}, ${item.label}`);
 
       media.replaceChildren(video);
     }

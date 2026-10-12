@@ -70,7 +70,7 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
                       {duration && <span class="frame__dur"> · {duration}</span>}
                     </span>
                     <span class="visually-hidden">
-                      {t(locale, 'a11y.playVideo')} — {project.title} — {cut.label}
+                      {t(locale, 'a11y.playVideo')}: {project.title}, {cut.label}
                     </span>
                   </button>
                 );
