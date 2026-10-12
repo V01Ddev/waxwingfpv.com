@@ -12,6 +12,9 @@ dist/
 # Checkpoint screenshots. Regenerate with scripts/shot.mjs.
 .checkpoints/
 
+# Accessibility audit report. Regenerate with scripts/audit.mjs.
+audit.json
+
 # --- personal documents: never commit --------------------------------------
 # These sit in the repo root but must not enter git history.
 #
