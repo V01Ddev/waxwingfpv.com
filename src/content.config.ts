@@ -106,8 +106,10 @@ const projects = defineCollection({
           source: z.string().optional(),
           src: z.string(),
           poster: z.string().optional(),
-          width: z.number(),
-          height: z.number(),
+          /** Optional only if the poster is not encoded yet; see lib/content.ts.
+              The dimensions published to crawlers come from the JPEG itself. */
+          width: z.number().optional(),
+          height: z.number().optional(),
           durationSec: z.number().optional(),
         })
       )

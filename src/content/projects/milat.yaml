@@ -40,6 +40,4 @@ cuts:
     source: '1080p'
     src: '/video/milat-9-16.mp4'
     poster: '/video/milat-9-16.jpg'
-    width: 1080
-    height: 1920
     durationSec: 31

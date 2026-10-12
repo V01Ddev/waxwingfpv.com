@@ -18,8 +18,12 @@ interface Props {
   description: string;
   /** Path without any locale prefix, used for canonical + hreflang. */
   barePath?: string;
-  /** Optional OG image, absolute path from /public. Omitted until Phase 5. */
+  /** Absolute path from /public, e.g. /og/tr.jpg. */
   ogImage?: string;
+  /** One-sentence description of the image, for screen readers and unfurlers. */
+  ogImageAlt?: string;
+  /** schema.org graph, rendered as JSON-LD. */
+  structuredData?: Record<string, unknown>;
   noindex?: boolean;
 }
 
@@ -29,6 +33,8 @@ const {
   description,
   barePath = '/',
   ogImage,
+  ogImageAlt,
+  structuredData,
   noindex = false,
 } = Astro.props;
 
@@ -70,7 +76,18 @@ const ogImageUrl = ogImage ? new URL(ogImage, site).href : undefined;
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    {ogImageUrl && <meta property="og:image" content={ogImageUrl} />}
+    {
+      ogImageUrl && (
+        <>
+          <meta property="og:image" content={ogImageUrl} />
+          {/* Declared so unfurlers can lay the card out before fetching it. */}
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+          {ogImageAlt && <meta property="og:image:alt" content={ogImageAlt} />}
+          <meta name="twitter:image" content={ogImageUrl} />
+        </>
+      )
+    }
     <meta name="twitter:card" content="summary_large_image" />
 
     <meta name="theme-color" content="#0F1418" />
@@ -122,6 +139,15 @@ const ogImageUrl = ogImage ? new URL(ogImage, site).href : undefined;
         }
       })();
     </script>
+    {
+      structuredData && (
+        <script
+          type="application/ld+json"
+          is:inline
+          set:html={JSON.stringify(structuredData)}
+        />
+      )
+    }
   </head>
 
   <body>

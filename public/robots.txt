@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Dev-only reference page for design tokens. Not linked from anywhere and
+# already marked noindex, but there is no reason to spend crawl budget on it.
+Disallow: /styleguide
+
+Sitemap: https://waxwingfpv.com/sitemap-index.xml

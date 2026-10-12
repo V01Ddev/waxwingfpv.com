@@ -1,0 +1,71 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Wordmark from '../components/brand/Wordmark.astro';
+import Button from '../components/ui/Button.astro';
+import { localePath } from '../i18n/ui';
+
+/**
+ * One page serves both locales, because a 404 is whatever URL the visitor
+ * mistyped and there is no way to know which language they wanted. So this is
+ * the one page on the site that carries both, and it offers both ways back.
+ */
+---
+
+<BaseLayout
+  locale="tr"
+  title="Sayfa bulunamadı — WaxWingFPV"
+  description="Bu adreste bir sayfa yok."
+  barePath="/404"
+  noindex
+>
+  <main id="main" class="page nf">
+    <Wordmark size="1.375rem" />
+
+    <div class="nf__body">
+      <h1 class="nf__title">Bu adreste bir sayfa yok.</h1>
+      <p class="nf__sub">There is nothing at this address.</p>
+    </div>
+
+    <div class="nf__actions">
+      <Button href={localePath('tr', '/')}>Ana sayfa</Button>
+      <Button href={localePath('en', '/')} variant="ghost">English site</Button>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .nf {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-7);
+    min-height: calc(100svh - var(--header-h));
+    padding-block: var(--sp-7) var(--sp-8);
+  }
+
+  .nf__body {
+    display: grid;
+    gap: var(--sp-4);
+    margin-block: auto;
+  }
+
+  /* The measure goes on the text, not on the wrapper. `ch` resolves against
+     the font-size of the element it is set on, so 24ch on the wrapper was
+     24 characters of 17px body text, not of the 72px heading inside it. */
+  .nf__title {
+    max-width: 16ch;
+    font-size: var(--display-md);
+    line-height: var(--lh-display);
+  }
+
+  .nf__sub {
+    max-width: 32ch;
+    color: var(--fg-muted);
+    font-size: var(--text-lg);
+  }
+
+  .nf__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-4);
+  }
+</style>

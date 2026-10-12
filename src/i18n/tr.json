@@ -3,7 +3,8 @@
     "name": "WaxWingFPV",
     "title": "WaxWingFPV | İstanbul'da kafe ve restoranlar için FPV drone çekimi",
     "tagline": "İstanbul'daki kafe, restoran ve mağazalar için sinematik FPV video.",
-    "description": "İstanbul'da kafe, restoran ve yerel işletmeler için sinematik FPV drone çekimi. Uçuşlar SHGM mevzuatına uygun, lisanslı pilot tarafından yapılır."
+    "description": "İstanbul'da kafe, restoran ve yerel işletmeler için sinematik FPV drone çekimi. Uçuşlar SHGM mevzuatına uygun, lisanslı pilot tarafından yapılır.",
+    "ogAlt": "WaxwingFPV. İstanbul'da bir sokağın üzerinden geçen FPV çekimi; solda The Nish Coffee tabelası görünüyor."
   },
   "nav": {
     "work": "İşler",

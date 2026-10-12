@@ -41,8 +41,6 @@ cuts:
     source: '2K'
     src: '/video/the-nish-16-9.mp4'
     poster: '/video/the-nish-16-9.jpg'
-    width: 1920
-    height: 1080
     durationSec: 58
   - orientation: 'vertical'
     label:
@@ -51,6 +49,4 @@ cuts:
     source: '1080p'
     src: '/video/the-nish-9-16.mp4'
     poster: '/video/the-nish-9-16.jpg'
-    width: 1080
-    height: 1920
     durationSec: 59

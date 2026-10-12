@@ -11,6 +11,8 @@ import Trust from '../sections/Trust.astro';
 import Contact from '../sections/Contact.astro';
 import Lightbox from '../work/Lightbox.astro';
 import { t, type Locale } from '../../i18n/ui';
+import { getProjects, getSite } from '../../lib/content';
+import { structuredData } from '../../lib/seo';
 
 /**
  * The home page for both locales. Keeping one component rather than two
@@ -22,13 +24,38 @@ interface Props {
 }
 
 const { locale } = Astro.props;
+
+const site = await getSite();
+const projects = await getProjects(locale);
+const origin = Astro.site ?? new URL('https://waxwingfpv.com');
+
+const description = t(locale, 'site.description');
+const ogImage = `/og/${locale}.jpg`;
+
+const jsonLd = structuredData({
+  locale,
+  origin,
+  name: t(locale, 'site.name'),
+  description,
+  telephone: site.whatsappDisplay,
+  email: site.email,
+  serviceArea: site.serviceArea(locale),
+  instagram: site.instagram,
+  licences: site.licences(locale),
+  services: site.services(locale),
+  projects,
+  ogImage,
+});
 ---
 
 <BaseLayout
   locale={locale}
   title={t(locale, 'site.title')}
-  description={t(locale, 'site.description')}
+  description={description}
   barePath="/"
+  ogImage={ogImage}
+  ogImageAlt={t(locale, 'site.ogAlt')}
+  structuredData={jsonLd}
 >
   <Header locale={locale} barePath="/" />
 

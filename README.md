@@ -28,6 +28,7 @@ src/assets/brand/       the mark, in the variants the site uses
 public/video/           encoded clips and posters — committed, see below
 sources/                raw inputs you drop in — gitignored
 scripts/media.sh        the whole media pipeline
+scripts/og.mjs          renders the Open Graph share cards
 scripts/shot.mjs        full-page screenshots for review
 ```
 
@@ -83,6 +84,19 @@ Each video declares its master resolution in YAML, and the lightbox and kit
 panel say so: *"4K source, downscaled for the web"*. Per video, deliberately —
 only one of the five masters is actually 4K.
 
+Pixel dimensions are **not** declared anywhere: they are read from the poster
+JPEG at build time. Declared dimensions had already drifted once (the files
+were 1280x720, the YAML said 1920x1080, and that wrong number was being
+published to search engines), so the file is the source of truth.
+
+```bash
+node scripts/og.mjs             # regenerate public/og/{tr,en}.jpg
+```
+
+The share cards are rendered by Chromium rather than an image library, because
+they need the real webfonts and the real logo. Re-run after changing the
+tagline, the hero frame or the mark.
+
 ## Deployment
 
 `npm run build` emits a static `dist/`. Nothing else is needed: **the enquiry
@@ -91,9 +105,14 @@ with the message prefilled, so the site never receives or stores anyone's
 details, and there is no endpoint, no spam handling and no mail setup.
 
 Analytics is a single GoatCounter snippet — cookieless, so no consent banner.
+It is loaded on `requestIdleCallback` so it never competes with the hero poster
+for bandwidth or a main-thread slot.
 
 Before launch, replace `site` in `astro.config.mjs` if the domain differs, and
 fill in the `TODO(owner)` lines in `src/content/site/config.yaml`.
+
+`public/robots.txt` names the sitemap and keeps crawlers off `/styleguide`,
+which is the dev-only token reference and is marked `noindex` as well.
 
 ## Conventions
 
