@@ -76,7 +76,8 @@
       "message": "Ne yapmak istiyorsunuz",
       "messageHint": "Mekân, tarih ve aklınızdaki şey — birkaç cümle yeter.",
       "submit": "Teklif alın",
-      "sending": "Gönderiliyor…"
+      "sending": "Gönderiliyor…",
+      "submitHint": "WhatsApp açılır ve mesajınız hazır yazılmış olur."
     },
     "success": {
       "title": "Mesajınız geldi.",
@@ -88,6 +89,13 @@
       "required": "Bu alanı doldurun.",
       "consent": "Devam etmek için onay vermeniz gerekiyor.",
       "rate": "Çok sık denediniz. Biraz sonra tekrar deneyin ya da doğrudan yazın."
+    },
+    "wa": {
+      "intro": "Merhaba, FPV video çekimi için teklif almak istiyorum.",
+      "name": "Ad",
+      "business": "İşletme",
+      "type": "İşletme türü",
+      "message": "Mesaj"
     }
   },
   "a11y": {
@@ -100,7 +108,8 @@
     "videoCounter": "{current} / {total}"
   },
   "form": {
-    "optional": "isteğe bağlı"
+    "optional": "isteğe bağlı",
+    "choose": "Seçin"
   },
   "legal": {
     "privacy": "KVKK Aydınlatma Metni",

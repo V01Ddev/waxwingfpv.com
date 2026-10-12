@@ -78,6 +78,11 @@ const describedBy = hintId;
   }
 
   {hint && <p class="field__hint" id={hintId}>{hint}</p>}
+
+  <!-- Filled by the form's validation. No colour to signal it: the system is
+       monochrome, so the error reads through brightness, a bright underline
+       and aria-invalid rather than through red. -->
+  <p class="field__error" data-error-for={name} hidden></p>
 </div>
 
 <style>
@@ -157,5 +162,20 @@ const describedBy = hintId;
     font-size: var(--text-sm);
     line-height: var(--lh-ui);
     color: var(--fg-muted);
+  }
+
+  .field__error {
+    font-size: var(--text-sm);
+    line-height: var(--lh-ui);
+    color: var(--fg);
+  }
+
+  .field__error[hidden] {
+    display: none;
+  }
+
+  .field__control[aria-invalid='true'] {
+    border-bottom-color: var(--silk);
+    border-bottom-width: 2px;
   }
 </style>

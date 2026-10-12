@@ -15,6 +15,22 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
   t(locale, 'contact.whatsappPrefill')
 )}`;
 const optional = t(locale, 'form.optional');
+
+/**
+ * The form hands off to WhatsApp rather than posting anywhere. It is where a
+ * one-person business in Istanbul actually receives enquiries, it needs no
+ * server or spam handling, and it means the site itself never stores anyone's
+ * details — which keeps the KVKK notice short.
+ *
+ * The message is assembled in the browser from the visitor's own input, so the
+ * labels travel with it in the visitor's language.
+ */
+const waLabels = {
+  name: t(locale, 'contact.wa.name'),
+  business: t(locale, 'contact.wa.business'),
+  businessType: t(locale, 'contact.wa.type'),
+  message: t(locale, 'contact.wa.message'),
+};
 ---
 
 <section class="section" id="contact" aria-labelledby="contact-title">
@@ -25,7 +41,16 @@ const optional = t(locale, 'form.optional');
     </div>
 
     <div class="ct__grid">
-      <form class="ct__form" data-inquiry-form novalidate>
+      <form
+        class="ct__form"
+        data-inquiry-form
+        novalidate
+        data-wa-number={site.whatsapp}
+        data-wa-intro={t(locale, 'contact.wa.intro')}
+        data-wa-labels={JSON.stringify(waLabels)}
+        data-error-required={t(locale, 'contact.error.required')}
+        data-error-consent={t(locale, 'contact.error.consent')}
+      >
         <Field name="name" label={t(locale, 'contact.form.name')} autocomplete="name" required />
         <Field
           name="business"
@@ -38,7 +63,10 @@ const optional = t(locale, 'form.optional');
           label={t(locale, 'contact.form.businessType')}
           type="select"
           optionalLabel={optional}
-          options={site.businessTypes(locale)}
+          options={[
+            { value: '', label: t(locale, 'form.choose') },
+            ...site.businessTypes(locale),
+          ]}
         />
         <Field
           name="message"
@@ -48,14 +76,8 @@ const optional = t(locale, 'form.optional');
           required
         />
 
-        {/* Spam traps. The honeypot is hidden from people and from screen
-            readers alike; anything that fills it is a bot. */}
-        <div class="ct__trap" aria-hidden="true">
-          <label for="field-website">Website</label>
-          <input id="field-website" name="website" type="text" tabindex="-1" autocomplete="off" />
-        </div>
-        <input type="hidden" name="formStartedAt" value="" data-form-started />
-        <input type="hidden" name="locale" value={locale} />
+        <!-- No honeypot and no hidden timing field: nothing is posted to a
+             server, so there is nothing for a bot to spam. -->
 
         <div class="ct__consent">
           <input type="checkbox" id="field-consent" name="consent" required />
@@ -66,6 +88,10 @@ const optional = t(locale, 'form.optional');
         </div>
 
         <Button type="submit" block>{t(locale, 'contact.form.submit')}</Button>
+
+        {/* The button keeps the label people expect, so this line does the
+            signposting instead: it says what the click actually does. */}
+        <p class="ct__submithint t-meta">{t(locale, 'contact.form.submitHint')}</p>
 
         <p class="ct__status" data-form-status role="status" aria-live="polite"></p>
       </form>
@@ -119,13 +145,8 @@ const optional = t(locale, 'form.optional');
     gap: var(--sp-5);
   }
 
-  .ct__trap {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip-path: inset(50%);
-    white-space: nowrap;
+  .ct__submithint {
+    text-align: center;
   }
 
   .ct__consent {
@@ -210,15 +231,97 @@ const optional = t(locale, 'form.optional');
 </style>
 
 <script>
-  // Phase 1 stub: the form is not wired yet. This only stops the browser from
-  // navigating away with query parameters while the layout is being reviewed.
-  // Phase 4 replaces this with the real POST to /api/inquiry.
+  // The form does not post anywhere. It validates, assembles a WhatsApp message
+  // from what the visitor typed, and opens it. Everything below runs in the
+  // visitor's browser; the site never receives or stores their details.
   const form = document.querySelector<HTMLFormElement>('[data-inquiry-form]');
-  const started = document.querySelector<HTMLInputElement>('[data-form-started]');
 
-  if (started) started.value = String(Date.now());
+  if (form) {
+    const number = form.dataset.waNumber ?? '';
+    const intro = form.dataset.waIntro ?? '';
+    const labels = JSON.parse(form.dataset.waLabels || '{}') as Record<string, string>;
+    const status = form.querySelector<HTMLElement>('[data-form-status]');
+    const consent = form.querySelector<HTMLInputElement>('#field-consent');
 
-  form?.addEventListener('submit', (event) => {
-    event.preventDefault();
-  });
+    const requiredText = form.dataset.errorRequired ?? '';
+    const requiredConsent = form.dataset.errorConsent ?? '';
+
+    const clearError = (name: string) => {
+      const slot = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+      const control = form.querySelector<HTMLElement>(`[name="${name}"]`);
+      if (slot) {
+        slot.hidden = true;
+        slot.textContent = '';
+      }
+      control?.removeAttribute('aria-invalid');
+    };
+
+    const showError = (name: string, message: string) => {
+      const slot = form.querySelector<HTMLElement>(`[data-error-for="${name}"]`);
+      const control = form.querySelector<HTMLElement>(`[name="${name}"]`);
+      if (slot) {
+        slot.textContent = message;
+        slot.hidden = false;
+      }
+      control?.setAttribute('aria-invalid', 'true');
+    };
+
+    const value = (name: string) =>
+      (form.querySelector<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>(
+        `[name="${name}"]`
+      )?.value ?? '').trim();
+
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      const fields = ['name', 'business', 'message'];
+      let firstBad: HTMLElement | null = null;
+
+      for (const field of fields) {
+        clearError(field);
+        if (!value(field)) {
+          showError(field, requiredText);
+          firstBad ??= form.querySelector<HTMLElement>(`[name="${field}"]`);
+        }
+      }
+
+      if (consent && !consent.checked) {
+        if (status) status.textContent = requiredConsent;
+        firstBad ??= consent;
+      } else if (status) {
+        status.textContent = '';
+      }
+
+      if (firstBad) {
+        firstBad.focus();
+        return;
+      }
+
+      // Locale-aware labels, in the order they were asked for. The business
+      // type is optional, so it is dropped rather than sent as a blank line.
+      const lines = [
+        `${labels.name}: ${value('name')}`,
+        `${labels.business}: ${value('business')}`,
+      ];
+
+      const typeSelect = form.querySelector<HTMLSelectElement>('[name="businessType"]');
+      const typeLabel = typeSelect?.selectedOptions[0]?.textContent?.trim();
+      if (typeSelect?.value && typeLabel) lines.push(`${labels.businessType}: ${typeLabel}`);
+
+      lines.push('', `${labels.message}: ${value('message')}`);
+
+      const text = `${intro}\n\n${lines.join('\n')}`;
+      window.open(
+        `https://wa.me/${number}?text=${encodeURIComponent(text)}`,
+        '_blank',
+        'noopener'
+      );
+    });
+
+    // Clearing as they type, so the error does not outlive the mistake.
+    form.addEventListener('input', (event) => {
+      const name = (event.target as HTMLElement).getAttribute?.('name');
+      if (name) clearError(name);
+    });
+  }
 </script>

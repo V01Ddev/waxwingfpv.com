@@ -76,7 +76,8 @@
       "message": "What you have in mind",
       "messageHint": "The space, a date, and what you're picturing — a couple of sentences is plenty.",
       "submit": "Get a quote",
-      "sending": "Sending…"
+      "sending": "Sending…",
+      "submitHint": "Opens WhatsApp with your message ready to send."
     },
     "success": {
       "title": "Got it.",
@@ -88,6 +89,13 @@
       "required": "Please fill this in.",
       "consent": "Please give consent to continue.",
       "rate": "That's a lot of tries. Wait a moment, or just message me directly."
+    },
+    "wa": {
+      "intro": "Hi, I'd like to get a quote for an FPV video.",
+      "name": "Name",
+      "business": "Business",
+      "type": "Business type",
+      "message": "Message"
     }
   },
   "a11y": {
@@ -100,7 +108,8 @@
     "videoCounter": "{current} / {total}"
   },
   "form": {
-    "optional": "optional"
+    "optional": "optional",
+    "choose": "Choose"
   },
   "legal": {
     "privacy": "Privacy notice",
