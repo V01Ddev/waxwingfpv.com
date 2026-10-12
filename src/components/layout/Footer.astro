@@ -29,11 +29,18 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
       <nav class="ftr__col" aria-label={t(locale, 'contact.directLabel')}>
         <h2 class="ftr__label t-mono">{t(locale, 'contact.directLabel')}</h2>
         <ul class="ftr__list">
+          {/* No dashes between the label and the value: the typeface change
+              does the separating, which is the same rule the rest of the site
+              follows: mono is for data. */}
           <li>
-            <a href={waHref} rel="noopener">WhatsApp — {site.whatsappDisplay}</a>
+            <a href={waHref} rel="noopener">
+              WhatsApp <span class="ftr__value">{site.whatsappDisplay}</span>
+            </a>
           </li>
           <li>
-            <a href={`mailto:${site.email}`}>{site.email}</a>
+            <a href={`mailto:${site.email}`}>
+              <span class="ftr__value">{site.email}</span>
+            </a>
           </li>
           <li>
             <a
@@ -41,7 +48,7 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
               rel="noopener me"
               target="_blank"
             >
-              Instagram — @{site.instagram}
+              Instagram <span class="ftr__value">@{site.instagram}</span>
             </a>
           </li>
         </ul>
@@ -106,13 +113,26 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
   }
 
   .ftr__list a {
+    color: var(--fg-muted);
     text-decoration: none;
     border-block-end: var(--hairline) solid transparent;
-    transition: border-color var(--dur-1) var(--ease);
+    transition:
+      border-color var(--dur-1) var(--ease),
+      color var(--dur-1) var(--ease);
+  }
+
+  /* The label is a signpost; the number, the address and the handle are the
+     content, so they carry the brightness. */
+  .ftr__value {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: var(--ls-mono);
+    font-size: 0.94em;
+    color: var(--fg);
   }
 
   .ftr__list a:hover {
-    border-block-end-color: var(--accent);
+    border-block-end-color: var(--fg);
   }
 
   .ftr__base {
