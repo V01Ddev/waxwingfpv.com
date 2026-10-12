@@ -40,7 +40,9 @@ const {
   .wm {
     display: inline-flex;
     align-items: center;
-    gap: 0.55em;
+    /* Tighter than it was (0.55em) to keep the mark and the name reading as
+       one lockup now that the mark is larger. */
+    gap: 0.4em;
     font-size: var(--wm-size);
     line-height: 1;
   }

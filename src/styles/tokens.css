@@ -105,8 +105,12 @@
   --page-max: 1280px;
   /* The sticky header's height. The hero subtracts it, and the mobile menu
      starts below it — when these were three separate 4.25rem literals the
-     hero quietly overflowed the viewport by exactly this much. */
-  --header-h: 5rem;
+     hero quietly overflowed the viewport by exactly this much.
+
+     Tightened from 5rem when the mark grew to 1.5em. The header's tallest
+     child is still only ~48px, so there is room; changing this also makes the
+     hero that much taller, since it is 100svh minus this. */
+  --header-h: 4.5rem;
   --gutter: clamp(1.25rem, 4vw, 4.5rem);
   --measure: 68ch;
   --hairline: 1px;

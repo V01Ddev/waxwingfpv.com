@@ -575,6 +575,19 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     font-weight: 400;
   }
 
+  /* The sticky row-header column is the only cell with an opaque background,
+     and the body film grain stops dead at its edge — which draws a visible
+     line that sat flush against the first value column, because these cells
+     have no leading padding. This opens a gutter after the sticky column.
+
+     Only the first data column gets it. Padding every cell would shift the
+     whole table's proportions to fix one edge. The thead cell takes the same
+     inset, or the column's title drifts out of line with its own values. */
+  tbody td:first-of-type,
+  thead th:nth-of-type(2) {
+    padding-inline-start: var(--sp-4);
+  }
+
   thead th {
     font-family: var(--font-display);
     font-optical-sizing: none;
