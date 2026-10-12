@@ -1,0 +1,117 @@
+# KVKK Aydınlatma Metni / Privacy notice.
+#
+# Both languages live in one file, section by section, so they are edited
+# together and cannot drift apart.
+#
+# KVKK article 10 requires five things to be stated, and they map to the
+# sections below: the controller's identity, the purposes of processing, who
+# data is transferred to, the method of collection and legal basis, and the
+# rights in article 11. Keep that structure if you rewrite it.
+#
+# TODO(owner) — if you register a company (şahıs şirketi or limited), the
+# controller is that entity, not the trading name, and this notice needs its
+# title, tax office and number, and a postal address for Tebligat Kanunu
+# service. Right now it names the business and gives email as the channel,
+# which is accurate for a sole trader and is not a placeholder.
+updated: '2026-10-12'
+
+intro:
+  tr:
+    - 'Bu sitede kişisel verileriniz, veri sorumlusu olarak WaxWingFPV tarafından, 6698 sayılı Kişisel Verilerin Korunması Kanunu kapsamında aşağıda açıklandığı şekilde işlenir.'
+    - 'Bu metin kısa tutulmuştur; amacı neyi neden yaptığımızı anlaşılır biçimde anlatmaktır.'
+  en:
+    - 'This notice explains what personal data this site handles, why, and what you can ask us to do about it. The controller is WaxWingFPV, and the governing law is Turkey''s Personal Data Protection Law No. 6698 (KVKK).'
+    - 'It is short on purpose. Its job is to say plainly what we do and why, not to bury it.'
+
+sections:
+  - heading:
+      tr: 'Hangi veriler, ne için'
+      en: 'What we handle, and why'
+    body:
+      tr:
+        - 'İletişim formunu doldurduğunuzda adınızı, işletme adınızı, işletme türünüzü ve mesajınızı yazarsınız. Bu bilgiler yalnızca talebinizi yanıtlamak ve size teklif verebilmek için kullanılır. Başka bir amaçla kullanılmaz, profilleme veya otomatik karar verme yapılmaz.'
+      en:
+        - 'When you fill in the enquiry form you give your name, your business name, the kind of business it is, and your message. We use those only to answer you and to quote. They are not used for anything else, and there is no profiling or automated decision-making.'
+
+  - heading:
+      tr: 'Form verileri bize sunucudan ulaşmaz'
+      en: 'The form does not send your data to our server'
+    body:
+      tr:
+        - 'Formu gönderdiğinizde tarayıcınız, yazdıklarınızdan bir WhatsApp mesajı oluşturur ve WhatsApp''ı açar. Mesajı gönderme kararı size aittir.'
+        - 'Yani bu bilgiler bu site tarafından toplanmaz, kaydedilmez ve saklanmaz. Doğrudan kendi WhatsApp uygulamanızdan bize ulaşır. Sitede verilerinizi alan bir sunucu veya veritabanı yoktur.'
+      en:
+        - 'When you submit the form, your browser builds a WhatsApp message out of what you typed and opens WhatsApp. Whether to send it is your decision.'
+        - 'So this site does not collect, record or store those details. They reach us from your own WhatsApp app. There is no server or database here that receives them.'
+
+  - heading:
+      tr: 'Kimlere aktarılır'
+      en: 'Who else is involved'
+    body:
+      tr:
+        - 'WhatsApp: Mesajı gönderdiğinizde veriler WhatsApp (Meta Platforms) altyapısı üzerinden iletilir. Bu iletim WhatsApp''ın kendi koşullarına tabidir ve o aktarımın tarafı değiliz.'
+        - 'Sunucu ve CDN: Site kendi sunucumuzda barındırılır ve Cloudflare üzerinden sunulur. Cloudflare, güvenlik ve trafik yönetimi amacıyla IP adreslerini geçici olarak işler.'
+        - 'Verileriniz bunların dışında üçüncü kişilerle paylaşılmaz ve hiçbir koşulda satılmaz.'
+      en:
+        - 'WhatsApp: when you send the message, it travels over WhatsApp (Meta Platforms) infrastructure, under WhatsApp''s own terms. We are not a party to that transmission.'
+        - 'Hosting and CDN: the site runs on our own server and is served through Cloudflare, which processes IP addresses transiently for security and traffic management.'
+        - 'Beyond those, your details are not shared with anyone, and are never sold.'
+
+  - heading:
+      tr: 'Ölçümleme'
+      en: 'Analytics'
+    body:
+      tr:
+        - 'GoatCounter adlı açık kaynaklı, çerezsiz bir ölçümleme aracı kullanıyoruz. GoatCounter tarayıcınıza çerez, localStorage veya benzeri hiçbir şey kaydetmez; IP adresinizi veritabanına yazmaz (yalnızca aynı ziyaretçiyi kısa süre ayırt edebilmek için en fazla 8 saat bellekte tutar, sonra siler).'
+        - 'Yalnızca toplu istatistik tutulur: sayfa görüntüleme sayısı, tarayıcı, işletim sistemi, ülke, ekran genişliği. Bu verilerden kimliğiniz belirlenemez. Bu nedenle siteyi ziyaretiniz için çerez izni istemiyoruz.'
+      en:
+        - 'We use GoatCounter, an open-source analytics tool that sets no cookies. It stores nothing on your device, and it does not write IP addresses to its database: it keeps them in memory for at most eight hours to tell repeat visits apart, then discards them.'
+        - 'What it records is aggregate only: page views, browser, operating system, country, screen width. None of it identifies you. That is why this site shows no cookie banner.'
+
+  - heading:
+      tr: 'Hukuki sebep'
+      en: 'Legal basis'
+    body:
+      tr:
+        - 'Formu gönderirken verdiğiniz açık rıza (KVKK m.5/1) ve talebinizi karşılayabilmemiz için işlemenin gerekli olması (m.5/2-c) hukuki sebeplerdir. Onay vermek zorunda değilsiniz; ancak bu durumda size teklif veremeyiz.'
+      en:
+        - 'The consent you give when you submit the form (KVKK art. 5/1), and the necessity of processing in order to answer you (art. 5/2-c). You are not obliged to consent, but without it we cannot quote for you.'
+
+  - heading:
+      tr: 'Ne kadar saklanır'
+      en: 'How long we keep it'
+    body:
+      tr:
+        - 'WhatsApp veya e-posta yoluyla bize ulaşan talepleriniz yanıtlandıktan sonra en fazla 12 ay saklanır, ardından silinir. Hukuki bir yükümlülük doğması hâlinde süre ilgili mevzuatın gerektirdiği kadar uzayabilir.'
+      en:
+        - 'Enquiries that reach us by WhatsApp or email are kept for at most twelve months after they are answered, then deleted. If a legal obligation arises, that period may be extended for as long as the relevant legislation requires.'
+
+  - heading:
+      tr: 'Haklarınız'
+      en: 'Your rights'
+    body:
+      tr:
+        - 'KVKK m.11 uyarınca şu haklara sahipsiniz:'
+      en:
+        - 'Under KVKK art. 11 you have the right to:'
+    items:
+      tr:
+        - 'Kişisel verilerinizin işlenip işlenmediğini öğrenme.'
+        - 'İşlenmişse buna ilişkin bilgi talep etme.'
+        - 'İşlenme amacını ve amacına uygun kullanılıp kullanılmadığını öğrenme.'
+        - 'Yurt içinde veya yurt dışında aktarıldığı üçüncü kişileri bilme.'
+        - 'Eksik veya yanlış işlenmişse düzeltilmesini isteme.'
+        - 'Silinmesini veya yok edilmesini isteme.'
+        - 'Düzeltme ve silme işlemlerinin, verilerin aktarıldığı üçüncü kişilere bildirilmesini isteme.'
+        - 'Münhasıran otomatik sistemlerle yapılan bir analiz sonucu aleyhinize bir sonuç çıkmasına itiraz etme.'
+        - 'Kanuna aykırı işleme nedeniyle zarara uğramanız hâlinde zararın giderilmesini talep etme.'
+      en:
+        - 'Know whether your data is being processed.'
+        - 'Ask for information about it if it is.'
+        - 'Know the purpose of processing and whether it is being used consistently with that purpose.'
+        - 'Know the third parties to whom it has been transferred, in Turkey or abroad.'
+        - 'Ask for incomplete or inaccurate data to be corrected.'
+        - 'Ask for it to be deleted or destroyed.'
+        - 'Ask for corrections and deletions to be passed on to anyone the data was transferred to.'
+        - 'Object to a result arising against you from analysis carried out solely by automated means.'
+        - 'Claim compensation if you suffer loss from processing that breaches the law.'

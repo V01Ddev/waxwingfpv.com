@@ -128,6 +128,20 @@ export async function getProjects(locale: Locale) {
     .sort((a, b) => a.order - b.order);
 }
 
+export async function getLegal(id: string, locale: Locale) {
+  const entry = await getEntry('legal', id);
+  if (!entry) throw new Error(`src/content/legal/${id}.yaml is missing`);
+  return {
+    updated: entry.data.updated,
+    intro: localizedList(entry.data.intro, locale),
+    sections: entry.data.sections.map((section) => ({
+      heading: localized(section.heading, locale),
+      body: localizedList(section.body, locale),
+      items: localizedList(section.items, locale),
+    })),
+  };
+}
+
 export async function getKit(locale: Locale) {
   const entries = await getCollection('kit');
   return entries

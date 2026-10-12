@@ -1,0 +1,8 @@
+---
+import LegalPage from '../components/pages/LegalPage.astro';
+
+// Turkish is the default locale, so this lives at the root with no prefix.
+// The bare path has to match the English page for hreflang to pair them.
+---
+
+<LegalPage locale="tr" document="privacy" barePath="/privacy" />

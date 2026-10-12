@@ -31,6 +31,7 @@ src/content/          everything you edit to change the site's words
   site/config.yaml      contact details, licences, services, process, form options
   projects/*.yaml       one file per project
   kit/*.yaml            one file per aircraft or camera
+  legal/privacy.yaml    the KVKK notice, both languages in one file
 src/i18n/{tr,en}.json   interface strings only (labels, buttons, headings)
 src/components/         sections, layout, ui primitives
 src/styles/             tokens.css, base.css, fonts.css
@@ -58,6 +59,12 @@ is built from the data: a spec row appears only if every airframe answers it
 `Kamera`, `Kayıt`, `Batarya`, `Uçuş süresi`, `Kumanda`) are what make a row
 comparable. Anything specific to one aircraft goes below those and shows only
 in its own panel.
+
+**The legal notice** is one file holding both languages section by section, so
+the Turkish and English cannot drift apart. KVKK article 10 requires five
+specific things to be stated and they map to its sections; keep that structure
+if you rewrite it. If you register a company, the controller becomes that
+entity and the notice needs its title, tax details and a service address.
 
 **Every string is locale-keyed** as `{ tr: '…', en: '…' }`. A missing English
 value falls back to Turkish rather than breaking the build. Interface strings

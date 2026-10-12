@@ -1,0 +1,147 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import Button from '../ui/Button.astro';
+import { t, localePath, htmlLang, type Locale } from '../../i18n/ui';
+import { getLegal, getSite } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+  /** Filename in src/content/legal/ without the extension. */
+  document: string;
+  barePath: string;
+}
+
+const { locale, document: doc, barePath } = Astro.props;
+const page = await getLegal(doc, locale);
+const site = await getSite();
+
+const title = t(locale, 'legal.privacy');
+
+// "12 Ekim 2026" / "12 October 2026". Formatted rather than stored, so the two
+// locales cannot disagree about the date.
+const updated = new Intl.DateTimeFormat(htmlLang[locale], {
+  day: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  timeZone: 'UTC',
+}).format(new Date(page.updated));
+---
+
+<BaseLayout
+  locale={locale}
+  title={`${title} — ${t(locale, 'site.name')}`}
+  description={page.intro[0] ?? t(locale, 'site.description')}
+  barePath={barePath}
+>
+  <Header locale={locale} barePath={barePath} />
+
+  <main id="main" class="page">
+    <div class="legal">
+      <h1 class="legal__title">{title}</h1>
+      <p class="legal__updated t-mono">{t(locale, 'legal.updated')}: {updated}</p>
+
+      <div class="legal__intro">
+        {page.intro.map((paragraph) => <p>{paragraph}</p>)}
+      </div>
+
+      {
+        page.sections.map((section) => (
+          <section class="legal__section">
+            <h2 class="legal__heading">{section.heading}</h2>
+            {section.body.map((paragraph) => (
+              <p>{paragraph}</p>
+            ))}
+            {section.items.length > 0 && (
+              <ul class="legal__list">
+                {section.items.map((item) => (
+                  <li>{item}</li>
+                ))}
+              </ul>
+            )}
+          </section>
+        ))
+      }
+
+      <hr class="rule" />
+
+      <div class="legal__foot">
+        <p class="t-meta">{t(locale, 'legal.questions')}</p>
+        <a class="legal__mail" href={`mailto:${site.email}`}>{site.email}</a>
+          <Button href={localePath(locale, '/')} variant="ghost">
+            {t(locale, 'legal.back')}
+          </Button>
+        </div>
+    </div>
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>
+
+<style>
+  /* The measure sits on an inner block, not on .page itself. Putting it on
+     .page let the page's own `margin-inline: auto` centre a 46rem column,
+     which broke the one rule the whole site follows: every word hangs off the
+     same left grid. */
+  .legal {
+    max-width: 46rem;
+    padding-block: var(--sp-7) var(--sp-8);
+  }
+
+  .legal__title {
+    font-size: var(--display-sm);
+    margin-block-end: var(--sp-3);
+  }
+
+  .legal__updated {
+    color: var(--fg-muted);
+    margin-block-end: var(--sp-6);
+  }
+
+  .legal__intro,
+  .legal__section {
+    display: grid;
+    gap: var(--sp-4);
+  }
+
+  .legal__intro {
+    padding-block-end: var(--sp-6);
+    border-block-end: var(--hairline) solid var(--line);
+    color: var(--fg);
+  }
+
+  .legal__section {
+    padding-block: var(--sp-6);
+    border-block-end: var(--hairline) solid var(--line);
+  }
+
+  .legal__heading {
+    font-size: var(--text-xl);
+  }
+
+  .legal__list {
+    display: grid;
+    gap: var(--sp-3);
+    margin: 0;
+    padding-inline-start: var(--sp-5);
+    color: var(--fg-muted);
+  }
+
+  .legal__list li::marker {
+    color: var(--accent);
+  }
+
+  .legal__foot {
+    display: grid;
+    gap: var(--sp-4);
+    justify-items: start;
+    padding-block-start: var(--sp-6);
+  }
+
+  .legal__mail {
+    font-family: var(--font-mono);
+    font-size: var(--text-base);
+    letter-spacing: var(--ls-mono);
+  }
+</style>

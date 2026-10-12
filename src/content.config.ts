@@ -153,4 +153,24 @@ const kit = defineCollection({
   }),
 });
 
-export const collections = { site, projects, kit };
+/**
+ * Legal pages. One file per document, both languages side by side, section by
+ * section, so the two cannot drift apart the way separate files would.
+ */
+const legal = defineCollection({
+  loader: glob({ pattern: '**/*.yaml', base: './src/content/legal' }),
+  schema: z.object({
+    updated: z.string(),
+    intro: localizedList,
+    sections: z.array(
+      z.object({
+        heading: localized,
+        body: localizedList,
+        /** Optional bulleted list under the paragraphs. */
+        items: localizedList.optional(),
+      })
+    ),
+  }),
+});
+
+export const collections = { site, projects, kit, legal };
