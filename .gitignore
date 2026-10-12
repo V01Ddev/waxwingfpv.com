@@ -31,9 +31,15 @@ License*.pdf
 IMG_*.jpg
 IMG_*.jpeg
 
-# --- large source media dropped in the project root ------------------------
-# Masters you drop here for processing. Anchored to the root with a leading
-# slash, so the web-sized renditions in public/video/ stay tracked.
+# --- raw inputs ------------------------------------------------------------
+# Masters and stills you drop in for processing, plus the personal documents
+# that are none of git's business. Everything here is an input; the web-sized
+# renditions that actually ship live in public/video/ and stay tracked.
+/sources/
+
+# Safety net, in case something gets dropped in the root out of habit rather
+# than into sources/. Anchored with a leading slash so public/video/ is
+# unaffected.
 /*.mp4
 /*.MP4
 /*.mov

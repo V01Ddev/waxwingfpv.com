@@ -15,6 +15,15 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 CACHE="$ROOT/.media-cache"
+
+# Sources the owner drops in by hand live in sources/video/. The project root is
+# still checked second, so a file dropped there out of habit also works.
+src() {
+  for candidate in "$ROOT/sources/video/$1" "$ROOT/$1"; do
+    if [ -f "$candidate" ]; then printf '%s' "$candidate"; return 0; fi
+  done
+  return 1
+}
 OUT="$ROOT/public/video"
 CAND="$ROOT/.checkpoints/hero-candidates"
 
@@ -105,31 +114,34 @@ posters() {
 kit() {
   mkdir -p "$OUT"
 
-  if [ -f "$ROOT/IAU_Studio.MP4" ]; then
+  iau="$(src IAU_Studio.MP4 || true)"
+  five="$(src 5-inch-sample.mp4 || true)"
+
+  if [ -n "$iau" ]; then
     # Meteor75 Pro II, shot in the IAU studio space.
     # 3840x2880 is 4:3; the centre 16:9 band is 3840x2160, offset 360 down.
     echo "  kit-meteor75 (crop 4:3 -> 16:9, 40s from 1:50)"
-    ffmpeg -v error -y -ss 110 -t 40 -i "$ROOT/IAU_Studio.MP4" -map_metadata -1 -an \
+    ffmpeg -v error -y -ss 110 -t 40 -i "$iau" -map_metadata -1 -an \
       -vf "crop=3840:2160:0:360,scale=960:540:flags=lanczos,setsar=1,fps=30" \
       -c:v libx264 -profile:v high -crf 27 -preset slow -pix_fmt yuv420p \
       -movflags +faststart -g 60 "$OUT/kit-meteor75.mp4"
-    ffmpeg -v error -y -ss 112 -i "$ROOT/IAU_Studio.MP4" -frames:v 1 \
+    ffmpeg -v error -y -ss 112 -i "$iau" -frames:v 1 \
       -vf "crop=3840:2160:0:360,scale=960:540:flags=lanczos" -q:v 4 "$OUT/kit-meteor75.jpg"
   else
-    echo "  kit-meteor75: skipped, IAU_Studio.MP4 not in the project root"
+    echo "  kit-meteor75: skipped, IAU_Studio.MP4 not found"
   fi
 
-  if [ -f "$ROOT/5-inch-sample.mp4" ]; then
+  if [ -n "$five" ]; then
     # Custom 5-inch. Already 16:9 (2704x1520), so no crop.
     echo "  kit-5-inch"
-    ffmpeg -v error -y -i "$ROOT/5-inch-sample.mp4" -map_metadata -1 -an \
+    ffmpeg -v error -y -i "$five" -map_metadata -1 -an \
       -vf "scale=960:540:flags=lanczos,setsar=1,fps=30" \
       -c:v libx264 -profile:v high -crf 27 -preset slow -pix_fmt yuv420p \
       -movflags +faststart -g 60 "$OUT/kit-5-inch.mp4"
-    ffmpeg -v error -y -ss 2 -i "$ROOT/5-inch-sample.mp4" -frames:v 1 \
+    ffmpeg -v error -y -ss 2 -i "$five" -frames:v 1 \
       -vf "scale=960:540:flags=lanczos,setsar=1" -q:v 4 "$OUT/kit-5-inch.jpg"
   else
-    echo "  kit-5-inch: skipped, 5-inch-sample.mp4 not in the project root"
+    echo "  kit-5-inch: skipped, 5-inch-sample.mp4 not found"
   fi
 }
 
