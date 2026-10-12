@@ -100,6 +100,10 @@
 
   /* --- layout --------------------------------------------------------- */
   --page-max: 1280px;
+  /* The sticky header's height. The hero subtracts it, and the mobile menu
+     starts below it — when these were three separate 4.25rem literals the
+     hero quietly overflowed the viewport by exactly this much. */
+  --header-h: 4.25rem;
   --gutter: clamp(1.25rem, 4vw, 4.5rem);
   --measure: 68ch;
   --hairline: 1px;

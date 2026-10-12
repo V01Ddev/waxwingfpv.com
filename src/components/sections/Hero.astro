@@ -69,8 +69,10 @@ const { locale } = Astro.props;
   .hero {
     position: relative;
     /* svh, not vh: on iOS Safari a vh hero is taller than the visible area
-       while the URL bar is showing, which pushes the type off-screen. */
-    min-height: 100svh;
+       while the URL bar is showing. And minus the header, because the sticky
+       header is in normal flow and occupies real space above this section —
+       at 100svh the headline and both buttons sat below the fold. */
+    min-height: calc(100svh - var(--header-h));
     display: flex;
     align-items: flex-end;
     overflow: hidden;

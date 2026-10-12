@@ -103,6 +103,13 @@ const links = [
     position: sticky;
     top: 0;
     z-index: 40;
+    display: flex;
+    align-items: center;
+    /* The min-height lives here, not on the inner row, so that box-sizing
+       folds the 1px bottom border into --header-h. On the inner row the border
+       sat outside the token and the hero came out 1px taller than the viewport,
+       which is enough to raise a scrollbar. */
+    min-height: var(--header-h);
     background: var(--bg);
     border-block-end: var(--hairline) solid var(--line);
   }
@@ -112,7 +119,7 @@ const links = [
     align-items: center;
     justify-content: space-between;
     gap: var(--sp-4);
-    min-height: 4.25rem;
+    flex: 1;
   }
 
   .hdr__brand {
@@ -213,7 +220,7 @@ const links = [
   /* --- mobile panel --- */
   .menu {
     position: fixed;
-    inset: 4.25rem 0 0;
+    inset: var(--header-h) 0 0;
     z-index: 39;
     display: flex;
     flex-direction: column;
