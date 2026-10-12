@@ -35,11 +35,12 @@
                              buttons, tab outlines. WCAG 1.4.11 requires 3:1
                              for a control's extent; --edge does not clear it
                              at 1.6:1, which is why this second step exists. */
-  --tail: #e8b23a; /* the waxwing's tail band. focus ring, and one mark in
-                      the footer. kept because a focus indicator has to be
-                      unmistakable against every surface on the site, and
-                      grey-on-grey focus is exactly the failure mode WCAG
-                      2.4.11 exists to prevent (9.6:1) */
+  --tail: #e8b23a; /* the waxwing's tail band, and the only hue left in the
+                      system. It exists for exactly one reason: a focus
+                      indicator has to be unmistakable against every surface
+                      on the site, and grey-on-grey focus is the failure mode
+                      WCAG 2.4.11 exists to prevent (9.6:1). It is not used
+                      decoratively anywhere. */
 
   /* --- semantic ------------------------------------------------------- */
   --bg: var(--plumage);

@@ -58,9 +58,6 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
     <div class="ftr__base">
       <p class="t-meta">© {year} WaxWingFPV. {t(locale, 'legal.rights')}</p>
       <a class="t-meta" href={localePath(locale, '/privacy')}>{t(locale, 'legal.privacy')}</a>
-      {/* The tail mark. The bird's yellow tail band, and the only place
-          besides the focus ring that this colour appears. */}
-      <span class="ftr__tail" aria-hidden="true"></span>
     </div>
   </div>
 </footer>
@@ -132,12 +129,5 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
 
   .ftr__base a:hover {
     color: var(--fg);
-  }
-
-  .ftr__tail {
-    width: 0.5rem;
-    height: 0.5rem;
-    margin-inline-start: auto;
-    background: var(--tail);
   }
 </style>
