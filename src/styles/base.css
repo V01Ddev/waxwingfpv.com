@@ -189,7 +189,11 @@ textarea {
 }
 
 .skip-link {
-  position: absolute;
+  /* `fixed`, not `absolute`: with no positioned ancestor an absolute skip link
+     is placed against the document origin, so tabbing to it after scrolling
+     moved focus to an element nobody could see. Viewport-relative keeps it on
+     screen wherever it is focused from. */
+  position: fixed;
   top: var(--sp-3);
   left: var(--sp-3);
   z-index: 100;

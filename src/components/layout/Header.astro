@@ -51,7 +51,7 @@ const links = [
         href={localePath(alt, barePath)}
         hreflang={alt}
         lang={alt}
-        aria-label={t(locale, 'a11y.changeLanguage')}
+        aria-label={`${localeShort[alt]}: ${t(locale, 'a11y.changeLanguage')}`}
       >
         {localeShort[alt]}
       </a>

@@ -177,8 +177,18 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     {
       airframes.length > 1 && (
         <div class="specs">
-          <h3 class="specs__caption t-mono">{t(locale, 'kit.compare')}</h3>
-          <div class="specs__scroll">
+          <h3 class="specs__caption t-mono" id="kit-compare-caption">{t(locale, 'kit.compare')}</h3>
+          {/* The table has a min-width and this scrolls horizontally on narrow
+              screens. A scroll container with no focusable child is
+              unreachable by keyboard (axe: scrollable-region-focusable), so it
+              takes a tab stop and a name of its own. Focus styling comes from
+              the global :focus-visible rule. */}
+          <div
+            class="specs__scroll"
+            tabindex="0"
+            role="region"
+            aria-labelledby="kit-compare-caption"
+          >
             <table>
               <thead>
                 <tr>
@@ -645,7 +655,13 @@ const valueFor = (item: (typeof items)[number], label: string) =>
       play?.addEventListener('click', () => {
         if (!video) return;
         video.controls = true;
+        // `is-playing` hides the overlay, which means the button that was just
+        // activated leaves the render tree and focus would fall to <body>.
+        // Hand it to the video: it has native controls now, so that is where
+        // a keyboard user needs to be.
+        video.tabIndex = 0;
         frame.classList.add('is-playing');
+        video.focus();
         video.play().catch(() => {
           /* Refused. The native controls are showing, so the visitor can start it. */
         });
