@@ -1,0 +1,107 @@
+{
+  "site": {
+    "name": "WaxWingFPV",
+    "title": "WaxWingFPV — İstanbul'da kafe ve restoranlar için FPV drone çekimi",
+    "tagline": "İstanbul'daki kafe, restoran ve mağazalar için sinematik FPV video.",
+    "description": "İstanbul'da kafe, restoran ve yerel işletmeler için sinematik FPV drone çekimi. Uçuşlar SHGM mevzuatına uygun, lisanslı pilot tarafından yapılır."
+  },
+  "nav": {
+    "work": "İşler",
+    "kit": "Ekipman",
+    "services": "Hizmetler",
+    "process": "Süreç",
+    "contact": "İletişim",
+    "menu": "Menü",
+    "close": "Kapat"
+  },
+  "cta": {
+    "quote": "Teklif alın",
+    "watchReel": "Reeli izle",
+    "whatsapp": "WhatsApp'tan yazın",
+    "email": "E-posta gönderin",
+    "allWork": "Tüm işler"
+  },
+  "hero": {
+    "scroll": "Aşağı kaydırın"
+  },
+  "work": {
+    "heading": "İşler",
+    "intro": "Her iş aynı çekimden iki format olarak teslim edilir: yatay film ve dikey reel.",
+    "wanted": "İstenen",
+    "result": "Sonuç",
+    "shotOn": "Çekim",
+    "playFilm": "Filmi oynat",
+    "playReel": "Reeli oynat"
+  },
+  "kit": {
+    "heading": "Ekipman",
+    "intro": "İki hava aracı ve bir kamera. Hangisinin neye yaradığını — ve neye yaramadığını — yazarak anlatıyorum.",
+    "selectLabel": "Bir araç seçin",
+    "bestFor": "Nerede işe yarar",
+    "limits": "Nerede yaramaz",
+    "specs": "Teknik",
+    "sample": "Örnek klip",
+    "playSample": "Klibi oynat",
+    "compare": "Hava araçları karşılaştırması"
+  },
+  "services": {
+    "heading": "Hizmetler",
+    "intro": "Hepsi aynı yerden başlar: mekânı görmeden hiçbir şey uçmaz."
+  },
+  "process": {
+    "heading": "Süreç",
+    "intro": "Beş adım, baştan sona. Her adımda sizden ne gerektiği de yazılı.",
+    "needs": "Sizden"
+  },
+  "trust": {
+    "heading": "Uçuşlar ve izinler",
+    "built": "5 inçlik aracı hazır almadım: Mario 5 gövde, Mamba MK4 F722 kart ve F40 V2 motorlarla kendim topladım, kendim ayarladım.",
+    "checklist": "Her çekimden önce aynı yazılı kontrol listesini baştan sona uygularım.",
+    "licence": "Pilot lisansı",
+    "licenceBody": "Uçuşlar SHGM mevzuatına uygun olarak, lisanslı pilot tarafından yapılır.",
+    "serviceArea": "İstanbul içinde hizmet veriyoruz."
+  },
+  "contact": {
+    "heading": "İletişim",
+    "intro": "Mekânı ve ne yapmak istediğinizi yazın. Bir iş günü içinde dönerim.",
+    "directLabel": "Doğrudan ulaşın",
+    "whatsappPrefill": "Merhaba, mekânım için FPV video çekimi hakkında bilgi almak istiyorum.",
+    "form": {
+      "name": "Adınız",
+      "business": "İşletme adı",
+      "businessType": "Ne tür bir işletme",
+      "message": "Ne yapmak istiyorsunuz",
+      "messageHint": "Mekân, tarih ve aklınızdaki şey — birkaç cümle yeter.",
+      "submit": "Teklif alın",
+      "sending": "Gönderiliyor…"
+    },
+    "success": {
+      "title": "Mesajınız geldi.",
+      "body": "Bir iş günü içinde, genellikle WhatsApp üzerinden dönerim."
+    },
+    "error": {
+      "title": "Gönderilemedi.",
+      "body": "Bizde bir sorun oldu. Doğrudan WhatsApp'tan ya da e-postayla yazabilirsiniz.",
+      "required": "Bu alanı doldurun.",
+      "consent": "Devam etmek için onay vermeniz gerekiyor.",
+      "rate": "Çok sık denediniz. Biraz sonra tekrar deneyin ya da doğrudan yazın."
+    }
+  },
+  "a11y": {
+    "skipToContent": "İçeriğe geç",
+    "changeLanguage": "Dili değiştir",
+    "playVideo": "Videoyu oynat",
+    "closeLightbox": "Videoyu kapat",
+    "previousVideo": "Önceki video",
+    "nextVideo": "Sonraki video",
+    "videoCounter": "{current} / {total}"
+  },
+  "form": {
+    "optional": "isteğe bağlı"
+  },
+  "legal": {
+    "privacy": "KVKK Aydınlatma Metni",
+    "consent": "Kişisel verilerimin bu talebe yanıt vermek amacıyla işlenmesine onay veriyorum.",
+    "rights": "Tüm hakları saklıdır."
+  }
+}

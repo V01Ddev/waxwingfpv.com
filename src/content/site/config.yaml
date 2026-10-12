@@ -1,0 +1,161 @@
+# ---------------------------------------------------------------------------
+# Business settings. Edit this file freely — it is the only place these values
+# live. Nothing here is hardcoded in a component.
+#
+# Lines marked TODO(owner) need a real value from you before launch.
+# ---------------------------------------------------------------------------
+
+# --- contact ---------------------------------------------------------------
+# whatsapp is digits only (no +, no spaces) because it goes into a wa.me link.
+whatsapp: '905352736199'
+whatsappDisplay: '+90 535 273 6199'
+email: 'waxwingfpv@gmail.com'
+instagram: 'waxwingfpv'
+
+serviceArea:
+  tr: 'İstanbul'
+  en: 'Istanbul'
+
+# --- trust / legal ---------------------------------------------------------
+# Both licences are real and verified against the certificates (issued
+# 19.5.2026). Printed exactly as they appear on the document.
+licence:
+  authority: 'SHGM'
+  entries:
+    - number: 'TR-IHA0H13665941'
+      type:
+        tr: 'İHA-0 — Sportif / Amatör'
+        en: 'İHA-0 — Sportive / Amateur'
+    - number: 'TR-IHA1H13665959'
+      type:
+        tr: 'İHA-1 — Sportif / Amatör'
+        en: 'İHA-1 — Sportive / Amateur'
+  note:
+    tr: 'Uçuşlar SHGM mevzuatına uygun olarak, lisanslı pilot tarafından yapılır.'
+    en: 'Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations.'
+
+# --- enquiry form ----------------------------------------------------------
+# Deliberately no budget field. The goal is a conversation, not a quote form,
+# and each extra field costs submissions.
+businessTypes:
+  - value: 'cafe'
+    label:
+      tr: 'Kafe'
+      en: 'Café'
+  - value: 'restaurant'
+    label:
+      tr: 'Restoran'
+      en: 'Restaurant'
+  - value: 'retail'
+    label:
+      tr: 'Mağaza'
+      en: 'Shop or store'
+  - value: 'realEstate'
+    label:
+      tr: 'Emlak'
+      en: 'Real estate'
+  - value: 'event'
+    label:
+      tr: 'Etkinlik'
+      en: 'Event'
+  - value: 'other'
+    label:
+      tr: 'Diğer'
+      en: 'Something else'
+
+# --- services --------------------------------------------------------------
+# Edit freely. `deliverable` is the mono line under each row — keep it factual,
+# it is the most-read text in this section.
+services:
+  - title:
+      tr: 'Mekân tanıtımı'
+      en: 'Venue film'
+    description:
+      tr: 'Mekânınızın içinden tek kesintisiz geçiş. Kapıdan giren müşterinin gördüğü şey.'
+      en: 'One continuous pass through your space — what a customer sees walking in the door.'
+    deliverable:
+      tr: '1 × 16:9 · 1 × 9:16 · ~1 dk'
+      en: '1 × 16:9 · 1 × 9:16 · ~1 min'
+
+  - title:
+      tr: 'Sosyal medya reelleri'
+      en: 'Social reels'
+    description:
+      tr: 'Düzenli dikey içerik. Tek çekim, birkaç hafta yetecek kadar reel.'
+      en: 'Regular vertical content. One session, enough reels for several weeks.'
+    deliverable:
+      tr: '3 × 9:16 / ay'
+      en: '3 × 9:16 per month'
+
+  - title:
+      tr: 'Etkinlik'
+      en: 'Events'
+    description:
+      tr: 'Açılış, lansman ve davetler. Kalabalığın üstünden, kimseyi rahatsız etmeden.'
+      en: 'Openings, launches and parties. Shot from above the crowd, without getting in the way.'
+    deliverable:
+      tr: '1 × 16:9 · 3 × 9:16'
+      en: '1 × 16:9 · 3 × 9:16'
+
+  - title:
+      tr: 'Emlak'
+      en: 'Real estate'
+    description:
+      tr: 'Daire, dükkân ve arsa. Boş bir mekânı olduğundan büyük ve akılda kalıcı gösterir.'
+      en: 'Flats, shops and land. Makes an empty space read bigger and more memorable than it is.'
+    deliverable:
+      tr: '1 × 16:9 · 1 × 9:16'
+      en: '1 × 16:9 · 1 × 9:16'
+
+# --- process ---------------------------------------------------------------
+# The only numbered list on the site, because it is the only genuine sequence.
+process:
+  - title:
+      tr: 'Kısa bir görüşme'
+      en: 'A short call'
+    description:
+      tr: 'Mekânın ne olduğunu, kime hitap ettiğini ve videoyu gören kişinin ne yapmasını istediğinizi konuşuruz.'
+      en: 'We talk about the space, who it is for, and what you want someone to do after watching.'
+    needs:
+      tr: '30 dakika'
+      en: '30 minutes'
+
+  - title:
+      tr: 'Keşif ve uçuş planı'
+      en: 'Recce and flight plan'
+    description:
+      tr: 'Mekânı gezerim; ışık, güzergâh ve uçuş yüksekliği planlanır. Gerekli izinler bu aşamada çıkar.'
+      en: 'I visit the space, check the light and the sightlines, and plan the route. Permits are handled here.'
+    needs:
+      tr: 'Mekâna erişim'
+      en: 'Access to the space'
+
+  - title:
+      tr: 'Çekim'
+      en: 'Shoot'
+    description:
+      tr: 'Tek oturum. Mümkünse açılıştan önce ya da kapanıştan sonra — müşteri kalabalığı olmadan.'
+      en: 'One session, ideally before opening or after closing, with no customers in the way.'
+    needs:
+      tr: '2–3 saat'
+      en: '2–3 hours'
+
+  - title:
+      tr: 'Kurgu'
+      en: 'Edit'
+    description:
+      tr: 'Renk düzenlemesi, müzik ve bir tur revizyon.'
+      en: 'Grade, music, and one round of revisions.'
+    needs:
+      tr: '2 gün içinde geri bildirim'
+      en: 'Feedback within 2 days'
+
+  - title:
+      tr: 'Teslim'
+      en: 'Delivery'
+    description:
+      tr: 'İki format, paylaşıma hazır. Dikey olanı doğrudan Reels olarak yükleyebilirsiniz.'
+      en: 'Both formats, ready to post. The vertical one uploads straight to Reels.'
+    needs:
+      tr: '5–7 iş günü'
+      en: '5–7 working days'

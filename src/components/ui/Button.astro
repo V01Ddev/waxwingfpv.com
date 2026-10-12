@@ -1,0 +1,100 @@
+---
+interface Props {
+  href?: string;
+  variant?: 'primary' | 'ghost' | 'quiet';
+  type?: 'button' | 'submit';
+  class?: string;
+  /** Renders at full width on narrow viewports. */
+  block?: boolean;
+}
+
+const {
+  href,
+  variant = 'primary',
+  type = 'button',
+  class: className,
+  block = false,
+} = Astro.props;
+
+const Tag = href ? 'a' : 'button';
+---
+
+<Tag
+  href={href}
+  type={href ? undefined : type}
+  class:list={['btn', `btn--${variant}`, block && 'btn--block', className]}
+>
+  <slot />
+</Tag>
+
+<style>
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--sp-2);
+    min-height: 44px; /* touch target floor */
+    padding: var(--sp-3) var(--sp-5);
+    border: var(--hairline) solid transparent;
+    border-radius: 0; /* square corners are the whole system */
+    font-family: var(--font-ui);
+    font-size: var(--text-base);
+    font-weight: 500;
+    line-height: var(--lh-ui);
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition:
+      background-color var(--dur-1) var(--ease),
+      border-color var(--dur-1) var(--ease),
+      color var(--dur-1) var(--ease);
+  }
+
+  .btn--block {
+    width: 100%;
+  }
+
+  @media (min-width: 30rem) {
+    .btn--block {
+      width: auto;
+    }
+  }
+
+  /* Off-white, not red. White on footage is the highest-contrast object
+     available, and it keeps the red reading as the brand's ink rather than
+     its paint. */
+  .btn--primary {
+    background-color: var(--silk);
+    color: var(--mask);
+  }
+
+  .btn--primary:hover {
+    background-color: #fff;
+  }
+
+  .btn--ghost {
+    background-color: transparent;
+    border-color: var(--edge-strong);
+    color: var(--fg);
+  }
+
+  /* The tip: on hover the border turns to wax from the left edge, so the
+     colour lands at the end of the control rather than flooding it. */
+  .btn--ghost:hover {
+    border-color: var(--accent);
+  }
+
+  .btn--quiet {
+    padding-inline: 0;
+    background: none;
+    color: var(--fg);
+    text-decoration: underline;
+    text-decoration-color: var(--line);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.25em;
+  }
+
+  .btn--quiet:hover {
+    text-decoration-color: var(--accent-text);
+  }
+</style>

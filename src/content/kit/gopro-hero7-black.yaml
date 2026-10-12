@@ -1,0 +1,53 @@
+# The cinema payload. Not an aircraft, so it is deliberately excluded from the
+# aircraft comparison table — it has no flight time and no control link, and a
+# table with those rows dashed out would be worse than no table.
+name: 'GoPro HERO7 Black'
+kind: 'camera'
+order: 3
+
+class:
+  tr: 'Taşınan kamera'
+  en: 'Payload camera'
+
+tagline:
+  tr: '5 inçin asıl görüntüsü. ND filtreyle çekilir, kurguda Gyroflow ile sabitlenir.'
+  en: 'The 5-inch’s real image. ND filters on the lens, stabilised in post.'
+
+photo: '/kit/gopro-hero7.jpg' # TODO: produced in Phase 2
+
+specs:
+  - label: { tr: 'Sensör', en: 'Sensor' }
+    value: '1/2,3"'
+  - label: { tr: 'Kayıt', en: 'Recording' }
+    value: '4K 60 fps'
+  - label: { tr: 'Filtre', en: 'Filtration' }
+    value: 'ND' # TODO(owner) — hangi ND değerleri? which ND strengths?
+  - label: { tr: 'Stabilizasyon', en: 'Stabilisation' }
+    value: 'Gyroflow (kurgu)'
+  - label: { tr: 'Taşıyan', en: 'Carried by' }
+    value: 'Custom 5-inch'
+  - label: { tr: 'Montaj', en: 'Mount' }
+    value: 'TPU mount'
+
+bestFor:
+  tr:
+    - 'Dış mekân ana görüntüsü'
+    - 'Hareket bulanıklığı gereken çekimler'
+    - 'Işığın bol olduğu açık hava planları'
+  en:
+    - 'The main exterior image'
+    - 'Shots that want natural motion blur'
+    - 'Bright outdoor work'
+
+limits:
+  tr:
+    - 'Çok düşük ışık'
+    - 'Tek başına uçamaz — 5 inçe takılır'
+  en:
+    - 'Very low light'
+    - 'Cannot fly on its own — it rides the 5-inch'
+
+sample:
+  src: '/video/kit-gopro.mp4'
+  poster: '/video/kit-gopro.jpg'
+  orientation: 'landscape'

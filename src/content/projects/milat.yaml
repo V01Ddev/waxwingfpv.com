@@ -1,0 +1,48 @@
+# Pilot shoot — a process rehearsal before taking on paying work.
+# Delete this file to remove it from the site entirely; nothing else needs to
+# change.
+title:
+  tr: 'Milat'
+  en: 'Milat'
+clientType: 'retail'
+clientName: 'Milat'
+location:
+  tr: 'İstanbul'
+  en: 'Istanbul'
+date: '2026-10-05'
+order: 2
+featured: true
+
+goal:
+  tr: 'Ödeme yapan bir işe başlamadan önce tüm süreci baştan sona denemek için yapılan pilot çekim.'
+  en: 'A pilot shoot to rehearse the whole process — brief, flight plan, shoot, edit, delivery — before taking on a paying job.'
+
+result:
+  tr: 'Akış baştan sona çalıştı. Çalışmayan kısımlar bir sonraki çekimden önce düzeltildi.'
+  en: 'The workflow held end to end. What did not work was fixed before the next shoot.'
+
+description:
+  tr: 'Küçük bir markette, süreci prova etmek için yapılan çekim. Müşteri işiyle aynı akış, müşterisiz.'
+  en: 'A small convenience store, shot as a rehearsal. The same pipeline as a client job, without the client.'
+
+gear:
+  airframe: 'meteor75-pro-ii'
+  camera: 'dji-o4-wide'
+
+cuts:
+  - orientation: 'landscape'
+    label:
+      tr: 'Film'
+      en: 'Film'
+    src: '/video/milat-16-9.mp4'
+    poster: '/video/milat-16-9.jpg'
+    width: 1920
+    height: 1080
+  - orientation: 'vertical'
+    label:
+      tr: 'Reel'
+      en: 'Reel'
+    src: '/video/milat-9-16.mp4'
+    poster: '/video/milat-9-16.jpg'
+    width: 1080
+    height: 1920

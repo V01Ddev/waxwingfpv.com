@@ -1,0 +1,249 @@
+---
+import MediaPlaceholder from '../ui/MediaPlaceholder.astro';
+import Glint from '../brand/Glint.astro';
+import { t, type Locale } from '../../i18n/ui';
+import { getProjects, getKit } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const projects = await getProjects(locale);
+const kit = await getKit(locale);
+
+const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
+---
+
+<section class="section work" id="work" aria-labelledby="work-title">
+  <div class="page">
+    <div class="work__head">
+      <h2 id="work-title">{t(locale, 'work.heading')}</h2>
+      <p class="t-meta measure">{t(locale, 'work.intro')}</p>
+    </div>
+
+    {
+      projects.map((project) => (
+        <article class="proj">
+          <div class="proj__pair">
+            {project.cuts.map((cut) => (
+              <button
+                type="button"
+                class:list={['frame', cut.orientation === 'vertical' ? 'frame--tall' : 'frame--wide']}
+                data-video-src={cut.src}
+                data-video-label={`${project.title} — ${cut.label}`}
+              >
+                <span class="frame__media">
+                  <MediaPlaceholder
+                    ratio={cut.orientation === 'vertical' ? '9:16' : '16:9'}
+                    label={`${project.title} — ${cut.label}`}
+                  />
+                </span>
+                <span class="frame__play">
+                  <Glint height="1.1rem" />
+                  <span class="visually-hidden">
+                    {cut.orientation === 'vertical'
+                      ? t(locale, 'work.playReel')
+                      : t(locale, 'work.playFilm')}
+                  </span>
+                </span>
+                <span class="frame__tag t-mono">{cut.label}</span>
+              </button>
+            ))}
+
+            <div class="proj__meta">
+              <h3 class="proj__title">
+                {project.title}
+                <span class="proj__place t-mono">
+                  {project.clientType} · {project.location}
+                </span>
+              </h3>
+
+              <dl class="proj__facts">
+                <div class="proj__fact">
+                  <dt class="t-mono">{t(locale, 'work.wanted')}</dt>
+                  <dd>{project.goal}</dd>
+                </div>
+                <div class="proj__fact">
+                  <dt class="t-mono">{t(locale, 'work.result')}</dt>
+                  <dd>{project.result}</dd>
+                </div>
+              </dl>
+
+              <p class="proj__gear t-mono">
+                {t(locale, 'work.shotOn')}: {kitName(project.gear.airframe)}
+              </p>
+            </div>
+          </div>
+        </article>
+      ))
+    }
+  </div>
+</section>
+
+<style>
+  .work__head {
+    display: grid;
+    gap: var(--sp-4);
+    margin-block-end: var(--sp-7);
+  }
+
+  .proj + .proj {
+    margin-block-start: var(--sp-8);
+  }
+
+  /*
+    The pair. Both cuts top-aligned so the vertical frame simply runs longer
+    than the horizontal one — the difference in height IS the information
+    ("you get both"), and nothing overlaps, so it survives every breakpoint
+    without transform maths.
+    The meta fills the L-shaped gap under the wide frame.
+  */
+  .proj__pair {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--sp-4);
+    align-items: start;
+  }
+
+  @media (min-width: 48rem) {
+    /* 0.32fr is not arbitrary: it is the ratio at which a 9:16 frame beside a
+       16:9 frame ends at exactly the same height (0.3164 = 81/256). The two
+       cuts then read as one deliberate pair rather than two boxes that
+       almost line up. */
+    .proj__pair {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 0.32fr);
+      gap: var(--sp-5);
+    }
+
+    .frame--wide {
+      grid-column: 1;
+    }
+
+    .frame--tall {
+      grid-column: 2;
+    }
+
+    .proj__meta {
+      grid-column: 1;
+    }
+  }
+
+  /* --- a single cut --- */
+  .frame {
+    position: relative;
+    display: block;
+    width: 100%;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+    text-align: start;
+  }
+
+  @media (max-width: 47.999rem) {
+    /* On a phone the vertical cut holds a phone-shaped column, not full
+       width — shown at the size it will actually be watched. */
+    .frame--tall {
+      max-width: 62%;
+    }
+  }
+
+  .frame__media {
+    display: block;
+    border: var(--hairline) solid var(--line);
+    overflow: hidden;
+  }
+
+  .frame__play {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    translate: -50% -50%;
+    background: rgb(5 7 10 / 0.62);
+    border: var(--hairline) solid rgb(232 230 225 / 0.35);
+    transition:
+      background-color var(--dur-2) var(--ease),
+      border-color var(--dur-2) var(--ease);
+  }
+
+  /* :global() because the icon is a child component's root element, and
+     scoped selectors do not reach those. */
+  .frame :global(.glint) {
+    color: var(--silk);
+    transition: color var(--dur-2) var(--ease);
+  }
+
+  .frame:hover .frame__play,
+  .frame:focus-visible .frame__play {
+    background: rgb(5 7 10 / 0.85);
+    border-color: var(--silk);
+  }
+
+  .frame:hover :global(.glint),
+  .frame:focus-visible :global(.glint) {
+    color: var(--accent);
+  }
+
+  .frame__tag {
+    position: absolute;
+    inset-block-end: var(--sp-3);
+    inset-inline-start: var(--sp-3);
+    padding: var(--sp-1) var(--sp-2);
+    background: rgb(5 7 10 / 0.78);
+    color: var(--silk);
+    font-size: var(--text-xs);
+  }
+
+  /* --- project meta --- */
+  .proj__meta {
+    display: grid;
+    gap: var(--sp-4);
+    align-content: start;
+    padding-block-start: var(--sp-2);
+  }
+
+  .proj__title {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--sp-3);
+    font-size: var(--text-xl);
+  }
+
+  .proj__place {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+
+  .proj__facts {
+    display: grid;
+    gap: var(--sp-3);
+    margin: 0;
+    max-width: 52ch;
+  }
+
+  .proj__fact {
+    display: grid;
+    gap: var(--sp-1);
+  }
+
+  .proj__fact dt {
+    color: var(--accent-text);
+    font-size: var(--text-xs);
+  }
+
+  .proj__fact dd {
+    margin: 0;
+    color: var(--fg-muted);
+  }
+
+  .proj__gear {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+</style>

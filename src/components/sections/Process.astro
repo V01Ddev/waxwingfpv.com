@@ -1,0 +1,120 @@
+---
+import { t, type Locale } from '../../i18n/ui';
+import { getSite } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const site = await getSite();
+const steps = site.process(locale);
+---
+
+<section class="section" id="process" aria-labelledby="process-title">
+  <div class="page">
+    <div class="proc__head">
+      <h2 id="process-title">{t(locale, 'process.heading')}</h2>
+      <p class="t-meta measure">{t(locale, 'process.intro')}</p>
+    </div>
+
+    <ol class="proc">
+      {
+        steps.map((step, i) => (
+          <li class="proc__step">
+            <span class="proc__num t-mono" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <h3 class="proc__title">{step.title}</h3>
+            <p class="proc__desc">{step.description}</p>
+            <p class="proc__needs">
+              <span class="t-mono proc__needsLabel">{t(locale, 'process.needs')}</span>
+              {step.needs}
+            </p>
+          </li>
+        ))
+      }
+    </ol>
+  </div>
+</section>
+
+<style>
+  .proc__head {
+    display: grid;
+    gap: var(--sp-4);
+    margin-block-end: var(--sp-6);
+  }
+
+  /* This is the only numbered list on the site. It is the only genuine
+     sequence, which is the whole test for whether a number earns its place. */
+  .proc {
+    display: grid;
+    gap: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    counter-reset: step;
+  }
+
+  .proc__step {
+    display: grid;
+    gap: var(--sp-2);
+    padding-block: var(--sp-5);
+    border-block-start: var(--hairline) solid var(--line);
+  }
+
+  @media (min-width: 64rem) {
+    .proc {
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: var(--sp-5);
+    }
+
+    .proc__step {
+      padding-block-start: var(--sp-4);
+    }
+
+    /* The timeline terminates at delivery: the last step's rule is the only
+       one in wax, and it fades out at its tail like everything else. */
+    .proc__step:last-child {
+      border-block-start: 0;
+      background-image: linear-gradient(
+        90deg,
+        var(--accent) 0%,
+        var(--accent) 40%,
+        transparent 100%
+      );
+      background-repeat: no-repeat;
+      background-size: 100% var(--hairline);
+      background-position: 0 0;
+    }
+  }
+
+  .proc__num {
+    color: var(--accent-text);
+    font-size: var(--text-sm);
+  }
+
+  .proc__title {
+    font-size: var(--text-lg);
+  }
+
+  .proc__desc {
+    color: var(--fg-muted);
+    font-size: var(--text-base);
+  }
+
+  .proc__needs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--sp-2);
+    align-items: baseline;
+    margin-block-start: var(--sp-2);
+    font-size: var(--text-sm);
+    color: var(--fg);
+  }
+
+  .proc__needsLabel {
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+  }
+</style>

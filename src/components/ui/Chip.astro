@@ -1,0 +1,33 @@
+---
+interface Props {
+  /** 'meta' is quiet and inline; 'tag' is a bordered label. */
+  variant?: 'meta' | 'tag';
+  class?: string;
+}
+
+const { variant = 'tag', class: className } = Astro.props;
+---
+
+<span class:list={['chip', `chip--${variant}`, className]}><slot /></span>
+
+<style>
+  .chip {
+    display: inline-block;
+    border-radius: 0;
+    font-size: var(--text-sm);
+    line-height: var(--lh-ui);
+    white-space: nowrap;
+  }
+
+  .chip--tag {
+    padding: var(--sp-1) var(--sp-3);
+    border: var(--hairline) solid var(--line);
+    color: var(--fg-muted);
+  }
+
+  .chip--meta {
+    color: var(--fg-muted);
+    font-family: var(--font-mono);
+    letter-spacing: var(--ls-mono);
+  }
+</style>

@@ -1,0 +1,110 @@
+---
+import Button from '../ui/Button.astro';
+import MediaPlaceholder from '../ui/MediaPlaceholder.astro';
+import { t, type Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="hero__media">
+    <MediaPlaceholder
+      fill
+      label="Hero reel — 9:16 portrait on phones, 16:9 on desktop"
+    />
+  </div>
+
+  <div class="hero__scrim" aria-hidden="true"></div>
+
+  <div class="hero__inner page">
+    <div class="hero__row">
+      <h1 class="hero__title" id="hero-title">{t(locale, 'site.tagline')}</h1>
+
+      <div class="hero__actions">
+        <Button href="#contact">{t(locale, 'cta.quote')}</Button>
+        <Button href="#work" variant="quiet">{t(locale, 'cta.watchReel')}</Button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    /* svh, not vh: on iOS Safari a vh hero is taller than the visible area
+       while the URL bar is showing, which pushes the type off-screen. */
+    min-height: 100svh;
+    display: flex;
+    align-items: flex-end;
+    overflow: hidden;
+    border-block-end: var(--hairline) solid var(--line);
+  }
+
+  .hero__media {
+    position: absolute;
+    inset: 0;
+  }
+
+  /* Text sits on footage, so it needs its own ground. Weighted to the bottom
+     where the type actually is, rather than a full-height wash. */
+  .hero__scrim {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to top,
+      rgb(5 7 10 / 0.92) 0%,
+      rgb(5 7 10 / 0.72) 32%,
+      rgb(5 7 10 / 0.18) 62%,
+      rgb(5 7 10 / 0.34) 100%
+    );
+  }
+
+  .hero__inner {
+    position: relative;
+    width: 100%;
+    padding-block: var(--sp-7) var(--sp-6);
+  }
+
+  .hero__row {
+    display: grid;
+    gap: var(--sp-6);
+    align-items: end;
+  }
+
+  /* display-md, not display-lg. The pitch is a full sentence in two
+     languages, and Turkish compounds are long — at display-lg this ran to
+     five lines and pushed the button below the fold. */
+  .hero__title {
+    max-width: 26ch;
+    font-size: var(--display-md);
+    line-height: var(--lh-display);
+  }
+
+  .hero__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-5);
+  }
+
+  @media (min-width: 60rem) {
+    /* The composition spreads across the full width rather than stacking in
+       the centre: the pitch holds the left, the actions sit on the right
+       baseline. */
+    .hero__row {
+      grid-template-columns: minmax(0, 1fr) auto;
+    }
+
+    .hero__title {
+      max-width: 24ch;
+    }
+
+    .hero__actions {
+      justify-content: flex-end;
+    }
+  }
+</style>

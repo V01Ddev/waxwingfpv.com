@@ -1,0 +1,52 @@
+# The lead project. First full pipeline run.
+#
+# Note: the site never labels work as "client work" — it labels it by the kind
+# of business. That stays true whether or not money changed hands, and it
+# avoids claiming a commercial relationship you would have to defend.
+title:
+  tr: 'The Nish Coffee'
+  en: 'The Nish Coffee'
+clientType: 'cafe'
+clientName: 'The Nish Coffee'
+location:
+  tr: 'İstanbul' # TODO(owner) — semt/ilçe eklemek yerel SEO'ya yardımcı olur
+  en: 'Istanbul' # TODO(owner) — add the district; it helps local search
+date: '2026-10-10'
+order: 1
+featured: true
+
+goal:
+  tr: 'Yeni açılan bir kafenin içini, müşterinin kapıdan girdiği gibi göstermek: mekân, tezgâh, ışık — tek kesintisiz hareketle.'
+  en: 'Show a new coffee shop the way a customer walks into it — the room, the counter, the light — in one continuous move.'
+
+result:
+  tr: 'Mekânın içinden tek çekimde geçiş. Renk düzenlemesi yapıldı, 16:9 film ve 9:16 reel olarak teslim edildi.'
+  en: 'One unbroken pass through the room, graded and delivered as a 16:9 film and a 9:16 reel.'
+
+description:
+  tr: 'Sürecin baştan sona ilk tam çalışması: keşif, uçuş planı, mekân içinde tek kesintisiz geçiş, kurgu ve iki formatta teslim. Meteor75 Pro II ile çekildi.'
+  en: 'The first complete run of the pipeline, end to end: recce, flight plan, a single continuous pass through the room, edit, and delivery in both formats. Shot on the Meteor75 Pro II.'
+
+gear:
+  airframe: 'meteor75-pro-ii'
+  camera: 'dji-o4-wide'
+
+# The deliverable pair. Both files are produced from your Drive masters in
+# Phase 2 — the paths below are where they will land.
+cuts:
+  - orientation: 'landscape'
+    label:
+      tr: 'Film'
+      en: 'Film'
+    src: '/video/the-nish-16-9.mp4'
+    poster: '/video/the-nish-16-9.jpg'
+    width: 1920
+    height: 1080
+  - orientation: 'vertical'
+    label:
+      tr: 'Reel'
+      en: 'Reel'
+    src: '/video/the-nish-9-16.mp4'
+    poster: '/video/the-nish-9-16.jpg'
+    width: 1080
+    height: 1920

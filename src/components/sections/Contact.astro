@@ -1,0 +1,224 @@
+---
+import Field from '../ui/Field.astro';
+import Button from '../ui/Button.astro';
+import { t, localePath, type Locale } from '../../i18n/ui';
+import { getSite } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const site = await getSite();
+
+const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
+  t(locale, 'contact.whatsappPrefill')
+)}`;
+const optional = t(locale, 'form.optional');
+---
+
+<section class="section" id="contact" aria-labelledby="contact-title">
+  <div class="page">
+    <div class="ct__head">
+      <h2 id="contact-title">{t(locale, 'contact.heading')}</h2>
+      <p class="t-meta measure">{t(locale, 'contact.intro')}</p>
+    </div>
+
+    <div class="ct__grid">
+      <form class="ct__form" data-inquiry-form novalidate>
+        <Field name="name" label={t(locale, 'contact.form.name')} autocomplete="name" required />
+        <Field
+          name="business"
+          label={t(locale, 'contact.form.business')}
+          autocomplete="organization"
+          required
+        />
+        <Field
+          name="businessType"
+          label={t(locale, 'contact.form.businessType')}
+          type="select"
+          optionalLabel={optional}
+          options={site.businessTypes(locale)}
+        />
+        <Field
+          name="message"
+          label={t(locale, 'contact.form.message')}
+          type="textarea"
+          hint={t(locale, 'contact.form.messageHint')}
+          required
+        />
+
+        {/* Spam traps. The honeypot is hidden from people and from screen
+            readers alike; anything that fills it is a bot. */}
+        <div class="ct__trap" aria-hidden="true">
+          <label for="field-website">Website</label>
+          <input id="field-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="formStartedAt" value="" data-form-started />
+        <input type="hidden" name="locale" value={locale} />
+
+        <div class="ct__consent">
+          <input type="checkbox" id="field-consent" name="consent" required />
+          <label for="field-consent">{t(locale, 'legal.consent')}</label>
+          <a class="ct__policy" href={localePath(locale, '/privacy')}>
+            {t(locale, 'legal.privacy')}
+          </a>
+        </div>
+
+        <Button type="submit" block>{t(locale, 'contact.form.submit')}</Button>
+
+        <p class="ct__status" data-form-status role="status" aria-live="polite"></p>
+      </form>
+
+      <aside class="ct__direct">
+        <h3 class="ct__label t-mono">{t(locale, 'contact.directLabel')}</h3>
+        <ul class="ct__links">
+          <li>
+            <a href={waHref} rel="noopener">{t(locale, 'cta.whatsapp')}</a>
+            <span class="t-mono">{site.whatsappDisplay}</span>
+          </li>
+          <li>
+            <a href={`mailto:${site.email}`}>{t(locale, 'cta.email')}</a>
+            <span class="t-mono">{site.email}</span>
+          </li>
+          <li>
+            <a href={`https://instagram.com/${site.instagram}`} rel="noopener me" target="_blank">
+              Instagram
+            </a>
+            <span class="t-mono">@{site.instagram}</span>
+          </li>
+        </ul>
+        <p class="t-meta">{t(locale, 'trust.serviceArea')}</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ct__head {
+    display: grid;
+    gap: var(--sp-4);
+    margin-block-end: var(--sp-6);
+  }
+
+  .ct__grid {
+    display: grid;
+    gap: var(--sp-7);
+    align-items: start;
+  }
+
+  @media (min-width: 60rem) {
+    .ct__grid {
+      grid-template-columns: minmax(0, 34rem) minmax(0, 1fr);
+      gap: var(--sp-8);
+    }
+  }
+
+  .ct__form {
+    display: grid;
+    gap: var(--sp-5);
+  }
+
+  .ct__trap {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+
+  .ct__consent {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--sp-2) var(--sp-3);
+    align-items: start;
+    padding-block-start: var(--sp-2);
+  }
+
+  .ct__consent input {
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-block-start: 0.28em;
+    accent-color: var(--accent);
+    flex: none;
+  }
+
+  .ct__consent label {
+    font-size: var(--text-sm);
+    color: var(--fg-muted);
+  }
+
+  /* The policy link sits outside the label on purpose: an <a> nested in a
+     <label> is ambiguous to click — people expect to read the notice, not
+     toggle the checkbox. */
+  .ct__policy {
+    grid-column: 2;
+    font-size: var(--text-sm);
+    color: var(--fg);
+  }
+
+  .ct__status:empty {
+    display: none;
+  }
+
+  .ct__status {
+    font-size: var(--text-base);
+  }
+
+  .ct__direct {
+    display: grid;
+    gap: var(--sp-4);
+    align-content: start;
+    padding-block-start: var(--sp-2);
+  }
+
+  .ct__label {
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+    margin: 0;
+  }
+
+  .ct__links {
+    display: grid;
+    gap: var(--sp-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ct__links li {
+    display: grid;
+    gap: var(--sp-1);
+  }
+
+  .ct__links a {
+    text-decoration: none;
+    border-block-end: var(--hairline) solid var(--line);
+    justify-self: start;
+    transition: border-color var(--dur-1) var(--ease);
+  }
+
+  .ct__links a:hover {
+    border-block-end-color: var(--accent);
+  }
+
+  .ct__links span {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+</style>
+
+<script>
+  // Phase 1 stub: the form is not wired yet. This only stops the browser from
+  // navigating away with query parameters while the layout is being reviewed.
+  // Phase 4 replaces this with the real POST to /api/inquiry.
+  const form = document.querySelector<HTMLFormElement>('[data-inquiry-form]');
+  const started = document.querySelector<HTMLInputElement>('[data-form-started]');
+
+  if (started) started.value = String(Date.now());
+
+  form?.addEventListener('submit', (event) => {
+    event.preventDefault();
+  });
+</script>

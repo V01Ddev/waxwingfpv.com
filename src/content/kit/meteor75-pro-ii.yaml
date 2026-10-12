@@ -1,0 +1,69 @@
+# Specs from BetaFPV's published figures for the Meteor75 Pro II O4 Wide.
+# Confirm anything you have changed from stock (motors, canopy, battery).
+#
+# Label discipline: the labels Sınıf / Ağırlık / Kamera / Kayıt / Batarya /
+# Uçuş süresi / Kumanda are shared vocabulary across every airframe — that is
+# what makes the comparison table possible. Anything specific to this aircraft
+# goes below them and appears only in this panel.
+name: 'Meteor75 Pro II'
+kind: 'airframe'
+order: 1
+
+class:
+  tr: 'Whoop sınıfı'
+  en: 'Whoop class'
+
+tagline:
+  tr: 'Dar alanlar için. Kafenin ortasından geçer.'
+  en: 'For tight rooms. Flies through the middle of a café.'
+
+photo: '/kit/meteor75-pro-ii.jpg' # TODO: produced in Phase 2
+
+# --- shared comparison vocabulary ---
+specs:
+  - label: { tr: 'Sınıf', en: 'Class' }
+    value: '80 mm whoop'
+  - label: { tr: 'Ağırlık', en: 'Weight' }
+    value: '41,5 g'
+  - label: { tr: 'Kamera', en: 'Camera' }
+    value: 'DJI O4 Wide · 159°'
+  - label: { tr: 'Kayıt', en: 'Recording' }
+    value: '4K 60 fps'
+  - label: { tr: 'Batarya', en: 'Battery' }
+    value: '1S 680 mAh'
+  - label: { tr: 'Uçuş süresi', en: 'Flight time' }
+    value: '~6 dk'
+  - label: { tr: 'Kumanda', en: 'Control link' }
+    value: 'ELRS 2.4 GHz'
+  # --- this aircraft only ---
+  - label: { tr: 'Motorlar', en: 'Motors' }
+    value: '1102 21000KV'
+  - label: { tr: 'Pervane', en: 'Props' }
+    value: '1,8" 3 kanat'
+
+bestFor:
+  tr:
+    - 'Kafe ve restoran içi'
+    - 'Dar ve kalabalık mekânlar'
+    - 'Tezgâh ve masa arasından geçişler'
+    - 'Kapalı mekân etkinlikleri'
+  en:
+    - 'Café and restaurant interiors'
+    - 'Tight, busy rooms'
+    - 'Passes between the counter and the tables'
+    - 'Indoor events'
+
+limits:
+  tr:
+    - 'Rüzgârlı hava'
+    - 'Uzun dış mekân planları'
+    - 'Yüksek hız gerektiren çekimler'
+  en:
+    - 'Wind'
+    - 'Long exterior shots'
+    - 'Anything that needs real speed'
+
+sample:
+  src: '/video/kit-meteor75.mp4'
+  poster: '/video/kit-meteor75.jpg'
+  orientation: 'landscape'

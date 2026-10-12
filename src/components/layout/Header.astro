@@ -1,0 +1,314 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+import Button from '../ui/Button.astro';
+import { t, localePath, otherLocale, localeShort, type Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+  /** Path without locale prefix, so the switcher can find its counterpart. */
+  barePath?: string;
+}
+
+const { locale, barePath = '/' } = Astro.props;
+
+const isHome = barePath === '/';
+/** On a sub-page, in-page anchors have to point back at the home page. */
+const prefix = isHome ? '' : localePath(locale, '/');
+const alt = otherLocale(locale);
+
+const links = [
+  { key: 'nav.work', hash: '#work' },
+  { key: 'nav.kit', hash: '#kit' },
+  { key: 'nav.services', hash: '#services' },
+  { key: 'nav.process', hash: '#process' },
+  { key: 'nav.contact', hash: '#contact' },
+];
+---
+
+<header class="hdr" data-header>
+  <div class="hdr__inner page">
+    <a class="hdr__brand" href={prefix || '/'} aria-label={t(locale, 'site.name')}>
+      <Wordmark />
+    </a>
+
+    <nav class="hdr__nav" aria-label={t(locale, 'nav.menu')}>
+      <ul class="hdr__list">
+        {
+          links.map((link) => (
+            <li>
+              <a class="hdr__link" href={`${prefix}${link.hash}`}>
+                {t(locale, link.key)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="hdr__actions">
+      <a
+        class="hdr__lang t-mono"
+        href={localePath(alt, barePath)}
+        hreflang={alt}
+        lang={alt}
+        aria-label={t(locale, 'a11y.changeLanguage')}
+      >
+        {localeShort[alt]}
+      </a>
+
+      {/* Wrapped rather than given a class: scoped styles do not reach a
+          child component's root element. */}
+      <span class="hdr__cta">
+        <Button href={`${prefix}#contact`}>{t(locale, 'cta.quote')}</Button>
+      </span>
+
+      <button
+        class="hdr__burger"
+        type="button"
+        aria-expanded="false"
+        aria-controls="site-menu"
+        data-menu-toggle
+      >
+        <span class="hdr__burgerLines" aria-hidden="true"><i></i><i></i></span>
+        <span class="visually-hidden">{t(locale, 'nav.menu')}</span>
+      </button>
+    </div>
+  </div>
+
+  <div class="menu" id="site-menu" hidden data-menu>
+    <nav aria-label={t(locale, 'nav.menu')}>
+      <ul class="menu__list">
+        {
+          links.map((link) => (
+            <li>
+              <a class="menu__link" href={`${prefix}${link.hash}`}>
+                {t(locale, link.key)}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+    <div class="menu__foot">
+      <Button href={`${prefix}#contact`} block>{t(locale, 'cta.quote')}</Button>
+      <a class="menu__lang t-mono" href={localePath(alt, barePath)} hreflang={alt} lang={alt}>
+        {localeShort[alt]} — {t(locale, 'a11y.changeLanguage')}
+      </a>
+    </div>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: var(--bg);
+    border-block-end: var(--hairline) solid var(--line);
+  }
+
+  .hdr__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    min-height: 4.25rem;
+  }
+
+  .hdr__brand {
+    text-decoration: none;
+    flex: none;
+  }
+
+  .hdr__nav {
+    display: none;
+  }
+
+  .hdr__list {
+    display: flex;
+    gap: var(--sp-5);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .hdr__link {
+    color: var(--fg);
+    font-size: var(--text-base);
+    text-decoration: none;
+  }
+
+  /* The trail again: the underline arrives from the left rather than
+     appearing whole. */
+  .hdr__link {
+    background-image: linear-gradient(var(--accent), var(--accent));
+    background-repeat: no-repeat;
+    background-position: 0 100%;
+    background-size: 0% var(--hairline);
+    transition: background-size var(--dur-2) var(--ease);
+    padding-block-end: 2px;
+  }
+
+  .hdr__link:hover,
+  .hdr__link:focus-visible {
+    background-size: 100% var(--hairline);
+  }
+
+  .hdr__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--sp-4);
+    flex: none;
+  }
+
+  .hdr__lang {
+    color: var(--fg-muted);
+    text-decoration: none;
+    padding: var(--sp-2);
+  }
+
+  .hdr__lang:hover {
+    color: var(--fg);
+  }
+
+  .hdr__cta {
+    display: none;
+  }
+
+  /* --- burger --- */
+  .hdr__burger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    margin-inline-end: -0.5rem;
+    padding: 0;
+    background: none;
+    border: 0;
+    cursor: pointer;
+  }
+
+  .hdr__burgerLines {
+    display: grid;
+    gap: 6px;
+    width: 22px;
+  }
+
+  .hdr__burgerLines i {
+    display: block;
+    height: var(--hairline);
+    background: var(--fg);
+    transition: transform var(--dur-2) var(--ease), opacity var(--dur-2) var(--ease);
+  }
+
+  .hdr__burger[aria-expanded='true'] .hdr__burgerLines i:first-child {
+    transform: translateY(3.5px) rotate(45deg);
+  }
+
+  .hdr__burger[aria-expanded='true'] .hdr__burgerLines i:last-child {
+    transform: translateY(-3.5px) rotate(-45deg);
+  }
+
+  /* --- mobile panel --- */
+  .menu {
+    position: fixed;
+    inset: 4.25rem 0 0;
+    z-index: 39;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: var(--sp-7) var(--gutter) var(--sp-6);
+    background: var(--bg);
+    overflow-y: auto;
+  }
+
+  .menu[hidden] {
+    display: none;
+  }
+
+  .menu__list {
+    display: grid;
+    gap: var(--sp-4);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .menu__link {
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' var(--opsz-display);
+    font-weight: 600;
+    font-size: var(--display-sm);
+    line-height: 1.1;
+    text-decoration: none;
+  }
+
+  .menu__foot {
+    display: grid;
+    gap: var(--sp-5);
+    justify-items: start;
+    padding-block-start: var(--sp-6);
+    border-block-start: var(--hairline) solid var(--line);
+  }
+
+  .menu__lang {
+    color: var(--fg-muted);
+    text-decoration: none;
+  }
+
+  @media (min-width: 60rem) {
+    .hdr__nav,
+    .hdr__cta {
+      display: block;
+    }
+
+    .hdr__burger {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  // Mobile menu. Kept deliberately small: toggle, Escape, focus return, and a
+  // scroll lock. Anything more would need a framework and would not earn it.
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const menu = document.querySelector<HTMLElement>('[data-menu]');
+
+  if (toggle && menu) {
+    const open = () => {
+      menu.hidden = false;
+      toggle.setAttribute('aria-expanded', 'true');
+      document.body.style.overflow = 'hidden';
+      menu.querySelector<HTMLAnchorElement>('a')?.focus();
+    };
+
+    const close = (returnFocus = true) => {
+      menu.hidden = true;
+      toggle.setAttribute('aria-expanded', 'false');
+      document.body.style.overflow = '';
+      if (returnFocus) toggle.focus();
+    };
+
+    toggle.addEventListener('click', () => {
+      menu.hidden ? open() : close();
+    });
+
+    // Anchors close the panel so the target is visible when it scrolls to.
+    menu.addEventListener('click', (event) => {
+      if ((event.target as HTMLElement).closest('a')) close(false);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && !menu.hidden) close();
+    });
+
+    // Returning to desktop width while the panel is open would otherwise
+    // leave the body scroll-locked with no visible way out.
+    const wide = window.matchMedia('(min-width: 60rem)');
+    wide.addEventListener('change', (event) => {
+      if (event.matches && !menu.hidden) close(false);
+    });
+  }
+</script>

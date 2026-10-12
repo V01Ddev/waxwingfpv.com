@@ -1,0 +1,36 @@
+# --- build output ----------------------------------------------------------
+node_modules/
+dist/
+.astro/
+
+# --- local tooling ---------------------------------------------------------
+.DS_Store
+*.log
+.env
+.env.production
+
+# Checkpoint screenshots. Regenerate with scripts/shot.mjs.
+.checkpoints/
+
+# --- personal documents: never commit --------------------------------------
+# These sit in the repo root but must not enter git history.
+#
+#   Mohammed Aljomaily.pdf      CV — phone number, email, application drafts
+#   License (…).pdf             the two SHGM pilot licences — these also carry
+#                               a TC kimlik number on the same page as the
+#                               licence number we actually publish
+#
+# Astro would not deploy them anyway (only public/ is copied into dist/), but
+# a public repo would expose them regardless of what gets built.
+Mohammed Aljomaily.pdf
+License*.pdf
+
+# --- raw camera originals --------------------------------------------------
+# The 5-inch build photo is 12000x9000 and carries GPS EXIF. The version that
+# ships is EXIF-stripped and downscaled, and lives in src/assets/.
+IMG_*.jpg
+IMG_*.jpeg
+
+# --- licence / work in progress --------------------------------------------
+*.psd
+*.drp

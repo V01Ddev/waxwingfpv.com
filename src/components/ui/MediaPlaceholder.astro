@@ -1,0 +1,63 @@
+---
+/**
+ * PHASE 1 ONLY — stands in for video and photography so the skeleton can be
+ * reviewed at every breakpoint before any asset exists. It renders a hatched
+ * block at the real aspect ratio, so it occupies exactly the space the final
+ * media will and no layout shift is hidden by its absence.
+ *
+ * Every one of these is gone by Phase 6. `npm run check:placeholders` lists
+ * what is left.
+ */
+interface Props {
+  /** e.g. "16:9" or "9:16". Omit when `fill` is set. */
+  ratio?: string;
+  label: string;
+  /** Fill the parent instead of reserving an aspect box. */
+  fill?: boolean;
+  class?: string;
+}
+
+const { ratio = '16:9', label, fill = false, class: className } = Astro.props;
+const [w, h] = ratio.split(':').map(Number);
+---
+
+<div
+  class:list={['ph', fill && 'ph--fill', className]}
+  style={fill ? undefined : `--ar: ${w} / ${h}`}
+  role="img"
+  aria-label={`Placeholder for ${label}`}
+>
+  <span class="ph__label t-mono">{label}</span>
+</div>
+
+<style>
+  .ph {
+    aspect-ratio: var(--ar);
+    display: grid;
+    place-items: center;
+    width: 100%;
+    border: var(--hairline) solid var(--line);
+    background-color: var(--bg-raised);
+    background-image: repeating-linear-gradient(
+      -45deg,
+      transparent 0 11px,
+      rgb(255 255 255 / 0.022) 11px 12px
+    );
+  }
+
+  .ph--fill {
+    aspect-ratio: auto;
+    position: absolute;
+    inset: 0;
+    border: 0;
+  }
+
+  .ph__label {
+    padding: var(--sp-2) var(--sp-3);
+    background: var(--bg);
+    border: var(--hairline) solid var(--line);
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+    text-align: center;
+  }
+</style>

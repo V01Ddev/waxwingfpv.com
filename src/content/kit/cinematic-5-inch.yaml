@@ -1,0 +1,75 @@
+# Built from parts and tuned from scratch — Mario 5 frame, Mamba MK4 F722
+# stack, F40 V2 motors, ExpressLRS. This is the aircraft that carries the
+# GoPro, which is why it exists at all.
+#
+# TODO(owner) — still missing Uçuş süresi (typical flight time). Add it under
+# the shared rows below and it appears in the comparison automatically; until
+# then that row is simply absent rather than showing an invented figure.
+name: 'Custom 5-inch'
+kind: 'airframe'
+order: 2
+
+class:
+  tr: '5 inç freestyle'
+  en: '5-inch freestyle'
+
+tagline:
+  tr: 'GoPro taşır. Dışarısı ve büyük hareketler için.'
+  en: 'Carries the GoPro. Built for exteriors and big moves.'
+
+photo: '/kit/cinematic-5-inch.jpg' # TODO: produced in Phase 2 from IMG_20260624_190758.jpg
+
+specs:
+  # --- shared comparison vocabulary ---
+  - label: { tr: 'Sınıf', en: 'Class' }
+    value: '5 inç freestyle'
+  - label: { tr: 'Ağırlık', en: 'Weight' }
+    value: '~800 g (GoPro dahil)'
+  - label: { tr: 'Kamera', en: 'Camera' }
+    value: 'GoPro HERO7 Black'
+  - label: { tr: 'Kayıt', en: 'Recording' }
+    value: '4K 60 fps'
+  - label: { tr: 'Batarya', en: 'Battery' }
+    value: '6S'
+  - label: { tr: 'Kumanda', en: 'Control link' }
+    value: 'ExpressLRS 2.4 GHz'
+  # --- this aircraft only ---
+  - label: { tr: 'Gövde', en: 'Frame' }
+    value: 'Mario 5'
+  - label: { tr: 'Uçuş kontrolcüsü', en: 'Flight controller' }
+    value: 'Mamba MK4 F722'
+  - label: { tr: 'Motorlar', en: 'Motors' }
+    value: 'F40 V2'
+  - label: { tr: 'Uçuş kamerası', en: 'Flight camera' }
+    value: 'DJI O4 Lite · 117,6°'
+  - label: { tr: 'Stabilizasyon', en: 'Stabilisation' }
+    value: 'Gyroflow (kurgu)'
+
+bestFor:
+  tr:
+    - 'Dış mekân ve cephe çekimleri'
+    - 'Geniş, hızlı hareketler'
+    - 'Mekânı tanıtan açılış planları'
+    - 'Açık hava etkinlikleri'
+    - 'Emlak ve arsa tanıtımı'
+  en:
+    - 'Exteriors and façades'
+    - 'Big, fast moves'
+    - 'Establishing shots that place a venue'
+    - 'Outdoor events'
+    - 'Real estate and land'
+
+limits:
+  tr:
+    - 'Dar iç mekânlar'
+    - 'İnsanlara çok yakın uçuş'
+    - 'Gürültü hassasiyeti olan mekânlar'
+  en:
+    - 'Tight interiors'
+    - 'Flying close to people'
+    - 'Rooms where noise is a problem'
+
+sample:
+  src: '/video/kit-5-inch.mp4'
+  poster: '/video/kit-5-inch.jpg'
+  orientation: 'landscape'

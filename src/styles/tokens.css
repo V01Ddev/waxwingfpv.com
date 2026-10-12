@@ -1,0 +1,113 @@
+/* ---------------------------------------------------------------------------
+   Design tokens — "Film & Airframe"
+
+   Two layers: a named palette (the bird and the bench) and semantic aliases
+   that components actually consume. Components never reference raw palette
+   names, so the palette can shift without touching a component.
+
+   Contrast ratios below were computed with the WCAG relative-luminance
+   formula against --plumage (#0F1418). Re-verify at Checkpoint A.
+   --------------------------------------------------------------------------- */
+
+:root {
+  color-scheme: dark;
+
+  /* --- palette -------------------------------------------------------- */
+  --plumage: #0f1418; /* base surface — silky blue-grey slate, never pure black */
+  --plumage-raised: #151b21; /* panels and cards, one step up */
+  --mask: #05070a; /* deepest: lightbox backdrop, letterbox bands */
+  --silk: #e8e6e1; /* text and primary fill — warm off-white, not #fff */
+  --steel: #8a9199; /* muted meta, the grey logo variant */
+  --edge: #2a323a; /* decorative hairlines and dividers only (1.6:1) */
+  --edge-strong: #5a6672; /* interactive boundaries — form fields, ghost
+                             buttons, tab outlines. WCAG 1.4.11 requires 3:1
+                             for a control's extent; --edge does not clear it
+                             at 1.6:1, which is why this second step exists. */
+  --wax: #d62b22; /* the red. graphics + >=24px text only (4.0:1) */
+  --wax-lit: #f2705f; /* same hue lifted, for small red text (6.4:1) */
+  --tail: #e8b23a; /* used twice on the whole site (9.6:1) */
+
+  /* --- semantic ------------------------------------------------------- */
+  --bg: var(--plumage);
+  --bg-raised: var(--plumage-raised);
+  --bg-deep: var(--mask);
+  --fg: var(--silk);
+  --fg-muted: var(--steel);
+  --line: var(--edge);
+  --accent: var(--wax);
+  --accent-text: var(--wax-lit);
+  --focus: var(--tail);
+
+  /* --- families ------------------------------------------------------- */
+  --font-display: 'Fraunces', 'Iowan Old Style', 'Palatino Linotype', Palatino,
+    Georgia, serif;
+  --font-ui: 'Plex Sans', system-ui, -apple-system, 'Segoe UI', Roboto,
+    'Helvetica Neue', Arial, sans-serif;
+  --font-mono: 'Plex Mono', ui-monospace, SFMono-Regular, 'SF Mono', Menlo,
+    Consolas, monospace;
+
+  /* --- type scale (rem, 16px root — respects user font-size settings) -- */
+  --text-xs: 0.8125rem; /* 13 — the floor. nothing smaller exists */
+  --text-sm: 0.875rem; /* 14 */
+  --text-base: 1rem; /* 16 */
+  --text-md: 1.0625rem; /* 17 — body */
+  --text-lg: 1.3125rem; /* 21 */
+  --text-xl: 1.625rem; /* 26 */
+  --text-2xl: 2rem; /* 32 */
+
+  --display-xs: clamp(1.5rem, 1.3rem + 1vw, 2rem); /*  24 →  32 */
+  --display-sm: clamp(1.875rem, 1.4rem + 2.4vw, 3rem); /*  30 →  48 */
+  --display-md: clamp(2.25rem, 1.3rem + 4.6vw, 4.5rem); /*  36 →  72 */
+  --display-lg: clamp(2.75rem, 1rem + 8vw, 7.5rem); /*  44 → 120 */
+
+  --lh-display: 0.95;
+  --lh-heading: 1.08;
+  --lh-ui: 1.35;
+  --lh-body: 1.62;
+
+  --ls-display: -0.02em;
+  --ls-mono: 0.01em;
+
+  /* Fraunces opsz is held in a band rather than left automatic. On a dark
+     ground, high opsz thins the hairlines until they disappear and heavy
+     strokes bloom. Auto-sizing would push a 120px headline to opsz 144. */
+  --opsz-display: 84;
+  --opsz-text: 20;
+
+  /* --- space ---------------------------------------------------------- */
+  --sp-1: 0.25rem;
+  --sp-2: 0.5rem;
+  --sp-3: 0.75rem;
+  --sp-4: 1rem;
+  --sp-5: 1.5rem;
+  --sp-6: 2rem;
+  --sp-7: 3rem;
+  --sp-8: 4.5rem;
+  --sp-9: 7rem;
+
+  /* --- layout --------------------------------------------------------- */
+  --page-max: 1280px;
+  --gutter: clamp(1.25rem, 4vw, 4.5rem);
+  --measure: 68ch;
+  --hairline: 1px;
+
+  /* --- motion --------------------------------------------------------- */
+  --dur-1: 120ms; /* micro: hover, focus */
+  --dur-2: 220ms; /* the cut */
+  --dur-3: 420ms; /* the connect */
+  --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+
+  /* --- focus ---------------------------------------------------------- */
+  --focus-w: 2px;
+  --focus-offset: 3px;
+}
+
+/* The one global motion switch. Everything that animates reads this; nothing
+   animates without a non-motion fallback. */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-1: 1ms;
+    --dur-2: 1ms;
+    --dur-3: 1ms;
+  }
+}

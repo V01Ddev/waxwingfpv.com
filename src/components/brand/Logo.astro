@@ -1,0 +1,49 @@
+---
+import darkLogo from '../../assets/brand/logo-dark.svg?raw';
+import greyLogo from '../../assets/brand/logo-grey.svg?raw';
+
+interface Props {
+  variant?: 'dark' | 'grey';
+  /**
+   * Any CSS length. Set by this component rather than by a class from the
+   * parent: Astro scoped styles do NOT reach a child component's root element,
+   * so a parent's `.myLogo { height: … }` silently does nothing.
+   */
+  height?: string;
+  class?: string;
+}
+
+const { variant = 'dark', height = '1em', class: className } = Astro.props;
+
+// Inlined rather than an <img>: zero extra request, and it cannot flash before
+// the font/CSS settles. The XML declaration and the provenance comments are
+// stripped so they don't ride along in every page's HTML.
+const svg = (variant === 'grey' ? greyLogo : darkLogo)
+  .replace(/<\?xml[^>]*\?>/, '')
+  .replace(/<!--[\s\S]*?-->/g, '')
+  .trim();
+---
+
+<span
+  class:list={['logo', className]}
+  style={`--logo-h:${height}`}
+  set:html={svg}
+  aria-hidden="true"
+/>
+
+<style>
+  /* The mark is 2.07:1. Height is the control; width follows. The element
+     always has a definite height, which is what stops the inline SVG falling
+     back to its intrinsic 1026x496 attributes. */
+  .logo {
+    display: block;
+    height: var(--logo-h);
+    line-height: 0;
+  }
+
+  .logo :global(svg) {
+    display: block;
+    width: auto;
+    height: 100%;
+  }
+</style>

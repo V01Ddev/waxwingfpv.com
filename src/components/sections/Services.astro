@@ -1,0 +1,88 @@
+---
+import { t, type Locale } from '../../i18n/ui';
+import { getSite } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const site = await getSite();
+const services = site.services(locale);
+---
+
+<section class="section" id="services" aria-labelledby="services-title">
+  <div class="page">
+    <div class="svc__head">
+      <h2 id="services-title">{t(locale, 'services.heading')}</h2>
+      <p class="t-meta measure">{t(locale, 'services.intro')}</p>
+    </div>
+
+    <ul class="svc">
+      {
+        services.map((service) => (
+          <li class="svc__row">
+            <h3 class="svc__title">{service.title}</h3>
+            <p class="svc__desc">{service.description}</p>
+            <p class="svc__deliverable t-mono">{service.deliverable}</p>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  .svc__head {
+    display: grid;
+    gap: var(--sp-4);
+    margin-block-end: var(--sp-6);
+  }
+
+  .svc {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    border-block-start: var(--hairline) solid var(--line);
+  }
+
+  .svc__row {
+    display: grid;
+    gap: var(--sp-3);
+    padding-block: var(--sp-5);
+    border-block-end: var(--hairline) solid var(--line);
+  }
+
+  @media (min-width: 48rem) {
+    .svc__row {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr) minmax(0, 1fr);
+      gap: var(--sp-5);
+      align-items: baseline;
+      transition: box-shadow var(--dur-2) var(--ease);
+    }
+
+    /* The tip: the row marks itself with a wax edge at its start. */
+    .svc__row:hover {
+      box-shadow: inset 3px 0 0 var(--accent);
+    }
+
+    .svc__deliverable {
+      text-align: end;
+    }
+  }
+
+  .svc__title {
+    font-size: var(--text-lg);
+  }
+
+  .svc__desc {
+    color: var(--fg-muted);
+    font-size: var(--text-base);
+    max-width: 46ch;
+  }
+
+  .svc__deliverable {
+    color: var(--fg-muted);
+    font-size: var(--text-sm);
+  }
+</style>

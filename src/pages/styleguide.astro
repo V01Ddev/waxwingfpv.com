@@ -1,0 +1,403 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Logo from '../components/brand/Logo.astro';
+import Button from '../components/ui/Button.astro';
+import Chip from '../components/ui/Chip.astro';
+import Field from '../components/ui/Field.astro';
+
+// Dev artifact for Checkpoint A. Not linked, not in the sitemap, noindex.
+const palette = [
+  { token: '--plumage', hex: '#0F1418', role: 'Base surface. Silky blue-grey slate.', ratio: '—' },
+  { token: '--plumage-raised', hex: '#151B21', role: 'Panels, one step up from base.', ratio: '—' },
+  { token: '--mask', hex: '#05070A', role: 'Lightbox backdrop, letterbox bands.', ratio: '—' },
+  { token: '--silk', hex: '#E8E6E1', role: 'Body text, primary button fill.', ratio: '15:1' },
+  { token: '--steel', hex: '#8A9199', role: 'Muted meta, grey logo variant.', ratio: '5.6:1' },
+  { token: '--edge', hex: '#2A323A', role: 'Hairlines, dividers, inactive borders.', ratio: '1.6:1' },
+  { token: '--wax', hex: '#D62B22', role: 'The red. Graphics + ≥24px text only.', ratio: '4.0:1' },
+  { token: '--wax-lit', hex: '#F2705F', role: 'Small red text and links.', ratio: '6.4:1' },
+  { token: '--tail', hex: '#E8B23A', role: 'Focus ring; one mark in the footer.', ratio: '9.6:1' },
+];
+
+const trDiacritics = 'ı I İ i ş Ş ğ Ğ ç Ç ö Ö ü Ü â î û';
+const specimen = 'Kadıköy’de bir kafede tek çekimde uçtuk.';
+---
+
+<BaseLayout
+  locale="en"
+  title="Design tokens — WaxWingFPV"
+  description="Internal design reference."
+  noindex
+>
+  <main id="main" class="page guide">
+    <header class="guide__head">
+      <Logo height="2.5rem" />
+      <div>
+        <h1>Film &amp; Airframe</h1>
+        <p class="t-meta">
+          Checkpoint A — tokens, type and components. Turkish at 360px, English
+          at 1280px. Everything below is a proposal to react to, not a finished
+          page.
+        </p>
+      </div>
+    </header>
+
+    <hr class="rule" />
+
+    <section class="block">
+      <h2>The mark</h2>
+      <p class="t-meta measure">
+        Geometry is untouched from your original. Two things changed: the wing
+        gradients were recoloured for a dark ground (they were black, and
+        vanished here), and the viewBox was cropped to the artwork — the
+        original canvas is about 60% empty, which would have rendered the mark
+        at a third of the size you asked for.
+      </p>
+      <div class="swatches swatches--logos">
+        <div class="logoCell">
+          <Logo />
+          <span class="t-meta">dark — primary, on plumage</span>
+        </div>
+        <div class="logoCell">
+          <Logo variant="grey" />
+          <span class="t-meta">grey — quiet placements</span>
+        </div>
+      </div>
+      <div class="sizes">
+        <Logo height="4rem" /><Logo height="2.5rem" /><Logo height="1.5rem" /><Logo
+          height="1rem"
+        />
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="block">
+      <h2>Palette</h2>
+      <p class="t-meta measure">
+        Contrast ratios are against <code>--plumage</code>. Note the split
+        between <code>wax</code> and <code>wax-lit</code>: the brand red cannot
+        legally carry small text on this background, so it is reserved for
+        graphics and large type, and the lifted tint does the rest.
+      </p>
+      <div class="swatches">
+        {
+          palette.map((c) => (
+            <div class="swatch">
+              <div class="swatch__chip" style={`background:${c.hex}`} />
+              <div class="swatch__meta">
+                <code class="t-mono">{c.token}</code>
+                <span class="t-mono">{c.hex}</span>
+                <span class="t-meta">{c.role}</span>
+                <span class="t-mono swatch__ratio">{c.ratio}</span>
+              </div>
+            </div>
+          ))
+        }
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="block">
+      <h2>Type</h2>
+
+      <div class="spec">
+        <span class="t-mono spec__label">display / Fraunces 700</span>
+        <p class="sp-lg">WaxWingFPV</p>
+        <p class="sp-md">Cinematic FPV</p>
+        <p class="sp-sm">Footage is the hero</p>
+      </div>
+
+      <div class="spec">
+        <span class="t-mono spec__label">optical size — the dark-mode trap</span>
+        <p class="measure t-meta">
+          On a light-on-dark ground, a high optical size thins the hairlines
+          until they disappear and the heavy strokes bloom. Both lines below are
+          the same size and weight; only <code>opsz</code> differs. If these
+          look identical, the axis is missing from the subset and the plan's
+          fallback applies.
+        </p>
+        <p class="opsz" style="font-variation-settings:'opsz' 14">Handgloves — opsz 14</p>
+        <p class="opsz" style="font-variation-settings:'opsz' 84">Handgloves — opsz 84</p>
+        <p class="opsz" style="font-variation-settings:'opsz' 144">Handgloves — opsz 144</p>
+      </div>
+
+      <div class="spec">
+        <span class="t-mono spec__label">interface / Plex Sans</span>
+        <p style="font-size:var(--text-lg)">
+          Body copy sits at 17px with a 1.62 line height, capped near 68
+          characters so lines stay readable on a laptop.
+        </p>
+        <p class="t-meta">
+          Meta and captions run at 14px in steel. Nothing on this site is
+          smaller than 13px.
+        </p>
+      </div>
+
+      <div class="spec">
+        <span class="t-mono spec__label">instrument / Plex Mono — telemetry only</span>
+        <p class="t-mono">
+          Meteor75 Pro II · 75mm · 1S · 30 g · 3:20 flight · 02 / 04 · 00:47
+        </p>
+      </div>
+
+      <div class="spec">
+        <span class="t-mono spec__label">Turkish diacritics — the acceptance test</span>
+        <p class="dia dia--display">{trDiacritics}</p>
+        <p class="dia dia--ui">{trDiacritics}</p>
+        <p class="dia dia--mono">{trDiacritics}</p>
+        <p class="dia dia--display dia--caps">{specimen}</p>
+        <p class="t-meta">
+          The uppercase line matters: with <code>lang="tr"</code> the browser
+          must map i → İ, not i → I. If you see a dotless I in “KADİKÖY”, the
+          locale casing is wrong.
+        </p>
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="block">
+      <h2>Components</h2>
+      <div class="row">
+        <Button href="#">Get a quote</Button>
+        <Button href="#" variant="ghost">Watch the reel</Button>
+        <Button href="#" variant="quiet">Message on WhatsApp</Button>
+      </div>
+      <div class="row">
+        <Chip>café</Chip>
+        <Chip>restaurant</Chip>
+        <Chip>event</Chip>
+        <Chip variant="meta">75mm · 1S · 30 g</Chip>
+      </div>
+      <div class="formrow">
+        <Field name="sg-name" label="Your name" autocomplete="name" required />
+        <Field
+          name="sg-type"
+          label="Business type"
+          type="select"
+          optionalLabel="optional"
+          options={[
+            { value: 'cafe', label: 'Café' },
+            { value: 'restaurant', label: 'Restaurant' },
+            { value: 'other', label: 'Something else' },
+          ]}
+        />
+      </div>
+      <div class="spec">
+        <span class="t-mono spec__label">the trail — a rule that fades at its tail</span>
+        <hr class="rule" />
+        <hr class="rule rule--wax" />
+      </div>
+    </section>
+
+    <hr class="rule" />
+
+    <section class="block">
+      <h2>Motion</h2>
+      <p class="measure t-meta">
+        Three moves exist: the connect (one load sequence on the hero), the cut
+        (a 220ms signal wipe when the kit selector changes), and the trail
+        (rules that fade rather than stop). Everything collapses to an instant
+        swap under reduced motion — toggle it in your OS and reload.
+      </p>
+    </section>
+  </main>
+</BaseLayout>
+
+<style>
+  .guide {
+    padding-block: var(--sp-7) var(--sp-9);
+  }
+
+  .guide__head {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: var(--sp-5);
+    margin-block-end: var(--sp-6);
+  }
+
+  /* Mark and heading side by side only where there is room for both. This is
+     the same trap the real header will face at 360px. */
+  @media (min-width: 40rem) {
+    .guide__head {
+      flex-direction: row;
+      align-items: center;
+    }
+  }
+
+  .guide__head h1 {
+    font-size: var(--display-xs);
+  }
+
+  .block {
+    padding-block: var(--sp-7);
+  }
+
+  .block h2 {
+    font-size: var(--display-xs);
+    margin-block-end: var(--sp-4);
+  }
+
+  /* --- logo --- */
+  .swatches--logos {
+    grid-template-columns: 1fr;
+  }
+
+  .logoCell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    padding: var(--sp-5);
+    background: var(--bg);
+    border: var(--hairline) solid var(--line);
+  }
+
+  .sizes {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--sp-5);
+    margin-block-start: var(--sp-5);
+    padding: var(--sp-5);
+    background: var(--bg);
+    border: var(--hairline) solid var(--line);
+  }
+
+  /* --- palette --- */
+  .swatches {
+    display: grid;
+    gap: var(--sp-4);
+    grid-template-columns: 1fr;
+  }
+
+  @media (min-width: 48rem) {
+    .swatches {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .swatches--logos {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (min-width: 64rem) {
+    .swatches {
+      grid-template-columns: repeat(3, 1fr);
+    }
+  }
+
+  .swatch {
+    display: flex;
+    gap: var(--sp-4);
+    padding: var(--sp-4);
+    border: var(--hairline) solid var(--line);
+  }
+
+  .swatch__chip {
+    flex: none;
+    width: 3rem;
+    height: 3rem;
+    border: var(--hairline) solid var(--line);
+  }
+
+  .swatch__meta {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-1);
+    min-width: 0;
+  }
+
+  .swatch__ratio {
+    color: var(--fg-muted);
+  }
+
+  /* --- type specimens --- */
+  .spec {
+    padding-block: var(--sp-5);
+    border-block-start: var(--hairline) solid var(--line);
+  }
+
+  .spec__label {
+    display: block;
+    color: var(--accent-text);
+    margin-block-end: var(--sp-3);
+  }
+
+  .sp-lg,
+  .sp-md,
+  .sp-sm {
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' var(--opsz-display);
+    font-weight: 700;
+    line-height: var(--lh-display);
+    letter-spacing: var(--ls-display);
+  }
+
+  .sp-lg {
+    font-size: var(--display-lg);
+  }
+  .sp-md {
+    font-size: var(--display-md);
+  }
+  .sp-sm {
+    font-size: var(--display-sm);
+  }
+
+  .opsz {
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-weight: 700;
+    font-size: 3rem;
+    line-height: 1.1;
+  }
+
+  .dia {
+    font-size: 1.5rem;
+    line-height: 1.6;
+  }
+  .dia--display {
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' var(--opsz-display);
+  }
+  .dia--ui {
+    font-family: var(--font-ui);
+  }
+  .dia--mono {
+    font-family: var(--font-mono);
+  }
+  .dia--caps {
+    text-transform: uppercase;
+    font-weight: 700;
+    font-size: 2rem;
+  }
+
+  /* --- components --- */
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4);
+    margin-block-end: var(--sp-5);
+  }
+
+  .formrow {
+    display: grid;
+    gap: var(--sp-6);
+    margin-block: var(--sp-6);
+    max-width: 34rem;
+  }
+
+  @media (min-width: 40rem) {
+    .formrow {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  code {
+    font-family: var(--font-mono);
+    font-size: 0.9em;
+    color: var(--fg-muted);
+  }
+</style>

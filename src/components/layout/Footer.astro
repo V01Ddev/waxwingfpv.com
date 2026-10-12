@@ -1,0 +1,143 @@
+---
+import Wordmark from '../brand/Wordmark.astro';
+import { t, localePath, type Locale } from '../../i18n/ui';
+import { getSite } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const site = await getSite();
+
+const year = new Date().getFullYear();
+const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
+  t(locale, 'contact.whatsappPrefill')
+)}`;
+---
+
+<footer class="ftr">
+  <div class="page">
+    <hr class="rule" />
+
+    <div class="ftr__grid">
+      <div class="ftr__brand">
+        <Wordmark variant="grey" />
+        <p class="t-meta">{t(locale, 'trust.serviceArea')}</p>
+      </div>
+
+      <nav class="ftr__col" aria-label={t(locale, 'contact.directLabel')}>
+        <h2 class="ftr__label t-mono">{t(locale, 'contact.directLabel')}</h2>
+        <ul class="ftr__list">
+          <li>
+            <a href={waHref} rel="noopener">WhatsApp — {site.whatsappDisplay}</a>
+          </li>
+          <li>
+            <a href={`mailto:${site.email}`}>{site.email}</a>
+          </li>
+          <li>
+            <a
+              href={`https://instagram.com/${site.instagram}`}
+              rel="noopener me"
+              target="_blank"
+            >
+              Instagram — @{site.instagram}
+            </a>
+          </li>
+        </ul>
+      </nav>
+
+      <div class="ftr__col">
+        <h2 class="ftr__label t-mono">{t(locale, 'trust.heading')}</h2>
+        <p class="t-meta">{t(locale, 'trust.checklist')}</p>
+      </div>
+    </div>
+
+    <hr class="rule" />
+
+    <div class="ftr__base">
+      <p class="t-meta">© {year} WaxWingFPV. {t(locale, 'legal.rights')}</p>
+      <a class="t-meta" href={localePath(locale, '/privacy')}>{t(locale, 'legal.privacy')}</a>
+      {/* The tail mark. The bird's yellow tail band, and the only place
+          besides the focus ring that this colour appears. */}
+      <span class="ftr__tail" aria-hidden="true"></span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .ftr {
+    padding-block: var(--sp-7) var(--sp-6);
+  }
+
+  .ftr__grid {
+    display: grid;
+    gap: var(--sp-6);
+    padding-block: var(--sp-6);
+  }
+
+  @media (min-width: 48rem) {
+    .ftr__grid {
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: var(--sp-7);
+    }
+  }
+
+  .ftr__brand {
+    display: grid;
+    gap: var(--sp-4);
+    justify-items: start;
+  }
+
+  .ftr__col {
+    display: grid;
+    gap: var(--sp-3);
+    align-content: start;
+  }
+
+  .ftr__label {
+    color: var(--fg-muted);
+    margin: 0;
+  }
+
+  .ftr__list {
+    display: grid;
+    gap: var(--sp-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .ftr__list a {
+    text-decoration: none;
+    border-block-end: var(--hairline) solid transparent;
+    transition: border-color var(--dur-1) var(--ease);
+  }
+
+  .ftr__list a:hover {
+    border-block-end-color: var(--accent);
+  }
+
+  .ftr__base {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--sp-4) var(--sp-5);
+    padding-block-start: var(--sp-5);
+  }
+
+  .ftr__base a {
+    text-decoration: none;
+  }
+
+  .ftr__base a:hover {
+    color: var(--fg);
+  }
+
+  .ftr__tail {
+    width: 0.5rem;
+    height: 0.5rem;
+    margin-inline-start: auto;
+    background: var(--tail);
+  }
+</style>

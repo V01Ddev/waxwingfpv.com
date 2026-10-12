@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--
+  Favicon: the mark's four-point glint alone, in wax on a plumage tile.
+  The full mark is 2.4:1 and unreadable at 16px; the glint survives.
+  Content sits within the 80% maskable safe zone (max radius 190 of 205 units),
+  so this file also serves as the maskable icon.
+-->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="wwfpv-favicon-title" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+    <title id="wwfpv-favicon-title">WaxWingFPV</title>
+    <rect width="512" height="512" fill="#0F1418"/>
+    <g transform="matrix(3.9731,0,0,3.9731,-1827.7,-1613.1)">
+        <path d="M523.232,469.331L490.268,440.81C490.005,440.583 489.977,440.186 490.204,439.924C490.431,439.661 490.828,439.633 491.09,439.86L524.196,468.502L556.765,440.507C557.028,440.281 557.425,440.311 557.651,440.574C557.878,440.837 557.848,441.234 557.584,441.46L525.157,469.334L560.658,500.05C560.921,500.277 560.949,500.674 560.722,500.937C560.495,501.199 560.098,501.228 559.836,501.001L524.193,470.162L488.841,500.549C488.578,500.775 488.181,500.745 487.955,500.482C487.729,500.219 487.759,499.822 488.022,499.596L523.232,469.331Z" fill="#D62B22"/>
+    </g>
+</svg>

@@ -1,0 +1,65 @@
+---
+import Logo from './Logo.astro';
+
+interface Props {
+  variant?: 'dark' | 'grey';
+  class?: string;
+  /** Hides the text, leaving the mark — for very tight spaces. */
+  markOnly?: boolean;
+}
+
+const { variant = 'dark', class: className, markOnly = false } = Astro.props;
+---
+
+<span class:list={['wm', className]}>
+  <Logo variant={variant} height="1.15em" />
+  {
+    !markOnly && (
+      <span class="wm__text">
+        <span class="wm__name">Waxwing</span>
+        <span class="wm__suffix">FPV</span>
+      </span>
+    )
+  }
+</span>
+
+<style>
+  /* The two-voice thesis stated in the wordmark itself: the name in the
+     display serif (the film half), the suffix in mono (the machine half). */
+  .wm {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.55em;
+    font-size: var(--text-base);
+    line-height: 1;
+  }
+
+  /* :global() because the mark is a child component's root element — scoped
+     selectors do not reach it. */
+  .wm :global(.logo) {
+    flex: none;
+  }
+
+  .wm__text {
+    display: inline-flex;
+    align-items: baseline;
+    gap: 0.4em;
+    white-space: nowrap;
+  }
+
+  .wm__name {
+    font-family: var(--font-display);
+    font-optical-sizing: none;
+    font-variation-settings: 'opsz' 28;
+    font-weight: 600;
+    font-size: 1.18em;
+    letter-spacing: -0.01em;
+  }
+
+  .wm__suffix {
+    font-family: var(--font-mono);
+    font-size: 0.72em;
+    letter-spacing: 0.06em;
+    color: var(--fg-muted);
+  }
+</style>

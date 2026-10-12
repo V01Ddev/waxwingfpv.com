@@ -1,0 +1,107 @@
+{
+  "site": {
+    "name": "WaxWingFPV",
+    "title": "WaxWingFPV — FPV drone filming for cafés and restaurants in Istanbul",
+    "tagline": "Cinematic FPV video for Istanbul's cafés, restaurants and shops.",
+    "description": "Cinematic FPV drone filming for cafés, restaurants and local businesses in Istanbul. Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations."
+  },
+  "nav": {
+    "work": "Work",
+    "kit": "The kit",
+    "services": "Services",
+    "process": "Process",
+    "contact": "Contact",
+    "menu": "Menu",
+    "close": "Close"
+  },
+  "cta": {
+    "quote": "Get a quote",
+    "watchReel": "Watch the reel",
+    "whatsapp": "Message on WhatsApp",
+    "email": "Send an email",
+    "allWork": "All work"
+  },
+  "hero": {
+    "scroll": "Scroll"
+  },
+  "work": {
+    "heading": "Work",
+    "intro": "Every job is delivered as two cuts of the same shoot: a horizontal film and a vertical reel.",
+    "wanted": "Wanted",
+    "result": "Result",
+    "shotOn": "Shot on",
+    "playFilm": "Play the film",
+    "playReel": "Play the reel"
+  },
+  "kit": {
+    "heading": "The kit",
+    "intro": "Two aircraft and a camera. What each one is good at — and what it isn't.",
+    "selectLabel": "Choose an aircraft",
+    "bestFor": "Where it works",
+    "limits": "Where it doesn't",
+    "specs": "Specs",
+    "sample": "Sample clip",
+    "playSample": "Play clip",
+    "compare": "Aircraft comparison"
+  },
+  "services": {
+    "heading": "Services",
+    "intro": "They all start the same way: nothing flies until I've seen the space."
+  },
+  "process": {
+    "heading": "Process",
+    "intro": "Five steps, start to finish. Each one says what it needs from you.",
+    "needs": "You provide"
+  },
+  "trust": {
+    "heading": "Flights and permissions",
+    "built": "The 5-inch wasn't bought assembled: Mario 5 frame, Mamba MK4 F722 stack, F40 V2 motors — built and tuned here.",
+    "checklist": "Every session starts with the same written preflight checklist.",
+    "licence": "Pilot licence",
+    "licenceBody": "Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations.",
+    "serviceArea": "Serving Istanbul."
+  },
+  "contact": {
+    "heading": "Contact",
+    "intro": "Tell me about the space and what you want it to do. I reply within one working day.",
+    "directLabel": "Reach me directly",
+    "whatsappPrefill": "Hi, I'd like to ask about FPV video for my venue.",
+    "form": {
+      "name": "Your name",
+      "business": "Business name",
+      "businessType": "What kind of business",
+      "message": "What you have in mind",
+      "messageHint": "The space, a date, and what you're picturing — a couple of sentences is plenty.",
+      "submit": "Get a quote",
+      "sending": "Sending…"
+    },
+    "success": {
+      "title": "Got it.",
+      "body": "I'll reply within one working day, usually on WhatsApp."
+    },
+    "error": {
+      "title": "That didn't send.",
+      "body": "Something went wrong on our end. You can reach me directly on WhatsApp or by email.",
+      "required": "Please fill this in.",
+      "consent": "Please give consent to continue.",
+      "rate": "That's a lot of tries. Wait a moment, or just message me directly."
+    }
+  },
+  "a11y": {
+    "skipToContent": "Skip to content",
+    "changeLanguage": "Change language",
+    "playVideo": "Play video",
+    "closeLightbox": "Close video",
+    "previousVideo": "Previous video",
+    "nextVideo": "Next video",
+    "videoCounter": "{current} / {total}"
+  },
+  "form": {
+    "optional": "optional"
+  },
+  "legal": {
+    "privacy": "Privacy notice",
+    "consent": "I consent to my personal data being processed in order to answer this enquiry.",
+    "rights": "All rights reserved."
+  }
+}

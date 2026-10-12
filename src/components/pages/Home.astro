@@ -1,0 +1,45 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../layout/Header.astro';
+import Footer from '../layout/Footer.astro';
+import Hero from '../sections/Hero.astro';
+import Work from '../sections/Work.astro';
+import Kit from '../sections/Kit.astro';
+import Services from '../sections/Services.astro';
+import Process from '../sections/Process.astro';
+import Trust from '../sections/Trust.astro';
+import Contact from '../sections/Contact.astro';
+import { t, type Locale } from '../../i18n/ui';
+
+/**
+ * The home page for both locales. Keeping one component rather than two
+ * near-identical page files is the only way the two languages stay in step —
+ * a change to the section order cannot land in Turkish and miss English.
+ */
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+---
+
+<BaseLayout
+  locale={locale}
+  title={t(locale, 'site.title')}
+  description={t(locale, 'site.description')}
+  barePath="/"
+>
+  <Header locale={locale} barePath="/" />
+
+  <main id="main">
+    <Hero locale={locale} />
+    <Work locale={locale} />
+    <Kit locale={locale} />
+    <Services locale={locale} />
+    <Process locale={locale} />
+    <Trust locale={locale} />
+    <Contact locale={locale} />
+  </main>
+
+  <Footer locale={locale} />
+</BaseLayout>

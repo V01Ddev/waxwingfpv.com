@@ -1,0 +1,43 @@
+---
+/**
+ * The mark's four-point glint, on its own. Used as the play affordance on
+ * every video poster — a brand shape doing a real job rather than decoration.
+ * Geometry is the same path as the logo, cropped to its own bounds.
+ */
+interface Props {
+  class?: string;
+  /** Any CSS length. Owned by this component — see the note in Logo.astro. */
+  height?: string;
+  /** Inherits currentColor when true (default). */
+  tone?: 'current' | 'wax';
+}
+
+const { class: className, height = '1em', tone = 'current' } = Astro.props;
+---
+
+<svg
+  class:list={['glint', tone === 'wax' && 'glint--wax', className]}
+  style={`--glint-h:${height}`}
+  viewBox="480 431.6 89 77.6"
+  width="89"
+  height="77.6"
+  aria-hidden="true"
+  focusable="false"
+  style="fill-rule:evenodd;clip-rule:evenodd;"
+>
+  <path
+    d="M523.232,469.331L490.268,440.81C490.005,440.583 489.977,440.186 490.204,439.924C490.431,439.661 490.828,439.633 491.09,439.86L524.196,468.502L556.765,440.507C557.028,440.281 557.425,440.311 557.651,440.574C557.878,440.837 557.848,441.234 557.584,441.46L525.157,469.334L560.658,500.05C560.921,500.277 560.949,500.674 560.722,500.937C560.495,501.199 560.098,501.228 559.836,501.001L524.193,470.162L488.841,500.549C488.578,500.775 488.181,500.745 487.955,500.482C487.729,500.219 487.759,499.822 488.022,499.596L523.232,469.331Z"
+    fill="currentColor"></path>
+</svg>
+
+<style>
+  .glint {
+    display: block;
+    width: auto;
+    height: var(--glint-h);
+  }
+
+  .glint--wax {
+    color: var(--accent);
+  }
+</style>

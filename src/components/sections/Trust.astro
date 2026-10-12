@@ -1,0 +1,95 @@
+---
+import { t, type Locale } from '../../i18n/ui';
+import { getSite, withoutPlaceholders } from '../../lib/content';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+const site = await getSite();
+const licences = withoutPlaceholders(site.licences(locale), (l) => l.number);
+---
+
+<section class="section" id="trust" aria-labelledby="trust-title">
+  <div class="page">
+    <h2 id="trust-title" class="trust__title">{t(locale, 'trust.heading')}</h2>
+
+    <div class="trust__grid">
+      <div class="trust__item">
+        <p>{t(locale, 'trust.built')}</p>
+        <p class="t-meta">{t(locale, 'trust.checklist')}</p>
+      </div>
+
+      <div class="trust__item">
+        <h3 class="trust__label t-mono">{t(locale, 'trust.licence')}</h3>
+        <p class="t-meta">{t(locale, 'trust.licenceBody')}</p>
+        {
+          /* A "TODO" on a trust panel would be worse than no number at all,
+             so placeholders are dropped rather than printed. */
+          licences.length > 0 && (
+            <ul class="trust__licences">
+              {licences.map((licence) => (
+                <li>
+                  <span class="t-mono">{licence.number}</span>
+                  <span class="trust__licenceType t-meta">{licence.type}</span>
+                </li>
+              ))}
+            </ul>
+          )
+        }
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .trust__title {
+    font-size: var(--display-xs);
+    margin-block-end: var(--sp-5);
+  }
+
+  .trust__grid {
+    display: grid;
+    gap: var(--sp-6);
+    padding-block-start: var(--sp-5);
+    border-block-start: var(--hairline) solid var(--line);
+  }
+
+  @media (min-width: 48rem) {
+    .trust__grid {
+      grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+      gap: var(--sp-7);
+    }
+  }
+
+  .trust__item {
+    display: grid;
+    gap: var(--sp-3);
+    align-content: start;
+  }
+
+  .trust__label {
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+    margin: 0;
+  }
+
+  .trust__licences {
+    display: grid;
+    gap: var(--sp-3);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    color: var(--fg);
+  }
+
+  .trust__licences li {
+    display: grid;
+    gap: var(--sp-1);
+  }
+
+  .trust__licenceType {
+    font-size: var(--text-xs);
+  }
+</style>

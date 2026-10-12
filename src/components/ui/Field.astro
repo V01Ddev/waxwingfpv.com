@@ -1,0 +1,161 @@
+---
+interface Props {
+  name: string;
+  label: string;
+  type?: 'text' | 'email' | 'tel' | 'textarea' | 'select';
+  required?: boolean;
+  autocomplete?: string;
+  placeholder?: string;
+  hint?: string;
+  /** Rendered as <option> values when type is 'select'. */
+  options?: { value: string; label: string }[];
+  rows?: number;
+  class?: string;
+  /** Localised marker for non-required fields. Passed in, never hardcoded. */
+  optionalLabel?: string;
+}
+
+const {
+  name,
+  label,
+  type = 'text',
+  required = false,
+  autocomplete,
+  placeholder,
+  hint,
+  options = [],
+  rows = 5,
+  class: className,
+  optionalLabel,
+} = Astro.props;
+
+const id = `field-${name}`;
+const hintId = hint ? `${id}-hint` : undefined;
+const describedBy = hintId;
+---
+
+<div class:list={['field', className]}>
+  <label class="field__label" for={id}>
+    {label}
+    {!required && optionalLabel && <span class="field__optional">({optionalLabel})</span>}
+  </label>
+
+  {
+    type === 'textarea' ? (
+      <textarea
+        id={id}
+        name={name}
+        rows={rows}
+        required={required}
+        placeholder={placeholder}
+        aria-describedby={describedBy}
+        class="field__control"
+      />
+    ) : type === 'select' ? (
+      <select
+        id={id}
+        name={name}
+        required={required}
+        aria-describedby={describedBy}
+        class="field__control"
+      >
+        {options.map((option) => (
+          <option value={option.value}>{option.label}</option>
+        ))}
+      </select>
+    ) : (
+      <input
+        id={id}
+        name={name}
+        type={type}
+        required={required}
+        autocomplete={autocomplete}
+        placeholder={placeholder}
+        aria-describedby={describedBy}
+        class="field__control"
+      />
+    )
+  }
+
+  {hint && <p class="field__hint" id={hintId}>{hint}</p>}
+</div>
+
+<style>
+  .field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-2);
+  }
+
+  .field__label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    line-height: var(--lh-ui);
+    color: var(--fg-muted);
+  }
+
+  /* Sentence case throughout — no all-caps labels anywhere in this system. */
+  .field__optional {
+    font-weight: 400;
+    color: var(--fg-muted);
+  }
+
+  .field__control {
+    width: 100%;
+    padding: var(--sp-3) 0;
+    background: transparent;
+    border: 0;
+    /* --edge-strong, not --line: the underline is the only thing indicating
+       where the control is, so it has to clear 3:1. */
+    border-bottom: var(--hairline) solid var(--edge-strong);
+    border-radius: 0;
+    font-family: var(--font-ui);
+    font-size: var(--text-md);
+    line-height: var(--lh-ui);
+    transition: border-color var(--dur-1) var(--ease);
+  }
+
+  .field__control:hover {
+    border-bottom-color: var(--fg-muted);
+  }
+
+  .field__control:focus {
+    border-bottom-color: var(--accent);
+  }
+
+  .field__control::placeholder {
+    color: var(--fg-muted);
+    opacity: 0.7;
+  }
+
+  textarea.field__control {
+    resize: vertical;
+    min-height: 8rem;
+  }
+
+  /* Native select needs the arrow re-drawn once appearance is stripped. */
+  select.field__control {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, var(--fg-muted) 50%),
+      linear-gradient(135deg, var(--fg-muted) 50%, transparent 50%);
+    background-position:
+      right 0.65rem center,
+      right 0.25rem center;
+    background-size:
+      0.4rem 0.4rem,
+      0.4rem 0.4rem;
+    background-repeat: no-repeat;
+    padding-right: var(--sp-6);
+  }
+
+  select.field__control option {
+    background: var(--bg-raised);
+    color: var(--fg);
+  }
+
+  .field__hint {
+    font-size: var(--text-sm);
+    line-height: var(--lh-ui);
+    color: var(--fg-muted);
+  }
+</style>
