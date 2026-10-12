@@ -2,7 +2,9 @@
 # Business settings. Edit this file freely — it is the only place these values
 # live. Nothing here is hardcoded in a component.
 #
-# Lines marked TODO(owner) need a real value from you before launch.
+# Anything still needing a real value is marked TODO(owner); there are none
+# left. The placeholder guard in src/lib/content.ts drops such a value rather
+# than printing it, so the site fails quietly rather than publishing one.
 # ---------------------------------------------------------------------------
 
 # --- contact ---------------------------------------------------------------

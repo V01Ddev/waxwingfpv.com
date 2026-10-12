@@ -1,12 +1,14 @@
 ---
 /**
- * PHASE 1 ONLY — stands in for video and photography so the skeleton can be
- * reviewed at every breakpoint before any asset exists. It renders a hatched
- * block at the real aspect ratio, so it occupies exactly the space the final
- * media will and no layout shift is hidden by its absence.
+ * A stand-in for video and photography, so a section can be laid out before
+ * its asset exists. It renders a hatched block at the real aspect ratio, so it
+ * occupies exactly the space the final media will and no layout shift is
+ * hidden by its absence.
  *
- * Every one of these is gone by Phase 6. `npm run check:placeholders` lists
- * what is left.
+ * Kit.astro still uses it as the fallback for an aircraft that has no sample
+ * clip; every aircraft currently has one, so the branch does not render. No
+ * script lists what is left — an earlier comment here named one that was
+ * never written.
  */
 interface Props {
   /** e.g. "16:9" or "9:16". Omit when `fill` is set. */

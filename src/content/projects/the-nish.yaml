@@ -31,8 +31,8 @@ gear:
   airframe: 'meteor75-pro-ii'
   camera: 'DJI O4 Wide'
 
-# The deliverable pair. Both files are produced from your Drive masters in
-# Phase 2 — the paths below are where they will land.
+# The deliverable pair, both encoded from your Drive masters by
+# scripts/media.sh. Re-run it if a master changes.
 cuts:
   - orientation: 'landscape'
     label:
