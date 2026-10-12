@@ -11,7 +11,7 @@ Node 20+ and `ffmpeg` on the PATH (only for regenerating media).
 npm install
 npm run dev      # http://localhost:4321
 npm run build    # -> dist/
-npm run preview  # serve the built output, 404 included
+npm run preview  # daemonises; prints the port it took
 ```
 
 `npm run preview` serves `dist/404.html` for unknown paths with a real 404
@@ -19,10 +19,12 @@ status, which is how the 404 is meant to be checked. A plain static file server
 will not do this — `python -m http.server`, for instance, answers with its own
 error page and makes it look like the 404 is missing.
 
-Two things that catch people out: `astro preview` binds to `localhost`, which
-resolves to IPv6 on some machines, so `curl 127.0.0.1` fails against it; and it
-caches an asset manifest at startup, so restart it after a rebuild or you will
-get new HTML pointing at CSS it will not serve.
+In Astro 7 `preview` **daemonises and takes the next free port**, so with `dev`
+already running it lands on 4322 rather than 4321. It prints which.
+`npx astro preview stop|status|logs` manages it. Point anything you intend to
+measure at the port it actually took: the dev server serves unbundled code with
+the HMR client attached, so Lighthouse against 4321 produces numbers that mean
+nothing.
 
 ## Where things live
 
@@ -41,6 +43,7 @@ sources/                raw inputs you drop in — gitignored
 scripts/media.sh        the whole media pipeline
 scripts/og.mjs          renders the Open Graph share cards
 scripts/shot.mjs        full-page screenshots for review
+scripts/audit.mjs       accessibility and motion audit, both locales
 ```
 
 ## Editing content
@@ -116,20 +119,68 @@ tagline, the hero frame or the mark.
 
 ## Deployment
 
-`npm run build` emits a static `dist/`. Nothing else is needed: **the enquiry
-form has no backend**. It validates in the browser and hands off to WhatsApp
-with the message prefilled, so the site never receives or stores anyone's
-details, and there is no endpoint, no spam handling and no mail setup.
+Cloudflare Workers with Static Assets. `wrangler.jsonc` holds the config and
+`.github/workflows/deploy.yml` runs it: every push and PR is type-checked and
+built, and only `main` deploys.
+
+```bash
+npm run deploy                      # wrangler deploy
+npm run deploy:dry                  # validate the config, upload nothing
+npx wrangler deployments list       # the ten most recent
+npx wrangler rollback [version-id]
+```
+
+Cloudflare keeps every deployment, so a rollback needs no rebuild.
+
+**Why Workers and not the usual $5 VPS.** The site is entirely static — the
+form hands off to WhatsApp, analytics is third-party, there is no server-side
+code of any kind — so a VPS would be a bill and nothing else. Static assets
+are served free and without a bandwidth cap, which is the part that matters
+with 65MB of video and single clips near 17MB. Netlify and Vercel both cap at
+100GB/month on their free tiers, and **Vercel's Hobby tier prohibits
+commercial use outright**. Cloudflare Pages still works but is developed for
+maintenance only; new projects go to Workers.
+
+**Three settings in `wrangler.jsonc` are load-bearing, and none is the
+default.** `not_found_handling: "404-page"` — the default, `"none"`, silently
+throws away `dist/404.html` and serves a bare platform 404. `html_handling` is
+pinned to `auto-trailing-slash` because every canonical URL ends in a slash.
+And `compatibility_date` must not be newer than the runtime the installed
+wrangler ships, or it refuses to build; bump the two together.
+
+**The enquiry form has no backend.** It validates in the browser and hands off
+to WhatsApp with the message prefilled, so the site never receives or stores
+anyone's details, and there is no endpoint, no spam handling and no mail setup.
 
 Analytics is a single GoatCounter snippet — cookieless, so no consent banner.
-It is loaded on `requestIdleCallback` so it never competes with the hero poster
-for bandwidth or a main-thread slot.
-
-Before launch, replace `site` in `astro.config.mjs` if the domain differs, and
-fill in the `TODO(owner)` lines in `src/content/site/config.yaml`.
+It loads on `requestIdleCallback` so it never competes with the hero poster for
+bandwidth or a main-thread slot, and it counts WhatsApp handoffs as events on
+three surfaces: the contact link, the footer link and the form submit.
 
 `public/robots.txt` names the sitemap and keeps crawlers off `/styleguide`,
 which is the dev-only token reference and is marked `noindex` as well.
+
+## Auditing
+
+```bash
+npm run build
+npm run preview
+npm run audit -- --base http://localhost:4322
+```
+
+`scripts/audit.mjs` boots headless Chromium over CDP with no dependencies, in
+the same style as `scripts/shot.mjs`, and checks reduced motion, contrast and
+axe on both locales. axe-core is fetched once from a pinned URL and verified
+against a pinned SHA-256 before it is allowed to run.
+
+It exists because axe alone is not enough here, and that is worth knowing
+before you trust a clean run from anywhere else. **axe-core has no rule for
+WCAG 1.4.11 at all**, so the UI-boundary check is hand-rolled. And its
+`color-contrast` rule cannot resolve a `background-image` — `body` carries the
+film grain — so it marks every text element on the page "incomplete" rather
+than judging it. Running axe DevTools on this site yields no contrast verdict.
+The walk here reports what it genuinely cannot resolve as unverifiable instead
+of quietly passing it.
 
 ## Conventions
 
