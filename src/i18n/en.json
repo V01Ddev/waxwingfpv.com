@@ -31,7 +31,9 @@
     "result": "Result",
     "shotOn": "Shot on",
     "playFilm": "Play the film",
-    "playReel": "Play the reel"
+    "playReel": "Play the reel",
+    "place": "Location",
+    "duration": "Duration"
   },
   "kit": {
     "heading": "The kit",

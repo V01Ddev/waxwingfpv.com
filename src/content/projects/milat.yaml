@@ -7,8 +7,8 @@ title:
 clientType: 'retail'
 clientName: 'Milat'
 location:
-  tr: 'İstanbul'
-  en: 'Istanbul'
+  tr: 'Beylikdüzü, İstanbul'
+  en: 'Beylikdüzü, Istanbul'
 date: '2026-10-05'
 order: 2
 featured: true
@@ -30,14 +30,9 @@ gear:
   camera: 'dji-o4-wide'
 
 cuts:
-  - orientation: 'landscape'
-    label:
-      tr: 'Film'
-      en: 'Film'
-    src: '/video/milat-16-9.mp4'
-    poster: '/video/milat-16-9.jpg'
-    width: 1920
-    height: 1080
+  # Only one cut. Milat_Promo_Final.mp4 is 1080x1920 despite the name, so
+  # there is no horizontal export of this shoot. The layout handles a single
+  # cut, and a 16:9 export dropped in here would appear automatically.
   - orientation: 'vertical'
     label:
       tr: 'Reel'
@@ -46,3 +41,4 @@ cuts:
     poster: '/video/milat-9-16.jpg'
     width: 1080
     height: 1920
+    durationSec: 31

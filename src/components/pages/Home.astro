@@ -9,6 +9,7 @@ import Services from '../sections/Services.astro';
 import Process from '../sections/Process.astro';
 import Trust from '../sections/Trust.astro';
 import Contact from '../sections/Contact.astro';
+import Lightbox from '../work/Lightbox.astro';
 import { t, type Locale } from '../../i18n/ui';
 
 /**
@@ -42,4 +43,7 @@ const { locale } = Astro.props;
   </main>
 
   <Footer locale={locale} />
+
+  {/* One dialog serves every video on the page. */}
+  <Lightbox locale={locale} />
 </BaseLayout>

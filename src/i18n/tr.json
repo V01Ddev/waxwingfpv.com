@@ -31,7 +31,9 @@
     "result": "Sonuç",
     "shotOn": "Çekim",
     "playFilm": "Filmi oynat",
-    "playReel": "Reeli oynat"
+    "playReel": "Reeli oynat",
+    "place": "Yer",
+    "duration": "Süre"
   },
   "kit": {
     "heading": "Ekipman",

@@ -2,13 +2,13 @@
 import Logo from './Logo.astro';
 
 interface Props {
-  variant?: 'dark' | 'grey';
+  variant?: 'white' | 'grey';
   class?: string;
   /** Hides the text, leaving the mark — for very tight spaces. */
   markOnly?: boolean;
 }
 
-const { variant = 'dark', class: className, markOnly = false } = Astro.props;
+const { variant = 'white', class: className, markOnly = false } = Astro.props;
 ---
 
 <span class:list={['wm', className]}>

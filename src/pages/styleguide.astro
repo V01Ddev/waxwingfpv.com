@@ -11,10 +11,10 @@ const palette = [
   { token: '--plumage-raised', hex: '#151B21', role: 'Panels, one step up from base.', ratio: '—' },
   { token: '--mask', hex: '#05070A', role: 'Lightbox backdrop, letterbox bands.', ratio: '—' },
   { token: '--silk', hex: '#E8E6E1', role: 'Body text, primary button fill.', ratio: '15:1' },
-  { token: '--steel', hex: '#8A9199', role: 'Muted meta, grey logo variant.', ratio: '5.6:1' },
-  { token: '--edge', hex: '#2A323A', role: 'Hairlines, dividers, inactive borders.', ratio: '1.6:1' },
-  { token: '--wax', hex: '#D62B22', role: 'The red. Graphics + ≥24px text only.', ratio: '4.0:1' },
-  { token: '--wax-lit', hex: '#F2705F', role: 'Small red text and links.', ratio: '6.4:1' },
+  { token: '--mark', hex: '#808080', role: 'The logo grey. Rules, indicators, marks.', ratio: '4.7:1' },
+  { token: '--steel', hex: '#8A9199', role: 'Muted meta text.', ratio: '5.6:1' },
+  { token: '--edge-strong', hex: '#5A6672', role: 'Control boundaries (WCAG 1.4.11 needs 3:1).', ratio: '3.2:1' },
+  { token: '--edge', hex: '#2A323A', role: 'Hairlines and dividers only.', ratio: '1.6:1' },
   { token: '--tail', hex: '#E8B23A', role: 'Focus ring; one mark in the footer.', ratio: '9.6:1' },
 ];
 
@@ -74,10 +74,11 @@ const specimen = 'Kadıköy’de bir kafede tek çekimde uçtuk.';
     <section class="block">
       <h2>Palette</h2>
       <p class="t-meta measure">
-        Contrast ratios are against <code>--plumage</code>. Note the split
-        between <code>wax</code> and <code>wax-lit</code>: the brand red cannot
-        legally carry small text on this background, so it is reserved for
-        graphics and large type, and the lifted tint does the rest.
+        Contrast ratios are against <code>--plumage</code>. The system is
+        monochrome: hierarchy comes from tone, not hue. <code>--mark</code> and
+        <code>--steel</code> sit close together because the difference between
+        them is role, not rank — anything that has to read as emphasis uses
+        <code>--silk</code>, because a grey cannot out-rank the grey beside it.
       </p>
       <div class="swatches">
         {
@@ -187,7 +188,7 @@ const specimen = 'Kadıköy’de bir kafede tek çekimde uçtuk.';
       <div class="spec">
         <span class="t-mono spec__label">the trail — a rule that fades at its tail</span>
         <hr class="rule" />
-        <hr class="rule rule--wax" />
+        <hr class="rule rule--accent" />
       </div>
     </section>
 
@@ -319,7 +320,7 @@ const specimen = 'Kadıköy’de bir kafede tek çekimde uçtuk.';
 
   .spec__label {
     display: block;
-    color: var(--accent-text);
+    color: var(--silk);
     margin-block-end: var(--sp-3);
   }
 

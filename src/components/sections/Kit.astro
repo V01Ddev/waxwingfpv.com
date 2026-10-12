@@ -1,6 +1,5 @@
 ---
 import MediaPlaceholder from '../ui/MediaPlaceholder.astro';
-import Glint from '../brand/Glint.astro';
 import { t, type Locale } from '../../i18n/ui';
 import { getKit } from '../../lib/content';
 
@@ -74,23 +73,20 @@ const valueFor = (item: (typeof items)[number], label: string) =>
             hidden={i !== 0}
           >
             <div class="kit__media">
-              <button
-                type="button"
-                class="frame"
-                data-video-src={item.sample.src}
-                data-video-label={`${item.name} — ${t(locale, 'kit.sample')}`}
-              >
+              {/*
+                Phase 3 turns this into a playable facade: it gains
+                data-video-src / -poster / -facts and a play control once
+                scripts/media.sh has encoded the sample clips. Until then it is
+                deliberately inert rather than a button that opens nothing.
+              */}
+              <div class="frame">
                 <span class="frame__media">
                   <MediaPlaceholder
                     ratio={item.sample.orientation === 'vertical' ? '9:16' : '16:9'}
                     label={`${item.name} — ${t(locale, 'kit.sample')}`}
                   />
                 </span>
-                <span class="frame__play">
-                  <Glint height="1.1rem" />
-                  <span class="visually-hidden">{t(locale, 'kit.playSample')}</span>
-                </span>
-              </button>
+              </div>
 
               {/* The full spec sheet for this item, including the rows that
                   only apply to it. */}
@@ -285,14 +281,11 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     min-width: 0;
   }
 
+  /* Inert until Phase 3 gives it a clip to play. */
   .frame {
     position: relative;
     display: block;
     width: 100%;
-    padding: 0;
-    background: none;
-    border: 0;
-    cursor: pointer;
   }
 
   .frame__media {
@@ -319,7 +312,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
 
   /* :global() because the icon is a child component's root element. */
   .frame :global(.glint) {
-    color: var(--silk);
+    color: var(--fg-muted);
     transition: color var(--dur-2) var(--ease);
   }
 
@@ -331,7 +324,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
 
   .frame:hover :global(.glint),
   .frame:focus-visible :global(.glint) {
-    color: var(--accent);
+    color: var(--silk);
   }
 
   .kit__info {
@@ -382,7 +375,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
   }
 
   .kit__listTitle {
-    color: var(--accent-text);
+    color: var(--silk);
     font-size: var(--text-xs);
     margin-block-end: var(--sp-3);
   }

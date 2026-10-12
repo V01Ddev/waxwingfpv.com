@@ -93,7 +93,7 @@ a {
 }
 
 a:hover {
-  text-decoration-color: var(--accent-text);
+  text-decoration-color: var(--silk);
 }
 
 img,
@@ -113,8 +113,8 @@ textarea {
 }
 
 ::selection {
-  background: var(--wax);
-  color: var(--silk);
+  background: var(--mark);
+  color: var(--mask);
 }
 
 /* --- focus ---------------------------------------------------------------
@@ -166,7 +166,7 @@ textarea {
   );
 }
 
-.rule--wax {
+.rule--accent {
   background: linear-gradient(
     90deg,
     var(--accent) 0%,

@@ -12,20 +12,34 @@
 :root {
   color-scheme: dark;
 
-  /* --- palette -------------------------------------------------------- */
+  /* --- palette --------------------------------------------------------
+     Monochrome. There is no hue anywhere in this system except --tail, which
+     exists for one functional reason (see below) and appears twice.
+
+     Hierarchy is carried by tone, not colour:
+       silk  — primary text and the primary button
+       mark  — the brand grey: rules, indicators, structural marks
+       steel — muted body and meta text
+     --mark (4.7:1) and --steel (5.6:1) sit close together on purpose; the
+     difference between them is role, not rank. Anything that has to read as
+     *emphasis* uses --silk, because a grey cannot be more emphatic than the
+     grey next to it. */
   --plumage: #0f1418; /* base surface — silky blue-grey slate, never pure black */
   --plumage-raised: #151b21; /* panels and cards, one step up */
   --mask: #05070a; /* deepest: lightbox backdrop, letterbox bands */
   --silk: #e8e6e1; /* text and primary fill — warm off-white, not #fff */
-  --steel: #8a9199; /* muted meta, the grey logo variant */
+  --mark: #808080; /* the logo's grey. the site's only accent (4.7:1) */
+  --steel: #8a9199; /* muted meta text (5.6:1) */
   --edge: #2a323a; /* decorative hairlines and dividers only (1.6:1) */
   --edge-strong: #5a6672; /* interactive boundaries — form fields, ghost
                              buttons, tab outlines. WCAG 1.4.11 requires 3:1
                              for a control's extent; --edge does not clear it
                              at 1.6:1, which is why this second step exists. */
-  --wax: #d62b22; /* the red. graphics + >=24px text only (4.0:1) */
-  --wax-lit: #f2705f; /* same hue lifted, for small red text (6.4:1) */
-  --tail: #e8b23a; /* used twice on the whole site (9.6:1) */
+  --tail: #e8b23a; /* the waxwing's tail band. focus ring, and one mark in
+                      the footer. kept because a focus indicator has to be
+                      unmistakable against every surface on the site, and
+                      grey-on-grey focus is exactly the failure mode WCAG
+                      2.4.11 exists to prevent (9.6:1) */
 
   /* --- semantic ------------------------------------------------------- */
   --bg: var(--plumage);
@@ -34,8 +48,7 @@
   --fg: var(--silk);
   --fg-muted: var(--steel);
   --line: var(--edge);
-  --accent: var(--wax);
-  --accent-text: var(--wax-lit);
+  --accent: var(--mark);
   --focus: var(--tail);
 
   /* --- families ------------------------------------------------------- */

@@ -103,3 +103,10 @@ export function kitTabMeta(specs: { label: string; value: string }[], count = 3)
     .map((s) => s.value)
     .join(' · ');
 }
+
+/** 58 -> "0:58". Shown in mono, so no unit suffix. */
+export function formatDuration(seconds?: number): string {
+  if (!seconds || seconds <= 0) return '';
+  const minutes = Math.floor(seconds / 60);
+  return `${minutes}:${String(Math.round(seconds % 60)).padStart(2, '0')}`;
+}

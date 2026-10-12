@@ -1,9 +1,9 @@
 ---
-import darkLogo from '../../assets/brand/logo-dark.svg?raw';
+import whiteLogo from '../../assets/brand/logo-white.svg?raw';
 import greyLogo from '../../assets/brand/logo-grey.svg?raw';
 
 interface Props {
-  variant?: 'dark' | 'grey';
+  variant?: 'white' | 'grey';
   /**
    * Any CSS length. Set by this component rather than by a class from the
    * parent: Astro scoped styles do NOT reach a child component's root element,
@@ -13,12 +13,12 @@ interface Props {
   class?: string;
 }
 
-const { variant = 'dark', height = '1em', class: className } = Astro.props;
+const { variant = 'white', height = '1em', class: className } = Astro.props;
 
 // Inlined rather than an <img>: zero extra request, and it cannot flash before
 // the font/CSS settles. The XML declaration and the provenance comments are
 // stripped so they don't ride along in every page's HTML.
-const svg = (variant === 'grey' ? greyLogo : darkLogo)
+const svg = (variant === 'grey' ? greyLogo : whiteLogo)
   .replace(/<\?xml[^>]*\?>/, '')
   .replace(/<!--[\s\S]*?-->/g, '')
   .trim();

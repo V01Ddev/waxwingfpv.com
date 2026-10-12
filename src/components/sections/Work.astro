@@ -1,8 +1,6 @@
 ---
-import MediaPlaceholder from '../ui/MediaPlaceholder.astro';
-import Glint from '../brand/Glint.astro';
 import { t, type Locale } from '../../i18n/ui';
-import { getProjects, getKit } from '../../lib/content';
+import { getProjects, getKit, formatDuration } from '../../lib/content';
 
 interface Props {
   locale: Locale;
@@ -23,60 +21,85 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
     </div>
 
     {
-      projects.map((project) => (
-        <article class="proj">
-          <div class="proj__pair">
-            {project.cuts.map((cut) => (
-              <button
-                type="button"
-                class:list={['frame', cut.orientation === 'vertical' ? 'frame--tall' : 'frame--wide']}
-                data-video-src={cut.src}
-                data-video-label={`${project.title} — ${cut.label}`}
-              >
-                <span class="frame__media">
-                  <MediaPlaceholder
-                    ratio={cut.orientation === 'vertical' ? '9:16' : '16:9'}
-                    label={`${project.title} — ${cut.label}`}
-                  />
-                </span>
-                <span class="frame__play">
-                  <Glint height="1.1rem" />
-                  <span class="visually-hidden">
-                    {cut.orientation === 'vertical'
-                      ? t(locale, 'work.playReel')
-                      : t(locale, 'work.playFilm')}
+      projects.map((project) => {
+        const facts: [string, string][] = [
+          [t(locale, 'work.shotOn'), kitName(project.gear.airframe)],
+          [t(locale, 'work.place'), project.location],
+        ];
+        const single = project.cuts.length === 1;
+
+        return (
+          <article class="proj">
+            <div class:list={['proj__pair', single && 'proj__pair--single']}>
+              {project.cuts.map((cut) => {
+                const duration = formatDuration(cut.durationSec);
+                return (
+                  <button
+                    type="button"
+                    class:list={[
+                      'frame',
+                      cut.orientation === 'vertical' ? 'frame--tall' : 'frame--wide',
+                    ]}
+                    data-video-src={cut.src}
+                    data-video-poster={cut.poster}
+                    data-video-title={project.title}
+                    data-video-label={cut.label}
+                    data-video-orientation={cut.orientation}
+                    data-video-facts={JSON.stringify(
+                      duration ? [...facts, [t(locale, 'work.duration'), duration]] : facts
+                    )}
+                  >
+                    <span class="frame__media">
+                      <img
+                        src={cut.poster}
+                        width={cut.width}
+                        height={cut.height}
+                        alt=""
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </span>
+                    <span class="frame__play">
+                      <svg class="frame__tri" viewBox="0 0 12 14" aria-hidden="true" focusable="false">
+                        <path d="M0 0 12 7 0 14Z" />
+                      </svg>
+                    </span>
+                    <span class="frame__tag t-mono">
+                      {cut.label}
+                      {duration && <span class="frame__dur"> · {duration}</span>}
+                    </span>
+                    <span class="visually-hidden">
+                      {t(locale, 'a11y.playVideo')} — {project.title} — {cut.label}
+                    </span>
+                  </button>
+                );
+              })}
+
+              <div class="proj__meta">
+                <h3 class="proj__title">
+                  {project.title}
+                  <span class="proj__place t-mono">
+                    {project.clientType} · {project.location}
                   </span>
-                </span>
-                <span class="frame__tag t-mono">{cut.label}</span>
-              </button>
-            ))}
+                </h3>
 
-            <div class="proj__meta">
-              <h3 class="proj__title">
-                {project.title}
-                <span class="proj__place t-mono">
-                  {project.clientType} · {project.location}
-                </span>
-              </h3>
+                <dl class="proj__facts">
+                  <div class="proj__fact">
+                    <dt class="t-mono">{t(locale, 'work.wanted')}</dt>
+                    <dd>{project.goal}</dd>
+                  </div>
+                  <div class="proj__fact">
+                    <dt class="t-mono">{t(locale, 'work.result')}</dt>
+                    <dd>{project.result}</dd>
+                  </div>
+                </dl>
 
-              <dl class="proj__facts">
-                <div class="proj__fact">
-                  <dt class="t-mono">{t(locale, 'work.wanted')}</dt>
-                  <dd>{project.goal}</dd>
-                </div>
-                <div class="proj__fact">
-                  <dt class="t-mono">{t(locale, 'work.result')}</dt>
-                  <dd>{project.result}</dd>
-                </div>
-              </dl>
-
-              <p class="proj__gear t-mono">
-                {t(locale, 'work.shotOn')}: {kitName(project.gear.airframe)}
-              </p>
+                <p class="proj__desc t-meta">{project.description}</p>
+              </div>
             </div>
-          </div>
-        </article>
-      ))
+          </article>
+        );
+      })
     }
   </div>
 </section>
@@ -97,7 +120,9 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
     than the horizontal one — the difference in height IS the information
     ("you get both"), and nothing overlaps, so it survives every breakpoint
     without transform maths.
-    The meta fills the L-shaped gap under the wide frame.
+    The 0.32fr column is the ratio at which a 9:16 frame beside a 16:9 frame
+    ends at exactly the same height (0.3164 = 81/256), so the two cuts read as
+    one deliberate pair rather than two boxes that almost line up.
   */
   .proj__pair {
     display: grid;
@@ -107,10 +132,6 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
   }
 
   @media (min-width: 48rem) {
-    /* 0.32fr is not arbitrary: it is the ratio at which a 9:16 frame beside a
-       16:9 frame ends at exactly the same height (0.3164 = 81/256). The two
-       cuts then read as one deliberate pair rather than two boxes that
-       almost line up. */
     .proj__pair {
       grid-template-columns: minmax(0, 1fr) minmax(0, 0.32fr);
       gap: var(--sp-5);
@@ -119,13 +140,28 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
     .frame--wide {
       grid-column: 1;
     }
-
     .frame--tall {
       grid-column: 2;
     }
-
     .proj__meta {
       grid-column: 1;
+    }
+
+    /* A project with only one cut puts the text beside the video instead of
+       leaving a hole where the second frame would be. Milat is the case in
+       point: its only export is 1080x1920. */
+    .proj__pair--single {
+      grid-template-columns: minmax(0, 0.6fr) minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .proj__pair--single .frame--tall {
+      grid-column: 1;
+    }
+
+    .proj__pair--single .proj__meta {
+      grid-column: 2;
+      padding-block-start: var(--sp-5);
     }
   }
 
@@ -155,6 +191,11 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
     overflow: hidden;
   }
 
+  .frame__media img {
+    width: 100%;
+    height: auto;
+  }
+
   .frame__play {
     position: absolute;
     inset-block-start: 50%;
@@ -171,11 +212,11 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
       border-color var(--dur-2) var(--ease);
   }
 
-  /* :global() because the icon is a child component's root element, and
-     scoped selectors do not reach those. */
-  .frame :global(.glint) {
-    color: var(--silk);
-    transition: color var(--dur-2) var(--ease);
+  .frame__tri {
+    width: 0.85rem;
+    height: auto;
+    fill: var(--fg-muted);
+    transition: fill var(--dur-2) var(--ease);
   }
 
   .frame:hover .frame__play,
@@ -184,9 +225,11 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
     border-color: var(--silk);
   }
 
-  .frame:hover :global(.glint),
-  .frame:focus-visible :global(.glint) {
-    color: var(--accent);
+  /* With no hue to signal state, tone still has to move the way people
+     expect: rest is muted, hover and focus brighten. */
+  .frame:hover .frame__tri,
+  .frame:focus-visible .frame__tri {
+    fill: var(--silk);
   }
 
   .frame__tag {
@@ -197,6 +240,10 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
     background: rgb(5 7 10 / 0.78);
     color: var(--silk);
     font-size: var(--text-xs);
+  }
+
+  .frame__dur {
+    color: var(--fg-muted);
   }
 
   /* --- project meta --- */
@@ -233,7 +280,7 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
   }
 
   .proj__fact dt {
-    color: var(--accent-text);
+    color: var(--silk);
     font-size: var(--text-xs);
   }
 
@@ -242,8 +289,7 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
     color: var(--fg-muted);
   }
 
-  .proj__gear {
-    color: var(--fg-muted);
-    font-size: var(--text-sm);
+  .proj__desc {
+    max-width: 56ch;
   }
 </style>

@@ -34,3 +34,4 @@ IMG_*.jpeg
 # --- licence / work in progress --------------------------------------------
 *.psd
 *.drp
+.media-cache/

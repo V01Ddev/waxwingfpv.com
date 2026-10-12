@@ -1,0 +1,384 @@
+---
+import { t, type Locale } from '../../i18n/ui';
+
+interface Props {
+  locale: Locale;
+}
+
+const { locale } = Astro.props;
+
+/**
+ * One dialog for every video on the page. Triggers carry their own data, so
+ * the component needs to know nothing about projects or kit — the list is
+ * whatever `[data-video-src]` elements exist, in document order.
+ *
+ * Native <dialog>.showModal() gives the focus trap, Escape handling and
+ * ::backdrop for free; hand-rolling those is where accessible modals
+ * usually go wrong.
+ */
+---
+
+<dialog class="lb" id="lightbox" aria-labelledby="lb-title">
+  <div class="lb__frame">
+    <div class="lb__bar">
+      <p class="lb__count t-mono" data-lb-count></p>
+      <button class="lb__close" type="button" data-lb-close>
+        {t(locale, 'a11y.closeLightbox')}
+        <span aria-hidden="true" class="lb__x"></span>
+      </button>
+    </div>
+
+    <div class="lb__stage">
+      <div class="lb__media" data-lb-media></div>
+
+      <div class="lb__meta">
+        <h2 class="lb__title" id="lb-title" data-lb-title></h2>
+        <p class="lb__label t-mono" data-lb-label></p>
+        <dl class="lb__facts" data-lb-facts></dl>
+      </div>
+    </div>
+
+    <div class="lb__nav">
+      <button class="lb__step" type="button" data-lb-prev>
+        <span aria-hidden="true">←</span>
+        <span class="visually-hidden">{t(locale, 'a11y.previousVideo')}</span>
+      </button>
+      <button class="lb__step" type="button" data-lb-next>
+        <span class="visually-hidden">{t(locale, 'a11y.nextVideo')}</span>
+        <span aria-hidden="true">→</span>
+      </button>
+    </div>
+  </div>
+</dialog>
+
+<style>
+  .lb {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: none;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--fg);
+  }
+
+  .lb::backdrop {
+    background: rgb(5 7 10 / 0.94);
+  }
+
+  .lb__frame {
+    display: flex;
+    flex-direction: column;
+    gap: var(--sp-3);
+    height: 100%;
+    padding: var(--sp-3) var(--gutter) var(--sp-4);
+  }
+
+  .lb__bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--sp-4);
+    flex: none;
+  }
+
+  .lb__count {
+    color: var(--fg-muted);
+    margin: 0;
+  }
+
+  .lb__close {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--sp-3);
+    min-height: 44px;
+    padding: 0 var(--sp-3);
+    background: none;
+    border: 0;
+    color: var(--fg);
+    font-size: var(--text-sm);
+    cursor: pointer;
+  }
+
+  .lb__x {
+    position: relative;
+    width: 1rem;
+    height: 1rem;
+  }
+
+  .lb__x::before,
+  .lb__x::after {
+    content: '';
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 0;
+    width: 100%;
+    height: var(--hairline);
+    background: currentColor;
+  }
+
+  .lb__x::before {
+    rotate: 45deg;
+  }
+  .lb__x::after {
+    rotate: -45deg;
+  }
+
+  /* --- stage --- */
+  .lb__stage {
+    flex: 1;
+    min-height: 0;
+    display: grid;
+    gap: var(--sp-5);
+    align-content: center;
+    justify-items: center;
+  }
+
+  .lb__media {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    min-height: 0;
+  }
+
+  /* 72rem = 1152px, just under the 1280px source width. The file is encoded
+     at 720p-class on purpose, and this is the line that keeps it from ever
+     being stretched. */
+  .lb__stage {
+    max-width: 72rem;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .lb__media video {
+    display: block;
+    max-width: 100%;
+    max-height: 100%;
+    background: var(--mask);
+    border: var(--hairline) solid var(--line);
+  }
+
+  /* Landscape fills the width; vertical is height-bound, which is what a
+     phone-shaped video wants. */
+  .lb[data-orientation='landscape'] .lb__media video {
+    width: 100%;
+    max-height: 68svh;
+  }
+
+  .lb[data-orientation='vertical'] .lb__media video {
+    height: min(72svh, 100%);
+    width: auto;
+  }
+
+  .lb__meta {
+    display: grid;
+    gap: var(--sp-2);
+    justify-items: center;
+    text-align: center;
+    max-width: 60ch;
+  }
+
+  .lb__title {
+    font-size: var(--text-xl);
+  }
+
+  .lb__label {
+    color: var(--fg-muted);
+    margin: 0;
+  }
+
+  .lb__facts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--sp-2) var(--sp-5);
+    margin: var(--sp-2) 0 0;
+  }
+
+  .lb__facts div {
+    display: flex;
+    gap: var(--sp-2);
+    align-items: baseline;
+  }
+
+  .lb__facts dt {
+    color: var(--fg-muted);
+    font-size: var(--text-xs);
+  }
+
+  .lb__facts dd {
+    margin: 0;
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: var(--ls-mono);
+  }
+
+  /* --- paging --- */
+  .lb__nav {
+    display: flex;
+    justify-content: space-between;
+    flex: none;
+  }
+
+  .lb__step {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 0 var(--sp-4);
+    background: none;
+    border: var(--hairline) solid var(--edge-strong);
+    color: var(--fg);
+    font-size: var(--text-lg);
+    cursor: pointer;
+    transition: border-color var(--dur-1) var(--ease);
+  }
+
+  .lb__step:hover {
+    border-color: var(--silk);
+  }
+
+  @media (min-width: 60rem) {
+    /* Vertical cuts get a side column for the text rather than a caption
+       under a very tall video. */
+    .lb[data-orientation='vertical'] .lb__stage {
+      grid-template-columns: auto minmax(14rem, 20rem);
+      justify-content: center;
+      align-items: center;
+      gap: var(--sp-7);
+    }
+
+    .lb[data-orientation='vertical'] .lb__meta {
+      justify-items: start;
+      text-align: start;
+    }
+
+    .lb[data-orientation='vertical'] .lb__facts {
+      justify-content: flex-start;
+    }
+  }
+</style>
+
+<script>
+  const dialog = document.getElementById('lightbox') as HTMLDialogElement | null;
+
+  if (dialog) {
+    const media = dialog.querySelector<HTMLElement>('[data-lb-media]')!;
+    const titleEl = dialog.querySelector<HTMLElement>('[data-lb-title]')!;
+    const labelEl = dialog.querySelector<HTMLElement>('[data-lb-label]')!;
+    const factsEl = dialog.querySelector<HTMLElement>('[data-lb-facts]')!;
+    const countEl = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+
+    let triggers: HTMLElement[] = [];
+    let index = 0;
+
+    const read = (el: HTMLElement) => ({
+      src: el.dataset.videoSrc ?? '',
+      poster: el.dataset.videoPoster ?? '',
+      title: el.dataset.videoTitle ?? '',
+      label: el.dataset.videoLabel ?? '',
+      orientation: el.dataset.videoOrientation ?? 'landscape',
+      facts: JSON.parse(el.dataset.videoFacts || '[]') as [string, string][],
+    });
+
+    function render(i: number) {
+      const item = read(triggers[i]);
+      dialog!.dataset.orientation = item.orientation;
+      dialog!.setAttribute('aria-label', item.title);
+
+      titleEl.textContent = item.title;
+      labelEl.textContent = item.label;
+      countEl.textContent = `${String(i + 1).padStart(2, '0')} / ${String(
+        triggers.length
+      ).padStart(2, '0')}`;
+
+      factsEl.replaceChildren(
+        ...item.facts.map(([term, value]) => {
+          const row = document.createElement('div');
+          const dt = document.createElement('dt');
+          const dd = document.createElement('dd');
+          dt.textContent = term;
+          dd.textContent = value;
+          row.append(dt, dd);
+          return row;
+        })
+      );
+
+      const video = document.createElement('video');
+      video.controls = true;
+      video.playsInline = true;
+      video.preload = 'metadata';
+      video.poster = item.poster;
+      video.src = item.src;
+      // The visitor clicked a play control, so this is a user gesture and
+      // sound is expected rather than an ambush.
+      video.autoplay = true;
+      video.setAttribute('aria-label', `${item.title} — ${item.label}`);
+
+      media.replaceChildren(video);
+    }
+
+    function open(el: HTMLElement) {
+      triggers = Array.from(document.querySelectorAll<HTMLElement>('[data-video-src]'));
+      index = Math.max(0, triggers.indexOf(el));
+      render(index);
+      dialog!.showModal();
+      document.body.style.overflow = 'hidden';
+    }
+
+    function step(delta: number) {
+      index = (index + delta + triggers.length) % triggers.length;
+      render(index);
+    }
+
+    function close() {
+      dialog!.close();
+    }
+
+    dialog.addEventListener('close', () => {
+      media.replaceChildren(); // stops playback and drops the buffer
+      document.body.style.overflow = '';
+      triggers[index]?.focus();
+    });
+
+    dialog.addEventListener('click', (event) => {
+      // Clicks land on the dialog itself only when they hit the backdrop.
+      if (event.target === dialog) close();
+    });
+
+    dialog.querySelector('[data-lb-close]')!.addEventListener('click', close);
+    dialog.querySelector('[data-lb-prev]')!.addEventListener('click', () => step(-1));
+    dialog.querySelector('[data-lb-next]')!.addEventListener('click', () => step(1));
+
+    dialog.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        step(1);
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        step(-1);
+      }
+    });
+
+    // Kick playback off once the first frames are in, so the poster does not
+    // sit there while the video is still buffering.
+    media.addEventListener(
+      'loadeddata',
+      (event) => {
+        const video = event.target as HTMLVideoElement;
+        video.play().catch(() => {
+          /* autoplay refused — native controls are right there */
+        });
+      },
+      { once: true }
+    );
+
+    document.addEventListener('click', (event) => {
+      const trigger = (event.target as HTMLElement).closest<HTMLElement>('[data-video-src]');
+      if (trigger) {
+        event.preventDefault();
+        open(trigger);
+      }
+    });
+  }
+</script>
