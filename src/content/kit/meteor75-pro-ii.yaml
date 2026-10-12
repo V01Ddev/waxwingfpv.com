@@ -32,14 +32,18 @@ specs:
   - label: { tr: 'Batarya', en: 'Battery' }
     value: '1S 680 mAh'
   - label: { tr: 'Uçuş süresi', en: 'Flight time' }
-    value: '~6 dk'
+    value:
+      tr: '~6 dk'
+      en: '~6 min'
   - label: { tr: 'Kumanda', en: 'Control link' }
-    value: 'ELRS 2.4 GHz'
+    value: 'ExpressLRS 2.4 GHz'
   # --- this aircraft only ---
   - label: { tr: 'Motorlar', en: 'Motors' }
     value: '1102 21000KV'
   - label: { tr: 'Pervane', en: 'Props' }
-    value: '1,8" 3 kanat'
+    value:
+      tr: '1,8" 3 kanat'
+      en: '1.8" 3-blade'
 
 bestFor:
   tr:

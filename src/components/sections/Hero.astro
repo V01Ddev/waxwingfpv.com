@@ -1,6 +1,5 @@
 ---
 import Button from '../ui/Button.astro';
-import MediaPlaceholder from '../ui/MediaPlaceholder.astro';
 import { t, type Locale } from '../../i18n/ui';
 
 interface Props {
@@ -12,10 +11,44 @@ const { locale } = Astro.props;
 
 <section class="hero" aria-labelledby="hero-title">
   <div class="hero__media">
-    <MediaPlaceholder
-      fill
-      label="Hero reel — 9:16 portrait on phones, 16:9 on desktop"
-    />
+    {/*
+      Poster-first. The still is the LCP element and paints immediately; the
+      loop loads only after that and fades in behind the type. A video as the
+      LCP would blow the budget on the one metric that matters most here.
+
+      <picture> handles the portrait swap for the still, because <source
+      media> inside <picture> is reliable — unlike inside <video>, where
+      Safari ignores it and the swap has to be done in script.
+    */}
+    <picture>
+      <source
+        media="(max-width: 47.999rem)"
+        srcset="/video/hero-portrait.jpg"
+        width="480"
+        height="854"
+      />
+      <img
+        class="hero__poster"
+        src="/video/hero-landscape.jpg"
+        width="960"
+        height="540"
+        alt=""
+        fetchpriority="high"
+        decoding="async"
+      />
+    </picture>
+
+    <video
+      class="hero__video"
+      data-hero-video
+      data-src-landscape="/video/hero-landscape.mp4"
+      data-src-portrait="/video/hero-portrait.mp4"
+      muted
+      loop
+      playsinline
+      preload="none"
+      aria-hidden="true"
+      tabindex="-1"></video>
   </div>
 
   <div class="hero__scrim" aria-hidden="true"></div>
@@ -47,6 +80,31 @@ const { locale } = Astro.props;
   .hero__media {
     position: absolute;
     inset: 0;
+    background: var(--mask);
+  }
+
+  .hero__media picture,
+  .hero__poster,
+  .hero__video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero__poster,
+  .hero__video {
+    object-fit: cover;
+  }
+
+  /* The loop arrives late and quietly, and no layout depends on it. */
+  .hero__video {
+    opacity: 0;
+    transition: opacity var(--dur-3) var(--ease);
+  }
+
+  .hero__video.is-ready {
+    opacity: 1;
   }
 
   /* Text sits on footage, so it needs its own ground. Weighted to the bottom
@@ -108,3 +166,40 @@ const { locale } = Astro.props;
     }
   }
 </style>
+
+<script>
+  // The loop is opt-in, not automatic. It is skipped entirely for anyone who
+  // has asked for reduced motion, has Data Saver on, or is on a slow
+  // connection — in every one of those cases the poster is already there and
+  // is the whole hero.
+  const video = document.querySelector<HTMLVideoElement>('[data-hero-video]');
+
+  if (video) {
+    const connection = (navigator as any).connection;
+    const skip =
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches ||
+      connection?.saveData === true ||
+      /(^|-)2g$/.test(connection?.effectiveType ?? '');
+
+    if (!skip) {
+      const portrait = window.matchMedia('(max-width: 47.999rem)').matches;
+      video.src = portrait
+        ? (video.dataset.srcPortrait ?? '')
+        : (video.dataset.srcLandscape ?? '');
+      video.preload = 'auto';
+
+      video.addEventListener(
+        'canplay',
+        () => {
+          video.classList.add('is-ready');
+          video.play().catch(() => {
+            /* Refused. The poster stays, which is a complete hero. */
+          });
+        },
+        { once: true }
+      );
+
+      video.load();
+    }
+  }
+</script>

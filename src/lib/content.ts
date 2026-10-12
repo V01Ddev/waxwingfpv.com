@@ -88,7 +88,7 @@ export async function getKit(locale: Locale) {
       tagline: localized(entry.data.tagline, locale),
       specs: entry.data.specs.map((s) => ({
         label: localized(s.label, locale),
-        value: s.value,
+        value: localized(s.value, locale),
       })),
       bestFor: localizedList(entry.data.bestFor, locale),
       limits: localizedList(entry.data.limits, locale),

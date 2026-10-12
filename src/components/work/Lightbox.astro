@@ -127,49 +127,74 @@ const { locale } = Astro.props;
   }
 
   /* --- stage --- */
+  /* The stage is the leftover height after the bar and the pager. The media
+     flexes into it and the video fits inside that, so nothing can overflow the
+     dialog — which is what previously pushed a vertical cut off a laptop
+     screen and forced the visitor to scroll. */
   .lb__stage {
-    flex: 1;
+    flex: 1 1 auto;
     min-height: 0;
-    display: grid;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     gap: var(--sp-5);
-    align-content: center;
-    justify-items: center;
+    width: 100%;
+    /* 72rem = 1152px, just under the 1280px source width, so the 720p-class
+       file is never upscaled. */
+    max-width: 72rem;
+    margin-inline: auto;
   }
 
   .lb__media {
+    flex: 1 1 auto;
+    min-height: 0;
     display: grid;
     place-items: center;
     width: 100%;
-    min-height: 0;
   }
 
-  /* 72rem = 1152px, just under the 1280px source width. The file is encoded
-     at 720p-class on purpose, and this is the line that keeps it from ever
-     being stretched. */
-  .lb__stage {
-    max-width: 72rem;
-    margin-inline: auto;
-    width: 100%;
-  }
-
-  .lb__media video {
+  .lb__media :global(video) {
     display: block;
+    /* auto width/height keeps the element box equal to the rendered picture,
+       so the hairline frames the video rather than a letterbox around it. */
+    width: auto;
+    height: auto;
     max-width: 100%;
     max-height: 100%;
     background: var(--mask);
     border: var(--hairline) solid var(--line);
   }
 
-  /* Landscape fills the width; vertical is height-bound, which is what a
-     phone-shaped video wants. */
-  .lb[data-orientation='landscape'] .lb__media video {
-    width: 100%;
-    max-height: 68svh;
+  /*
+    :global() throughout this block. Astro scopes a rule to the last element in
+    the selector, and the <video> and the fact rows are created by JavaScript,
+    so they never carry the scope attribute — every rule aimed at them matched
+    nothing. That is why the video rendered at its intrinsic 720x1280 and the
+    facts ran together as "ÇekimMeteor75 Pro II".
+
+    Height is capped against the viewport rather than against the flex parent.
+
+    `max-height: 100%` looked right and measured wrong: on a laptop the video
+    rendered at its intrinsic 720x1280 and pushed the dialog to 1348px in a
+    768px viewport, so the visitor had to scroll. A percentage height does not
+    reliably resolve against a stretched flex item. svh minus the fixed chrome
+    does resolve, and svh (not vh) is what iOS actually shows while the URL bar
+    is up.
+
+    The chrome: frame padding 1.75rem + bar 2.75rem + two flex gaps 1.5rem +
+    pager 2.75rem = 8.75rem, plus room for the meta block when it sits
+    underneath.
+  */
+  .lb__media :global(video) {
+    max-height: calc(100svh - 16rem);
   }
 
-  .lb[data-orientation='vertical'] .lb__media video {
-    height: min(72svh, 100%);
-    width: auto;
+  @media (min-width: 60rem) {
+    /* Beside the video, not under it, so it can use the height that frees up. */
+    .lb[data-orientation='vertical'] .lb__media :global(video) {
+      max-height: calc(100svh - 10rem);
+    }
   }
 
   .lb__meta {
@@ -197,18 +222,18 @@ const { locale } = Astro.props;
     margin: var(--sp-2) 0 0;
   }
 
-  .lb__facts div {
+  .lb__facts :global(div) {
     display: flex;
     gap: var(--sp-2);
     align-items: baseline;
   }
 
-  .lb__facts dt {
+  .lb__facts :global(dt) {
     color: var(--fg-muted);
     font-size: var(--text-xs);
   }
 
-  .lb__facts dd {
+  .lb__facts :global(dd) {
     margin: 0;
     font-family: var(--font-mono);
     font-size: var(--text-xs);
@@ -242,13 +267,23 @@ const { locale } = Astro.props;
     /* Vertical cuts get a side column for the text rather than a caption
        under a very tall video. */
     .lb[data-orientation='vertical'] .lb__stage {
-      grid-template-columns: auto minmax(14rem, 20rem);
+      flex-direction: row;
+      align-items: stretch;
       justify-content: center;
-      align-items: center;
       gap: var(--sp-7);
     }
 
+    /* stretch gives the media a definite height for max-height: 100% to
+       resolve against. */
+    .lb[data-orientation='vertical'] .lb__media {
+      flex: 1 1 auto;
+      width: auto;
+      min-width: 0;
+    }
+
     .lb[data-orientation='vertical'] .lb__meta {
+      flex: 0 0 18rem;
+      align-self: center;
       justify-items: start;
       text-align: start;
     }

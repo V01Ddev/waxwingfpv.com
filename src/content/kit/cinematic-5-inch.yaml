@@ -22,9 +22,13 @@ photo: '/kit/cinematic-5-inch.jpg' # TODO: produced in Phase 2 from IMG_20260624
 specs:
   # --- shared comparison vocabulary ---
   - label: { tr: 'Sınıf', en: 'Class' }
-    value: '5 inç freestyle'
+    value:
+      tr: '5 inç freestyle'
+      en: '5-inch freestyle'
   - label: { tr: 'Ağırlık', en: 'Weight' }
-    value: '~800 g (GoPro dahil)'
+    value:
+      tr: '~800 g (GoPro dahil)'
+      en: '~800 g (incl. GoPro)'
   - label: { tr: 'Kamera', en: 'Camera' }
     value: 'GoPro HERO7 Black'
   - label: { tr: 'Kayıt', en: 'Recording' }
@@ -42,8 +46,13 @@ specs:
     value: 'F40 V2'
   - label: { tr: 'Uçuş kamerası', en: 'Flight camera' }
     value: 'DJI O4 Lite · 117,6°'
+  # ND and Gyroflow came over from the GoPro's own entry when it was folded in.
+  - label: { tr: 'Filtre', en: 'Filtration' }
+    value: 'ND'
   - label: { tr: 'Stabilizasyon', en: 'Stabilisation' }
-    value: 'Gyroflow (kurgu)'
+    value:
+      tr: 'Gyroflow (kurgu)'
+      en: 'Gyroflow (in post)'
 
 bestFor:
   tr:

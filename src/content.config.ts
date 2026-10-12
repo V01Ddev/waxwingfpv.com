@@ -127,7 +127,14 @@ const kit = defineCollection({
     tagline: localized,
     photo: z.string().optional(),
     order: z.number(),
-    specs: z.array(z.object({ label: localized, value: z.string() })),
+    /**
+     * `value` is either a plain string for language-neutral values ("Mario 5",
+     * "4K 60 fps", "DJI O4 Wide · 159°") or locale-keyed when it contains a
+     * word. Without this, Turkish words rode onto the English page.
+     */
+    specs: z.array(
+      z.object({ label: localized, value: z.union([z.string(), localized]) })
+    ),
     bestFor: localizedList,
     /** Stated plainly. A sheet that admits limits is the one people believe. */
     limits: localizedList,

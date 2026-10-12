@@ -27,7 +27,7 @@ description:
 
 gear:
   airframe: 'meteor75-pro-ii'
-  camera: 'dji-o4-wide'
+  camera: 'DJI O4 Wide'
 
 cuts:
   # Only one cut. Milat_Promo_Final.mp4 is 1080x1920 despite the name, so

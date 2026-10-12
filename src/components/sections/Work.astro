@@ -24,6 +24,7 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
       projects.map((project) => {
         const facts: [string, string][] = [
           [t(locale, 'work.shotOn'), kitName(project.gear.airframe)],
+          [t(locale, 'work.camera'), project.gear.camera],
           [t(locale, 'work.place'), project.location],
         ];
         const single = project.cuts.length === 1;

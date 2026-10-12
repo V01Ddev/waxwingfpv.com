@@ -88,6 +88,53 @@ posters() {
     -vf "scale=720:1280:flags=lanczos" -q:v 4 "$OUT/milat-9-16.jpg"
 }
 
+# --- hero loop --------------------------------------------------------------
+# A three-shot montage: the opening, a mid-take interior pass, and the bright
+# late passage. Combined from measured windows rather than one continuous
+# glide, which costs bytes — three shots of motion and two hard cuts on the
+# one element that autoplays for every visitor. It is affordable because the
+# hero sits behind a heavy scrim (0.92 alpha at the bottom, 0.18 mid-frame),
+# so the detail a higher bitrate would buy is not visible anyway. Hence 960px
+# and a high CRF, where the portfolio gets 1280px and CRF 26.
+#
+# The lift is applied here and only here. The portfolio plays back as graded.
+hero() {
+  mkdir -p "$OUT"
+  local lift="eq=brightness=0.05:contrast=1.06:saturation=1.04"
+
+  echo "  hero landscape (3 shots)"
+  ffmpeg -v error -y \
+    -ss 0  -t 4 -i "$CACHE/nish-16-9.mp4" \
+    -ss 28 -t 4 -i "$CACHE/nish-16-9.mp4" \
+    -ss 47 -t 4 -i "$CACHE/nish-16-9.mp4" \
+    -filter_complex "[0:v]$lift,scale=960:540:flags=lanczos,fps=30,setpts=PTS-STARTPTS[a];\
+                     [1:v]$lift,scale=960:540:flags=lanczos,fps=30,setpts=PTS-STARTPTS[b];\
+                     [2:v]$lift,scale=960:540:flags=lanczos,fps=30,setpts=PTS-STARTPTS[c];\
+                     [a][b][c]concat=n=3:v=1:a=0[out]" \
+    -map "[out]" -an -map_metadata -1 \
+    -c:v libx264 -profile:v high -crf 27 -preset slow \
+    -pix_fmt yuv420p -movflags +faststart -g 60 "$OUT/hero-landscape.mp4"
+
+  ffmpeg -v error -y -ss 0 -i "$CACHE/nish-16-9.mp4" -frames:v 1 \
+    -vf "$lift,scale=960:540:flags=lanczos" -q:v 4 "$OUT/hero-landscape.jpg"
+
+  echo "  hero portrait (3 shots)"
+  ffmpeg -v error -y \
+    -ss 0  -t 3 -i "$CACHE/nish-9-16.mp4" \
+    -ss 20 -t 3 -i "$CACHE/nish-9-16.mp4" \
+    -ss 44 -t 3 -i "$CACHE/nish-9-16.mp4" \
+    -filter_complex "[0:v]$lift,scale=480:854:flags=lanczos,fps=30,setpts=PTS-STARTPTS[a];\
+                     [1:v]$lift,scale=480:854:flags=lanczos,fps=30,setpts=PTS-STARTPTS[b];\
+                     [2:v]$lift,scale=480:854:flags=lanczos,fps=30,setpts=PTS-STARTPTS[c];\
+                     [a][b][c]concat=n=3:v=1:a=0[out]" \
+    -map "[out]" -an -map_metadata -1 \
+    -c:v libx264 -profile:v high -crf 28 -preset slow \
+    -pix_fmt yuv420p -movflags +faststart -g 60 "$OUT/hero-portrait.mp4"
+
+  ffmpeg -v error -y -ss 0 -i "$CACHE/nish-9-16.mp4" -frames:v 1 \
+    -vf "$lift,scale=480:854:flags=lanczos" -q:v 4 "$OUT/hero-portrait.jpg"
+}
+
 # --- hero loop candidates ---------------------------------------------------
 # The masters are dim (mean luma ~20-26%), and the hero sits behind a scrim,
 # so a straight cut reads as a black rectangle. A modest lift is applied for
@@ -118,7 +165,8 @@ candidates() {
 
 case "${1:-all}" in
   candidates) fetch; candidates ;;
-  *) fetch; encode_portfolio; posters; candidates ;;
+  hero) fetch; hero ;;
+  *) fetch; encode_portfolio; posters; hero; candidates ;;
 esac
 
 echo

@@ -19,16 +19,25 @@ const items = await getKit(locale);
 const airframes = items.filter((item) => item.kind === 'airframe');
 
 /**
- * Rows every airframe can answer, in the order the first one lists them.
- * Derived from the data rather than hardcoded, so adding a spec to both
- * aircraft makes it appear here with no component change.
+ * Comparison rows, in the order the first airframe lists them. A row survives
+ * only if every airframe can answer it AND the answers differ.
+ *
+ * A row that reads the same in both columns is not a comparison: both aircraft
+ * run ExpressLRS, and seeing that twice tells a visitor nothing. The full spec
+ * list for each is already in its own panel, so nothing is lost.
+ *
+ * Derived from the data rather than hardcoded, so adding a genuinely different
+ * spec to both aircraft makes it appear here with no component change.
  */
 const rows = airframes.length
   ? airframes[0].specs
       .map((spec) => spec.label)
-      .filter((label) =>
-        airframes.every((airframe) => airframe.specs.some((s) => s.label === label))
-      )
+      .filter((label) => {
+        const values = airframes.map(
+          (airframe) => airframe.specs.find((s) => s.label === label)?.value
+        );
+        return values.every((value) => value !== undefined) && new Set(values).size > 1;
+      })
   : [];
 
 const valueFor = (item: (typeof items)[number], label: string) =>
@@ -486,7 +495,14 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
     const section = root.closest('section');
 
-    const select = (index: number, focus = true) => {
+    /**
+     * `scroll` is separate from `focus` on purpose. scrollIntoView on a tab
+     * that is off-screen scrolls the whole document, not just the tab strip —
+     * so running it on init dropped every visitor 2380px down the page, past
+     * the hero. It now runs only when a person actually changes tabs, and only
+     * to keep the strip itself in view.
+     */
+    const select = (index: number, focus = true, scroll = true) => {
       tabs.forEach((tab, i) => {
         const active = i === index;
         tab.setAttribute('aria-selected', String(active));
@@ -503,8 +519,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
       });
 
       if (focus) tabs[index]?.focus();
-      // Keep the selected tab in view in the mobile scrolling strip.
-      tabs[index]?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+      if (scroll) tabs[index]?.scrollIntoView({ block: 'nearest', inline: 'nearest' });
     };
 
     tabs.forEach((tab, i) => {
@@ -531,8 +546,8 @@ const valueFor = (item: (typeof items)[number], label: string) =>
       });
     });
 
-    // Mark the initial column without stealing focus on page load.
+    // Mark the initial column without stealing focus or moving the page.
     const initial = tabs.findIndex((tab) => tab.getAttribute('aria-selected') === 'true');
-    select(initial < 0 ? 0 : initial, false);
+    select(initial < 0 ? 0 : initial, false, false);
   }
 </script>

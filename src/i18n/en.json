@@ -33,7 +33,8 @@
     "playFilm": "Play the film",
     "playReel": "Play the reel",
     "place": "Location",
-    "duration": "Duration"
+    "duration": "Duration",
+    "camera": "Camera"
   },
   "kit": {
     "heading": "The kit",
