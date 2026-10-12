@@ -8,46 +8,100 @@ Delete this file once it is empty.
 
 ## Phase 6 — verification
 
-Nothing here has been measured yet. The performance and accessibility targets
-have been designed for, but not tested against a real browser on a real device.
-
-### Performance
+Phase 6 now has a re-runnable harness: **`node scripts/audit.mjs`**. It boots
+headless Chromium over CDP with no dependencies, in the same style as
+`scripts/shot.mjs`, and checks reduced motion, contrast and axe on both
+locales. axe-core is fetched once from a pinned URL and verified against a
+pinned SHA-256 before it is allowed to run.
 
 ```bash
-npm run build && npm run preview
-# then Lighthouse, mobile preset, on http://localhost:4321
+npm run build
+npm run preview            # Astro 7 daemonises — it prints the port it took
+node scripts/audit.mjs --base http://localhost:4322
 ```
 
-Targets, and what is already known:
+**The preview port is not 4321 any more.** Astro 7's `npm run preview`
+detaches and takes the next free port, so with `astro dev` already running it
+lands on 4322. Point Lighthouse or the audit at the dev server by accident and
+every number is meaningless — the dev server serves unbundled code with the
+HMR client attached.
 
-| Target | Status |
-|---|---|
-| LCP under 2.5s on throttled 4G | **unverified.** The LCP element is the hero poster, 91KB, preloaded and above the fold. Should pass, needs measuring. |
-| CLS 0 | **unverified.** Every image carries width/height and the hero video fades in over a poster with no layout change, so it should be 0. |
-| JS under 25KB gzipped | **verified at 2.4KB.** Styles and scripts are inlined; there are no separate JS files. |
-| Fonts | 88KB for the two preloaded faces, and latin-ext only loads when Turkish characters appear. |
+### Performance — measured
 
-If LCP misses, the lever is the hero poster: re-encode at quality 70 and it
-drops to roughly 60KB. The poster is deliberately the LCP rather than the video.
+Lighthouse mobile preset against the preview server, and an independent CDP
+measurement under real emulated 4G (1.6Mbps, 150ms RTT) with 4× CPU throttle:
 
-### Accessibility
+| Target | Result | Status |
+|---|---|---|
+| LCP under 2.5s on throttled 4G | **2.38s** under real emulated throttling, **4.4s** under Lighthouse's simulated throttling | **borderline** |
+| CLS 0 | 0 — in both models, and no layout shifts recorded in any run | met |
+| JS under 25KB gzipped | **3.02KB** — 6 inline scripts, 0 external JS files | met |
+| Fonts | 88KB for the two preloaded faces; Turkish also pulls 143KB of latin-ext subsets, which is why tr is ~0.6s slower than en | as designed |
 
-Unverified. Worth doing in this order, because the first two are where a
-failure would actually block someone:
+Scores: performance 80 (tr) / 88 (en), accessibility 100, best practices 100,
+SEO 100.
 
-1. **axe DevTools** on the built page, both locales.
-2. **Keyboard only, no mouse.** Tab through the whole page. Specifically:
-   - the lightbox: open with Enter, page with `←`/`→`, close with `Esc`, and
-     focus must return to the poster that opened it
-   - the kit selector: `←`/`→`/`Home`/`End` move between tabs, and only the
-     selected panel is reachable
-   - the form: submitting empty moves focus to the first bad field
-   - the skip link appears on first Tab
-3. **Reduced motion.** Set `prefers-reduced-motion: reduce` in the OS and
-   reload: the hero must show its poster and never start the video.
-4. **Contrast.** The palette ratios were computed but not machine-checked.
-   `--steel` on `--plumage` should be 5.6:1 and `--mark` 4.7:1. `--tail` is
-   focus-only for exactly this reason; do not spend it on decoration.
+**On the LCP discrepancy.** The two models disagree by two seconds, so neither
+number should be quoted alone. Unthrottled the poster paints at 376ms. Under
+real emulated throttling it is 2.38s. Lighthouse's Lantern simulation says
+4.4s. What is certain is the *mechanism*: the poster is 78KB and the link is
+1.6Mbps, so it should take ~380ms, but it measures 40KB/s — almost exactly
+one sixth of the link. It is sharing Chromium's six connections per host with
+six font files and several below-the-fold posters. **LCP here is limited by
+connection contention, not by the poster's own size or by render work.**
+
+Three levers were tested and **eliminated** by measurement, so do not spend
+time on them:
+
+- the hero video's `preload="auto"` — blocking the 1.2MB mp4 changes LCP not
+  at all
+- render-blocking CSS — inlining every stylesheet removed all render-blocking
+  requests and moved LCP by ~0ms (it did help FCP slightly, and is kept for
+  that reason)
+- CPU — 4× throttle with an unthrottled network gives LCP 312ms
+
+The one lever that did measure is the kit sample players: their `poster`
+attribute downloads eagerly even with `preload="none"`, and those frames are
+far below the fold. Removing it took LCP from 2416ms to 2224ms. Not done —
+see below.
+
+### Accessibility — measured
+
+`node scripts/audit.mjs` reports: **axe clean on both locales**, reduced motion
+correct on both, and text contrast passing on both. Lighthouse agrees at 100.
+
+Two real violations were found and fixed during this pass:
+
+- `label-content-name-mismatch` on the header language switcher (WCAG 2.5.3) —
+  the accessible name was "Change language" while the visible text was "EN", so
+  the visible label was not part of the name
+- `scrollable-region-focusable` on the kit comparison table (WCAG 2.1.1) — the
+  table scrolls horizontally on narrow screens and had no focusable child, so
+  it was unreachable by keyboard
+
+Contrast is checked by a DOM walk, not by axe, and the reason matters: **axe's
+`color-contrast` rule is inert on this site.** `body` carries the film-grain
+`background-image`, and axe cannot resolve a background-image, so it marks all
+160 text elements "incomplete" rather than judging them. Anyone running axe
+DevTools alone will get a wall of incomplete results and no contrast verdict.
+
+The walk resolves each element's effective backdrop from computed styles and
+treats the grain as computable, which was verified rather than assumed: with
+the page frozen and lazy images pre-loaded, disabling the grain is
+byte-identical over the hero and shifts channels by a median of 14/255
+elsewhere. WCAG measures text against the background colour, whose spatial
+mean the grain preserves, so the flat-colour model is the right one — but the
+grain is not free, and it is why axe cannot be trusted for contrast here.
+
+Still unverified, and needing a person rather than a tool:
+
+1. **Keyboard only, no mouse** — done manually by the author.
+2. **Contrast** — machine-checked, see above. `--mark` 4.69:1 and `--steel`
+   5.81:1 against `--plumage`. Both were documented slightly wrong; the
+   styleguide table still carries the old 1.6:1 / 3.2:1 for `--edge` and
+   `--edge-strong`, which are really 1.43:1 and 3.16:1.
+3. **Reduced motion** — machine-checked, passing, with a positive control so a
+   broken hero script cannot masquerade as correct behaviour.
 
 ### Real device
 
@@ -68,26 +122,37 @@ Android Chrome is worth ten minutes too, mainly for the video behaviour.
 
 ## Before launch
 
-- **Confirm the domain.** `site` in `astro.config.mjs` is
-  `https://waxwingfpv.com`. Canonical URLs, hreflang alternates, the sitemap,
-  the share-card URLs and every `contentUrl` in the structured data are built
-  from that one line. If the registered domain differs, change it and rebuild;
-  a mismatch silently tells search engines the real version of every page lives
-  on a domain you do not own.
-- **404 handling on the server.** Cloudflare Pages serves `dist/404.html`
-  automatically. A plain nginx or Caddy needs telling: nginx wants
-  `error_page 404 /404.html;`, Caddy a `handle_errors` block. Without it,
-  visitors get the server's own error page.
+- ~~**Confirm the domain.**~~ Confirmed: `waxwingfpv.com`. The comment in
+  `astro.config.mjs` said "placeholder until the domain is registered"; it now
+  records that the domain is confirmed. Canonical URLs, hreflang alternates,
+  the sitemap, the share-card URLs and every `contentUrl` in the structured
+  data are all built from that one line.
+- **`z` is deprecated in `astro:content`.** The Astro 7 bump made this the one
+  thing `npm run check` still reports: 63 hints, all of them `ts(6385)` on
+  `z.object(...)` in `src/content.config.ts`. Not an error yet, but it is the
+  obvious thing for Astro 8 to turn into one. The fix is to import `z` from
+  `zod` directly. No behaviour changes with it.
+- **404 handling on the server.** Still undecided — nothing is known about the
+  host yet. Cloudflare Pages serves `dist/404.html` automatically; a plain
+  nginx or Caddy needs telling (nginx wants `error_page 404 /404.html;`, Caddy
+  a `handle_errors` block). Without it visitors get the server's own error
+  page.
 - **Turkish copy.** Written by someone who is not a native speaker. Worth one
   read by someone who is, particularly the hero tagline and the button labels.
 - **`sources/video/` is gitignored**, so a fresh clone has no masters. Run
-  `./scripts/media.sh` if the encoded files ever need regenerating; the
-  Nish and Milat masters are fetched from Drive automatically.
+  `./scripts/media.sh` if the encoded files ever need regenerating; the Nish
+  and Milat masters are fetched from Drive automatically.
 
 ## Not done, and deliberately
 
 Say the word if any of these are wanted after all:
 
+- **Deferring the kit sample posters.** Measured at ~190ms of LCP. The frames
+  sit far below the fold, but their `poster` attribute downloads eagerly
+  regardless of `preload="none"`, so ~159KB competes with the hero poster for
+  the six connections a host gets. The fix is to attach the poster from JS when
+  the frame nears the viewport, which adds an IntersectionObserver to the Kit
+  script. Small win, small cost — not taken yet.
 - **Sticky mobile action bar** (WhatsApp + Get a quote), which was planned and
   then dropped. It would cost about 56px of viewport and is probably the
   cheapest remaining conversion win, since most traffic arrives from Instagram
@@ -108,3 +173,9 @@ Say the word if any of these are wanted after all:
   and nothing more.
 - **`sources/private/` holds the CV and the two licence certificates.** They
   contain a TC kimlik number, they are gitignored, and they must stay that way.
+- **The TODO's own numbers had drifted** and were corrected here: styles were
+  said to be fully inlined (the 8KB global bundle was external and
+  render-blocking on every page), the hero poster was said to be preloaded (it
+  was not — it is parser-discovered, though at 38ms it was already early), and
+  JS was said to be 2.4KB (it is 3.02KB). Worth re-deriving rather than
+  trusting any figure in this file.

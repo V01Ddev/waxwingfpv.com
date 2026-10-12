@@ -6,7 +6,9 @@
    names, so the palette can shift without touching a component.
 
    Contrast ratios below were computed with the WCAG relative-luminance
-   formula against --plumage (#0F1418). Re-verify at Checkpoint A.
+   formula against --plumage (#0F1418), and are re-derived by
+   scripts/audit.mjs, which measures the rendered page rather than the tokens.
+   Re-check there before trusting any figure in this file.
    --------------------------------------------------------------------------- */
 
 :root {
@@ -29,12 +31,12 @@
   --mask: #05070a; /* deepest: lightbox backdrop, letterbox bands */
   --silk: #e8e6e1; /* text and primary fill — warm off-white, not #fff */
   --mark: #808080; /* the logo's grey. the site's only accent (4.7:1) */
-  --steel: #8a9199; /* muted meta text (5.6:1) */
-  --edge: #2a323a; /* decorative hairlines and dividers only (1.6:1) */
+  --steel: #8a9199; /* muted meta text (5.81:1) */
+  --edge: #2a323a; /* decorative hairlines and dividers only (1.43:1) */
   --edge-strong: #5a6672; /* interactive boundaries — form fields, ghost
                              buttons, tab outlines. WCAG 1.4.11 requires 3:1
                              for a control's extent; --edge does not clear it
-                             at 1.6:1, which is why this second step exists. */
+                             at 1.43:1, which is why this second step exists. */
   --tail: #e8b23a; /* the waxwing's tail band, and the only hue left in the
                       system. It exists for exactly one reason: a focus
                       indicator has to be unmistakable against every surface
