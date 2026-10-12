@@ -88,6 +88,51 @@ posters() {
     -vf "scale=720:1280:flags=lanczos" -q:v 4 "$OUT/milat-9-16.jpg"
 }
 
+# --- kit sample clips -------------------------------------------------------
+# These two sources are dropped in the project root by hand rather than fetched,
+# because they are hundreds of megabytes each and Drive refuses to serve the
+# large ones without an interactive confirmation. Both are gitignored.
+#
+# No audio on either: these demonstrate how an aircraft moves, they are not
+# scored films — the portfolio carries the music. The lightbox autoplays, so an
+# ambient track would arrive uninvited.
+#
+# 960x540, not 720p. These are shown at about 470px wide in the kit panel and
+# never wider than the lightbox's 1152px stage, so 720p was buying detail the
+# layout cannot display. At 720p CRF 24 the 21-second 5-inch clip came out at
+# 29.8MB, more than the whole hero and every portfolio cut combined; this
+# footage is fast freestyle motion and does not compress cheaply.
+kit() {
+  mkdir -p "$OUT"
+
+  if [ -f "$ROOT/IAU_Studio.MP4" ]; then
+    # Meteor75 Pro II, shot in the IAU studio space.
+    # 3840x2880 is 4:3; the centre 16:9 band is 3840x2160, offset 360 down.
+    echo "  kit-meteor75 (crop 4:3 -> 16:9, 40s from 1:50)"
+    ffmpeg -v error -y -ss 110 -t 40 -i "$ROOT/IAU_Studio.MP4" -map_metadata -1 -an \
+      -vf "crop=3840:2160:0:360,scale=960:540:flags=lanczos,setsar=1,fps=30" \
+      -c:v libx264 -profile:v high -crf 27 -preset slow -pix_fmt yuv420p \
+      -movflags +faststart -g 60 "$OUT/kit-meteor75.mp4"
+    ffmpeg -v error -y -ss 112 -i "$ROOT/IAU_Studio.MP4" -frames:v 1 \
+      -vf "crop=3840:2160:0:360,scale=960:540:flags=lanczos" -q:v 4 "$OUT/kit-meteor75.jpg"
+  else
+    echo "  kit-meteor75: skipped, IAU_Studio.MP4 not in the project root"
+  fi
+
+  if [ -f "$ROOT/5-inch-sample.mp4" ]; then
+    # Custom 5-inch. Already 16:9 (2704x1520), so no crop.
+    echo "  kit-5-inch"
+    ffmpeg -v error -y -i "$ROOT/5-inch-sample.mp4" -map_metadata -1 -an \
+      -vf "scale=960:540:flags=lanczos,setsar=1,fps=30" \
+      -c:v libx264 -profile:v high -crf 27 -preset slow -pix_fmt yuv420p \
+      -movflags +faststart -g 60 "$OUT/kit-5-inch.mp4"
+    ffmpeg -v error -y -ss 2 -i "$ROOT/5-inch-sample.mp4" -frames:v 1 \
+      -vf "scale=960:540:flags=lanczos,setsar=1" -q:v 4 "$OUT/kit-5-inch.jpg"
+  else
+    echo "  kit-5-inch: skipped, 5-inch-sample.mp4 not in the project root"
+  fi
+}
+
 # --- hero loop --------------------------------------------------------------
 # A three-shot montage: the opening, a mid-take interior pass, and the bright
 # late passage. Combined from measured windows rather than one continuous
@@ -166,7 +211,8 @@ candidates() {
 case "${1:-all}" in
   candidates) fetch; candidates ;;
   hero) fetch; hero ;;
-  *) fetch; encode_portfolio; posters; hero; candidates ;;
+  kit) kit ;;
+  *) fetch; encode_portfolio; posters; hero; kit; candidates ;;
 esac
 
 echo

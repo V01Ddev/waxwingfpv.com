@@ -38,6 +38,7 @@ cuts:
     label:
       tr: 'Film'
       en: 'Film'
+    source: '2K'
     src: '/video/the-nish-16-9.mp4'
     poster: '/video/the-nish-16-9.jpg'
     width: 1920
@@ -47,6 +48,7 @@ cuts:
     label:
       tr: 'Reel'
       en: 'Reel'
+    source: '1080p'
     src: '/video/the-nish-9-16.mp4'
     poster: '/video/the-nish-9-16.jpg'
     width: 1080

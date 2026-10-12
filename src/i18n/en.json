@@ -115,5 +115,8 @@
     "privacy": "Privacy notice",
     "consent": "I consent to my personal data being processed in order to answer this enquiry.",
     "rights": "All rights reserved."
+  },
+  "media": {
+    "sourceNote": "{source} source, downscaled for the web"
   }
 }

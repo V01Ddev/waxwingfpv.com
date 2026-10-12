@@ -115,5 +115,8 @@
     "privacy": "KVKK Aydınlatma Metni",
     "consent": "Kişisel verilerimin bu talebe yanıt vermek amacıyla işlenmesine onay veriyorum.",
     "rights": "Tüm hakları saklıdır."
+  },
+  "media": {
+    "sourceNote": "{source} kaynak, web için küçültüldü"
   }
 }

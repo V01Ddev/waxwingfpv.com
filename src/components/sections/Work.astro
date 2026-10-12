@@ -46,6 +46,7 @@ const kitName = (id: string) => kit.find((k) => k.id === id)?.name ?? id;
                     data-video-title={project.title}
                     data-video-label={cut.label}
                     data-video-orientation={cut.orientation}
+                    data-video-source={cut.source}
                     data-video-facts={JSON.stringify(
                       duration ? [...facts, [t(locale, 'work.duration'), duration]] : facts
                     )}

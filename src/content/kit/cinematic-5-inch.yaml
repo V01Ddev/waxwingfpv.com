@@ -79,6 +79,7 @@ limits:
     - 'Rooms where noise is a problem'
 
 sample:
+  source: '2.7K'
   src: '/video/kit-5-inch.mp4'
   poster: '/video/kit-5-inch.jpg'
   orientation: 'landscape'

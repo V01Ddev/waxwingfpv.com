@@ -18,7 +18,12 @@ const { locale } = Astro.props;
  */
 ---
 
-<dialog class="lb" id="lightbox" aria-labelledby="lb-title">
+<dialog
+  class="lb"
+  id="lightbox"
+  aria-labelledby="lb-title"
+  data-source-template={t(locale, 'media.sourceNote')}
+>
   <div class="lb__frame">
     <div class="lb__bar">
       <p class="lb__count t-mono" data-lb-count></p>
@@ -34,6 +39,10 @@ const { locale } = Astro.props;
       <div class="lb__meta">
         <h2 class="lb__title" id="lb-title" data-lb-title></h2>
         <p class="lb__label t-mono" data-lb-label></p>
+        {/* Says what the master actually is and that the web copy is smaller.
+            Without it, a 540p clip on a 4K screen reads as the ceiling of the
+            work rather than a delivery choice. */}
+        <p class="lb__source t-mono" data-lb-source hidden></p>
         <dl class="lb__facts" data-lb-facts></dl>
       </div>
     </div>
@@ -65,7 +74,9 @@ const { locale } = Astro.props;
   }
 
   .lb::backdrop {
-    background: rgb(5 7 10 / 0.94);
+    /* 0.97, not 0.94: at 0.94 the hero headline behind stayed legible enough
+       to compete with the lightbox's own title, which sits right over it. */
+    background: rgb(5 7 10 / 0.97);
   }
 
   .lb__frame {
@@ -149,15 +160,27 @@ const { locale } = Astro.props;
   .lb__media {
     flex: 1 1 auto;
     min-height: 0;
-    display: grid;
-    place-items: center;
     width: 100%;
+    /* The video is absolutely positioned inside this box. A percentage
+       max-height does not resolve against a stretched flex item, which is why
+       the video used to render at its intrinsic size; against a positioned
+       containing block it does. */
+    position: relative;
+  }
+
+  .lb__media :global(video.is-capped::-webkit-media-controls-fullscreen-button) {
+    display: none;
   }
 
   .lb__media :global(video) {
-    display: block;
-    /* auto width/height keeps the element box equal to the rendered picture,
-       so the hairline frames the video rather than a letterbox around it. */
+    /* inset: 0 with auto margins centres it, and max-width/height: 100%
+       resolve against this box, so the video always fits exactly the space
+       left after the meta. auto width/height keeps the element box equal to
+       the rendered picture, so the hairline frames the video and not a
+       letterbox around it. */
+    position: absolute;
+    inset: 0;
+    margin: auto;
     width: auto;
     height: auto;
     max-width: 100%;
@@ -169,35 +192,20 @@ const { locale } = Astro.props;
   /*
     :global() throughout this block. Astro scopes a rule to the last element in
     the selector, and the <video> and the fact rows are created by JavaScript,
-    so they never carry the scope attribute — every rule aimed at them matched
-    nothing. That is why the video rendered at its intrinsic 720x1280 and the
-    facts ran together as "ÇekimMeteor75 Pro II".
+    so they never carry the scope attribute and every rule aimed at them
+    matched nothing.
 
-    Height is capped against the viewport rather than against the flex parent.
-
-    `max-height: 100%` looked right and measured wrong: on a laptop the video
-    rendered at its intrinsic 720x1280 and pushed the dialog to 1348px in a
-    768px viewport, so the visitor had to scroll. A percentage height does not
-    reliably resolve against a stretched flex item. svh minus the fixed chrome
-    does resolve, and svh (not vh) is what iOS actually shows while the URL bar
-    is up.
-
-    The chrome: frame padding 1.75rem + bar 2.75rem + two flex gaps 1.5rem +
-    pager 2.75rem = 8.75rem, plus room for the meta block when it sits
-    underneath.
+    There is deliberately no svh cap here any more. Guessing the chrome height
+    in svh is what produced the overlap: the reserve assumed a 16rem chrome,
+    but for a landscape cut the meta adds 148px on top of the bar and pager, so
+    the video came out 56px taller than its own container and sat over the
+    title.
   */
-  .lb__media :global(video) {
-    max-height: calc(100svh - 16rem);
-  }
-
-  @media (min-width: 60rem) {
-    /* Beside the video, not under it, so it can use the height that frees up. */
-    .lb[data-orientation='vertical'] .lb__media :global(video) {
-      max-height: calc(100svh - 10rem);
-    }
-  }
 
   .lb__meta {
+    /* flex: none, not shrinkable. It holds the title, and when it was allowed
+       to be squeezed the title lost the fight with the video. */
+    flex: none;
     display: grid;
     gap: var(--sp-2);
     justify-items: center;
@@ -212,6 +220,15 @@ const { locale } = Astro.props;
   .lb__label {
     color: var(--fg-muted);
     margin: 0;
+  }
+
+  .lb__source {
+    color: var(--fg-muted);
+    margin: 0;
+  }
+
+  .lb__source[hidden] {
+    display: none;
   }
 
   .lb__facts {
@@ -303,6 +320,8 @@ const { locale } = Astro.props;
     const labelEl = dialog.querySelector<HTMLElement>('[data-lb-label]')!;
     const factsEl = dialog.querySelector<HTMLElement>('[data-lb-facts]')!;
     const countEl = dialog.querySelector<HTMLElement>('[data-lb-count]')!;
+    const sourceEl = dialog.querySelector<HTMLElement>('[data-lb-source]')!;
+    const sourceTemplate = dialog.dataset.sourceTemplate ?? '{source}';
 
     let triggers: HTMLElement[] = [];
     let index = 0;
@@ -313,6 +332,8 @@ const { locale } = Astro.props;
       title: el.dataset.videoTitle ?? '',
       label: el.dataset.videoLabel ?? '',
       orientation: el.dataset.videoOrientation ?? 'landscape',
+      source: el.dataset.videoSource ?? '',
+      noFullscreen: el.hasAttribute('data-video-nofullscreen'),
       facts: JSON.parse(el.dataset.videoFacts || '[]') as [string, string][],
     });
 
@@ -326,6 +347,11 @@ const { locale } = Astro.props;
       countEl.textContent = `${String(i + 1).padStart(2, '0')} / ${String(
         triggers.length
       ).padStart(2, '0')}`;
+
+      sourceEl.hidden = !item.source;
+      sourceEl.textContent = item.source
+        ? sourceTemplate.replace('{source}', item.source)
+        : '';
 
       factsEl.replaceChildren(
         ...item.facts.map(([term, value]) => {
@@ -349,6 +375,15 @@ const { locale } = Astro.props;
       // sound is expected rather than an ambush.
       video.autoplay = true;
       video.setAttribute('aria-label', `${item.title}, ${item.label}`);
+
+      if (item.noFullscreen) {
+        // controlsList is what Chrome honours; the CSS rule below catches the
+        // WebKit button, and the double-click guard covers the rest.
+        video.setAttribute('controlslist', 'nofullscreen nodownload');
+        video.setAttribute('disablepictureinpicture', '');
+        video.classList.add('is-capped');
+        video.addEventListener('dblclick', (event) => event.preventDefault());
+      }
 
       media.replaceChildren(video);
     }

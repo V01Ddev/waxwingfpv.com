@@ -68,6 +68,7 @@ limits:
     - 'Anything that needs real speed'
 
 sample:
+  source: '4K'
   src: '/video/kit-meteor75.mp4'
   poster: '/video/kit-meteor75.jpg'
   orientation: 'landscape'

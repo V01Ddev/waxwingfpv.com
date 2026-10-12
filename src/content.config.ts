@@ -102,6 +102,8 @@ const projects = defineCollection({
         z.object({
           orientation: z.enum(['landscape', 'vertical']),
           label: localized,
+          /** Master resolution, e.g. '4K'. Shown as a note; omit if unknown. */
+          source: z.string().optional(),
           src: z.string(),
           poster: z.string().optional(),
           width: z.number(),
@@ -143,6 +145,8 @@ const kit = defineCollection({
       poster: z.string().optional(),
       orientation: z.enum(['landscape', 'vertical']),
       durationSec: z.number().optional(),
+      /** Master resolution, e.g. '4K'. Shown as a note; omit if unknown. */
+      source: z.string().optional(),
     }),
   }),
 });

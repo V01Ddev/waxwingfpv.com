@@ -1,4 +1,6 @@
 ---
+import { existsSync } from 'node:fs';
+import path from 'node:path';
 import MediaPlaceholder from '../ui/MediaPlaceholder.astro';
 import { t, type Locale } from '../../i18n/ui';
 import { getKit } from '../../lib/content';
@@ -9,6 +11,13 @@ interface Props {
 
 const { locale } = Astro.props;
 const items = await getKit(locale);
+
+/**
+ * A sample clip becomes playable only once its file exists in public/. Adding
+ * the mp4 is enough to turn the frame into a facade - nothing here needs
+ * editing, and the 5-inch cannot end up with a play button that opens a 404.
+ */
+const hasSample = (src: string) => existsSync(path.join(process.cwd(), 'public', src));
 
 /**
  * The comparison is aircraft-only. A camera has no flight time and no control
@@ -82,20 +91,53 @@ const valueFor = (item: (typeof items)[number], label: string) =>
             hidden={i !== 0}
           >
             <div class="kit__media">
-              {/*
-                Phase 3 turns this into a playable facade: it gains
-                data-video-src / -poster / -facts and a play control once
-                scripts/media.sh has encoded the sample clips. Until then it is
-                deliberately inert rather than a button that opens nothing.
-              */}
-              <div class="frame">
-                <span class="frame__media">
-                  <MediaPlaceholder
-                    ratio={item.sample.orientation === 'vertical' ? '9:16' : '16:9'}
-                    label={`${item.name}, ${t(locale, 'kit.sample')}`}
-                  />
-                </span>
-              </div>
+                            {hasSample(item.sample.src) ? (
+                <button
+                  type="button"
+                  class="frame"
+                  data-video-src={item.sample.src}
+                  data-video-poster={item.sample.poster}
+                  data-video-title={item.name}
+                  data-video-label={t(locale, 'kit.sample')}
+                  data-video-orientation={item.sample.orientation}
+                  data-video-source={item.sample.source}
+                  {/* The samples are served at 540p. Handing someone a
+                      fullscreen button for a 540p clip invites them to judge
+                      the work at a size it was never meant to be seen. */}
+                  data-video-nofullscreen
+                  data-video-facts={JSON.stringify(
+                    item.specs.slice(0, 3).map((spec) => [spec.label, spec.value])
+                  )}
+                >
+                  <span class="frame__media">
+                    <img
+                      src={item.sample.poster}
+                      width={item.sample.orientation === 'vertical' ? 720 : 1280}
+                      height={item.sample.orientation === 'vertical' ? 1280 : 720}
+                      alt=""
+                      loading="lazy"
+                      decoding="async"
+                    />
+                  </span>
+                  <span class="frame__play">
+                    <svg class="frame__tri" viewBox="0 0 12 14" aria-hidden="true" focusable="false">
+                      <path d="M0 0 12 7 0 14Z" />
+                    </svg>
+                  </span>
+                  <span class="visually-hidden">
+                    {t(locale, 'kit.playSample')}: {item.name}
+                  </span>
+                </button>
+              ) : (
+                <div class="frame">
+                  <span class="frame__media">
+                    <MediaPlaceholder
+                      ratio={item.sample.orientation === 'vertical' ? '9:16' : '16:9'}
+                      label={`${item.name}, ${t(locale, 'kit.sample')}`}
+                    />
+                  </span>
+                </div>
+              )}
 
               {/* The full spec sheet for this item, including the rows that
                   only apply to it. */}
@@ -290,11 +332,57 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     min-width: 0;
   }
 
-  /* Inert until Phase 3 gives it a clip to play. */
   .frame {
     position: relative;
     display: block;
     width: 100%;
+    padding: 0;
+    background: none;
+    border: 0;
+    text-align: start;
+  }
+
+  button.frame {
+    cursor: pointer;
+  }
+
+  .frame__media img {
+    width: 100%;
+    height: auto;
+  }
+
+  .frame__play {
+    position: absolute;
+    inset-block-start: 50%;
+    inset-inline-start: 50%;
+    display: grid;
+    place-items: center;
+    width: 3.25rem;
+    height: 3.25rem;
+    translate: -50% -50%;
+    background: rgb(5 7 10 / 0.62);
+    border: var(--hairline) solid rgb(232 230 225 / 0.35);
+    transition:
+      background-color var(--dur-2) var(--ease),
+      border-color var(--dur-2) var(--ease);
+  }
+
+  .frame__tri {
+    width: 0.85rem;
+    height: auto;
+    fill: var(--fg-muted);
+    transition: fill var(--dur-2) var(--ease);
+  }
+
+  .frame:hover .frame__play,
+  .frame:focus-visible .frame__play {
+    background: rgb(5 7 10 / 0.85);
+    border-color: var(--silk);
+  }
+
+  .frame:hover .frame__tri,
+  .frame:focus-visible .frame__tri {
+    fill: var(--silk);
   }
 
   .frame__media {
