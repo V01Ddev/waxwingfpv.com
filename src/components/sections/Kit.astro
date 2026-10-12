@@ -593,6 +593,13 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     inset-inline-start: 0;
     background: var(--bg);
     padding-inline-end: var(--sp-5);
+    /* The background is opaque, so it hides the body film grain behind this
+       column — which makes the block's leading edge visible, and the label sat
+       flush against it. A little air in front of the text. Note this indents
+       the row labels by 0.5rem relative to the table's edge, so they no longer
+       line up exactly with the caption above; the caption is the thing to move
+       if that alignment matters more than the air. */
+    padding-inline-start: var(--sp-2);
   }
 
   tbody td {
