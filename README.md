@@ -11,8 +11,18 @@ Node 20+ and `ffmpeg` on the PATH (only for regenerating media).
 npm install
 npm run dev      # http://localhost:4321
 npm run build    # -> dist/
-npm run preview  # serve the built output
+npm run preview  # serve the built output, 404 included
 ```
+
+`npm run preview` serves `dist/404.html` for unknown paths with a real 404
+status, which is how the 404 is meant to be checked. A plain static file server
+will not do this — `python -m http.server`, for instance, answers with its own
+error page and makes it look like the 404 is missing.
+
+Two things that catch people out: `astro preview` binds to `localhost`, which
+resolves to IPv6 on some machines, so `curl 127.0.0.1` fails against it; and it
+caches an asset manifest at startup, so restart it after a rebuild or you will
+get new HTML pointing at CSS it will not serve.
 
 ## Where things live
 
