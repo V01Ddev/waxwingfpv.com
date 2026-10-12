@@ -80,6 +80,17 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
     <div class="ftr__base">
       <p class="t-meta">© {year} WaxWingFPV. {t(locale, 'legal.rights')}</p>
       <a class="t-meta" href={localePath(locale, '/privacy')}>{t(locale, 'legal.privacy')}</a>
+      {/*
+        The whole phrase is the link rather than just the domain. Turkish puts
+        the verb after it — "v01d.dev tarafından yapıldı" — so linking only
+        "v01d.dev" would need different markup per locale for no gain.
+
+        target/rel match the Instagram link: it leaves the site, and rel="me"
+        makes the same identity claim.
+      */}
+      <a class="t-meta" href="https://v01d.dev" rel="noopener me" target="_blank">
+        {t(locale, 'legal.credit')}
+      </a>
     </div>
   </div>
 </footer>
