@@ -144,7 +144,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
                     <span class="visually-hidden">{t(locale, 'kit.compare')}</span>
                   </th>
                   {airframes.map((item) => (
-                    <th scope="col" data-spec-col={item.id}>
+                    <th scope="col">
                       {item.name}
                     </th>
                   ))}
@@ -155,7 +155,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
                   <tr>
                     <th scope="row">{row}</th>
                     {airframes.map((item) => (
-                      <td data-spec-col={item.id}>{valueFor(item, row)}</td>
+                      <td>{valueFor(item, row)}</td>
                     ))}
                   </tr>
                 ))}
@@ -457,7 +457,7 @@ const valueFor = (item: (typeof items)[number], label: string) =>
   }
 
   tbody th {
-    color: var(--fg-muted);
+    color: var(--fg);
     font-size: var(--text-sm);
     white-space: nowrap;
     position: sticky;
@@ -470,19 +470,14 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     font-family: var(--font-mono);
     font-size: var(--text-sm);
     letter-spacing: var(--ls-mono);
-    color: var(--fg-muted);
+    color: var(--fg);
     min-width: 9rem;
   }
 
-  /* The active column is marked in wax — the comparison updates with the
-     selector rather than being a separate mode. */
-  [data-spec-col].is-active {
-    color: var(--fg);
-  }
-
-  thead [data-spec-col].is-active {
-    box-shadow: inset 0 -2px 0 var(--accent);
-  }
+  /* No active-column marker. There used to be a wax underline that followed
+     the selector, but under a header it reads as a link — and the tab list
+     already shows what is selected. The table is a comparison of both
+     aircraft and does not change with the selection. */
 </style>
 
 <script>
@@ -493,7 +488,6 @@ const valueFor = (item: (typeof items)[number], label: string) =>
   if (root) {
     const tabs = Array.from(root.querySelectorAll<HTMLButtonElement>('[role="tab"]'));
     const panels = Array.from(root.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
-    const section = root.closest('section');
 
     /**
      * `scroll` is separate from `focus` on purpose. scrollIntoView on a tab
@@ -511,11 +505,6 @@ const valueFor = (item: (typeof items)[number], label: string) =>
 
       panels.forEach((panel, i) => {
         panel.hidden = i !== index;
-      });
-
-      const id = tabs[index]?.id.replace('kit-tab-', '');
-      section?.querySelectorAll('[data-spec-col]').forEach((cell) => {
-        cell.classList.toggle('is-active', cell.getAttribute('data-spec-col') === id);
       });
 
       if (focus) tabs[index]?.focus();
