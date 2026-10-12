@@ -173,6 +173,26 @@ Say the word if any of these are wanted after all:
   and nothing more.
 - **`sources/private/` holds the CV and the two licence certificates.** They
   contain a TC kimlik number, they are gitignored, and they must stay that way.
+- **The kit sample clips show a fullscreen button in Firefox and on iOS
+  Safari.** `controlslist="nofullscreen"` is Chromium-only — it was proposed by
+  Chromium and never adopted into the HTML spec, so Firefox, Safari and iOS
+  Safari all ignore it. The kit clips now carry both mechanisms: `controlslist`
+  for Chromium, and `::-webkit-media-controls-fullscreen-button` for Safari,
+  which is the same pattern `Lightbox.astro` already uses. That leaves two
+  browsers. **Firefox exposes no `::-moz-media-controls-*` pseudo-element at
+  all** — verified by rendering it, not assumed — so there is no CSS route
+  there. **iOS Safari's controls are native UIKit**, outside CSS entirely, and
+  since most traffic is Instagram-on-a-phone that is the one that matters most.
+  Closing it properly means dropping the native controls for a custom bar in
+  the site's own monochrome language, which would also be the last place
+  browser chrome leaks into the design. Not done: it is a 40-second sample clip
+  and the attribute only ever hid the button anyway — F, double-click and the
+  context menu reach fullscreen in Chromium regardless.
+- **Note on the lightbox's `is-capped` path.** It sets `controlslist`,
+  `disablepictureinpicture` and a `dblclick` guard, and the CSS hides the
+  WebKit button — but nothing currently sets `data-video-nofullscreen`, so that
+  whole branch has never run. Worth exercising it, or deleting it, next time
+  the work content changes.
 - **The TODO's own numbers had drifted** and were corrected here: styles were
   said to be fully inlined (the 8KB global bundle was external and
   render-blocking on every page), the hero poster was said to be preloaded (it

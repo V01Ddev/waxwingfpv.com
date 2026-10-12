@@ -100,6 +100,12 @@ const valueFor = (item: (typeof items)[number], label: string) =>
                 <>
                 <div class="frame" data-sample>
                   <span class="frame__media">
+                    {/* `controlslist` is Chromium-only; Safari is covered by
+                        the WebKit pseudo-element in the styles below. Firefox
+                        honours neither and will show the fullscreen button —
+                        it exposes no ::-moz-media-controls-* to hook, and iOS
+                        Safari's controls are native UIKit. Known, accepted gap:
+                        see TODO.md. */}
                     <video
                       class="frame__video"
                       data-sample-video
@@ -361,6 +367,17 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     display: block;
     width: 100%;
     height: auto;
+  }
+
+  /* Two mechanisms, because no single one covers the field. Chromium honours
+     controlslist on the element; Safari has no controlslist and needs this
+     WebKit pseudo-element instead. Firefox exposes neither — it has no
+     ::-moz-media-controls-fullscreen-button, verified by rendering it — so the
+     button still shows there, and on iOS Safari the controls are native UIKit
+     and out of CSS's reach entirely. See TODO.md. Firefox and iOS are the
+     known, accepted part of this gap. */
+  .frame__video::-webkit-media-controls-fullscreen-button {
+    display: none;
   }
 
   /* Once it is playing, the native controls take over and the overlay would
