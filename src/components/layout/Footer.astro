@@ -33,7 +33,22 @@ const waHref = `https://wa.me/${site.whatsapp}?text=${encodeURIComponent(
               does the separating, which is the same rule the rest of the site
               follows: mono is for data. */}
           <li>
-            <a href={waHref} rel="noopener">
+            {/* Counted by GoatCounter's own click binding, which scans for this
+                attribute when count.js runs. A click before that is not
+                counted; nothing here can change that without loading the
+                script eagerly, which would cost more than it returns.
+
+                The title is set explicitly and in English on purpose: without
+                it count.js falls back to the element's innerHTML, which here
+                is the phone number wrapped in a span complete with Astro's
+                scope attribute. A localised title would also split the same
+                event into two rows in the dashboard. */}
+            <a
+              href={waHref}
+              rel="noopener"
+              data-goatcounter-click="whatsapp-footer"
+              data-goatcounter-title="WhatsApp (footer)"
+            >
               WhatsApp <span class="ftr__value">{site.whatsappDisplay}</span>
             </a>
           </li>

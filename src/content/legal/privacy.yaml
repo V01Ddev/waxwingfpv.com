@@ -63,10 +63,10 @@ sections:
     body:
       tr:
         - 'GoatCounter adlı açık kaynaklı, çerezsiz bir ölçümleme aracı kullanıyoruz. GoatCounter tarayıcınıza çerez, localStorage veya benzeri hiçbir şey kaydetmez; IP adresinizi veritabanına yazmaz (yalnızca aynı ziyaretçiyi kısa süre ayırt edebilmek için en fazla 8 saat bellekte tutar, sonra siler).'
-        - 'Yalnızca toplu istatistik tutulur: sayfa görüntüleme sayısı, tarayıcı, işletim sistemi, ülke, ekran genişliği. Bu verilerden kimliğiniz belirlenemez. Bu nedenle siteyi ziyaretiniz için çerez izni istemiyoruz.'
+        - 'Yalnızca toplu istatistik tutulur: sayfa görüntüleme sayısı, tarayıcı, işletim sistemi, ülke, ekran genişliği ve WhatsApp düğmesinin kaç kez kullanıldığı. Bu verilerden kimliğiniz belirlenemez. Bu nedenle siteyi ziyaretiniz için çerez izni istemiyoruz.'
       en:
         - 'We use GoatCounter, an open-source analytics tool that sets no cookies. It stores nothing on your device, and it does not write IP addresses to its database: it keeps them in memory for at most eight hours to tell repeat visits apart, then discards them.'
-        - 'What it records is aggregate only: page views, browser, operating system, country, screen width. None of it identifies you. That is why this site shows no cookie banner.'
+        - 'What it records is aggregate only: page views, browser, operating system, country, screen width, and how often the WhatsApp button is used. None of it identifies you. That is why this site shows no cookie banner.'
 
   - heading:
       tr: 'Hukuki sebep'

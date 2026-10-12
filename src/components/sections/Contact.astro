@@ -100,7 +100,14 @@ const waLabels = {
         <h3 class="ct__label t-mono">{t(locale, 'contact.directLabel')}</h3>
         <ul class="ct__links">
           <li>
-            <a href={waHref} rel="noopener">{t(locale, 'cta.whatsapp')}</a>
+            <a
+              href={waHref}
+              rel="noopener"
+              data-goatcounter-click="whatsapp-contact"
+              data-goatcounter-title="WhatsApp (contact section)"
+            >
+              {t(locale, 'cta.whatsapp')}
+            </a>
             <span class="t-mono">{site.whatsappDisplay}</span>
           </li>
           <li>
@@ -311,6 +318,18 @@ const waLabels = {
       lines.push('', `${labels.message}: ${value('message')}`);
 
       const text = `${intro}\n\n${lines.join('\n')}`;
+
+      // Counted here rather than with data-goatcounter-click on the submit
+      // button: that attribute would also fire on submissions that fail
+      // validation, and this line is where the handoff actually happens.
+      // Optional-chained because count.js loads on idle and a fast submit can
+      // still beat it — a missed event, never an error.
+      window.goatcounter?.count?.({
+        event: true,
+        path: 'whatsapp-form',
+        title: 'WhatsApp (form)',
+      });
+
       window.open(
         `https://wa.me/${number}?text=${encodeURIComponent(text)}`,
         '_blank',
