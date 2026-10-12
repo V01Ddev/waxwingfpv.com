@@ -97,9 +97,9 @@ Still unverified, and needing a person rather than a tool:
 
 1. **Keyboard only, no mouse** — done manually by the author.
 2. **Contrast** — machine-checked, see above. `--mark` 4.69:1 and `--steel`
-   5.81:1 against `--plumage`. Both were documented slightly wrong; the
-   styleguide table still carries the old 1.6:1 / 3.2:1 for `--edge` and
-   `--edge-strong`, which are really 1.43:1 and 3.16:1.
+   5.81:1 against `--plumage`. Three documented ratios were wrong and are now
+   corrected in both `tokens.css` and the dev styleguide: `--steel` 5.6 → 5.81,
+   `--edge-strong` 3.2 → 3.16, `--edge` 1.6 → 1.43.
 3. **Reduced motion** — machine-checked, passing, with a positive control so a
    broken hero script cannot masquerade as correct behaviour.
 
@@ -132,16 +132,75 @@ Android Chrome is worth ten minutes too, mainly for the video behaviour.
   `z.object(...)` in `src/content.config.ts`. Not an error yet, but it is the
   obvious thing for Astro 8 to turn into one. The fix is to import `z` from
   `zod` directly. No behaviour changes with it.
-- **404 handling on the server.** Still undecided — nothing is known about the
-  host yet. Cloudflare Pages serves `dist/404.html` automatically; a plain
-  nginx or Caddy needs telling (nginx wants `error_page 404 /404.html;`, Caddy
-  a `handle_errors` block). Without it visitors get the server's own error
-  page.
+- **404 handling on the server.** Resolved — `not_found_handling: "404-page"`
+  in `wrangler.jsonc`, verified serving `dist/404.html` byte for byte. See
+  Deploying below.
 - **Turkish copy.** Written by someone who is not a native speaker. Worth one
   read by someone who is, particularly the hero tagline and the button labels.
 - **`sources/video/` is gitignored**, so a fresh clone has no masters. Run
   `./scripts/media.sh` if the encoded files ever need regenerating; the Nish
   and Milat masters are fetched from Drive automatically.
+
+## Deploying
+
+Cloudflare Workers with Static Assets. Two files carry it: `wrangler.jsonc` and
+`.github/workflows/deploy.yml`. Every push and PR is type-checked and built;
+only `main` deploys.
+
+**Why not the usual $5 VPS.** This site is entirely static — the form hands off
+to WhatsApp, analytics is third-party, and there is no server-side code of any
+kind — so a VPS was buying a bill and nothing else. Cloudflare serves static
+assets free and without a bandwidth cap.
+
+**Why not Netlify or Vercel.** 100GB/month measured against 65MB of video with
+single clips near 17MB. Worse, **Vercel's free Hobby tier prohibits commercial
+use outright**, and this is a lead-generation site for a business.
+
+**Why Workers rather than Pages.** Pages still works and is not deprecated, but
+Cloudflare steers new projects to Workers and develops Pages for maintenance
+only. The cost is one small config file.
+
+### One-time setup, not yet done
+
+1. **Enable the workers.dev subdomain** on the Cloudflare account (Workers →
+   Settings). The first deploy fails without it.
+2. **Add two repository secrets** (GitHub → Settings → Secrets and variables →
+   Actions):
+   - `CLOUDFLARE_API_TOKEN` — create from the "Edit Cloudflare Workers" template
+   - `CLOUDFLARE_ACCOUNT_ID` — shown in the Cloudflare dashboard URL
+3. Push to `main`, or run the workflow manually.
+4. **Add the custom domain** once the Worker exists: Workers → `waxwingfpv` →
+   Settings → Domains & Routes → Add custom domain. The zone is already on
+   Cloudflare, so this writes its own DNS record. Decide about `www` at the
+   same time — right now nothing resolves at all.
+
+### After the first deploy
+
+- Run the audit against the live URL, which also proves the canonical URLs,
+  hreflang alternates and sitemap match what is being served:
+  `node scripts/audit.mjs --base https://waxwingfpv.com`
+- Open the site once with `#toggle-goatcounter` appended, so your own visits
+  stop counting now that production traffic is real.
+
+### Limits worth knowing
+
+- **25 MiB per file.** The largest video is 17.3 MiB — headroom, but not much.
+  A longer or higher-bitrate clip would cross it, and the escape hatch is
+  Cloudflare R2: 10GB free and no egress fees, so the video could move there
+  and stay free.
+- **20,000 files.** The site currently ships 49.
+- **`compatibility_date` must not be in the future.** Wrangler rejects a date
+  newer than the runtime it ships — `2026-10-13` failed against workerd
+  1.20261006.1. It is pinned to `2026-10-06`; bump it and wrangler together.
+
+### Rolling back
+
+Cloudflare keeps every deployment, so a rollback needs no rebuild:
+
+```bash
+npx wrangler deployments list      # the ten most recent
+npx wrangler rollback [version-id]
+```
 
 ## Not done, and deliberately
 

@@ -1,0 +1,54 @@
+name: Build and deploy
+
+# Every push and PR is verified. Only main deploys.
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+# Supersede in-flight runs on branches and PRs, but never cancel a deploy that
+# is already talking to Cloudflare.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          # Matches the version this was developed against, so a build that
+          # passes locally is not surprised here.
+          node-version: '24'
+          cache: npm
+
+      # `npm ci`, not `install`: it installs the lockfile exactly and fails if
+      # package.json and the lockfile disagree.
+      - run: npm ci
+
+      # Content schema and types. Currently 0 errors and 0 warnings; the 63
+      # hints are the astro:content `z` deprecation and do not fail the build.
+      - name: Check types and content
+        run: npm run check
+
+      - name: Build
+        run: npm run build
+
+      # Runs after the build because it uploads dist/.
+      - name: Deploy to Cloudflare Workers
+        if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          # wranglerVersion is deliberately omitted. The action reuses an
+          # existing installation when there is one, so it runs the exact
+          # version pinned in devDependencies — the same one the config was
+          # validated against. Naming a version here would override that.

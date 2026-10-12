@@ -1,0 +1,24 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "waxwingfpv",
+  // Must not exceed the newest date the installed wrangler knows about; it
+  // rejects anything later as "in the future". wrangler 4.149.0 ships
+  // workerd 1.20261006.1, so this tracks that. Bump both together.
+  "compatibility_date": "2026-10-06",
+
+  // Static-only Worker: no `main`, so asset requests never invoke code and are
+  // served free and unlimited. Everything the site does — the WhatsApp handoff,
+  // analytics — happens in the browser.
+  "assets": {
+    "directory": "./dist",
+
+    // All four canonical URLs end in a slash (/privacy/, /en/), so the default
+    // auto-trailing-slash matches them exactly and redirects the slashless
+    // form rather than 404ing it. Set explicitly rather than left implicit.
+    "html_handling": "auto-trailing-slash",
+
+    // The default here is "none", which would return a bare platform 404 and
+    // throw away dist/404.html. This is the setting that makes the 404 real.
+    "not_found_handling": "404-page"
+  }
+}

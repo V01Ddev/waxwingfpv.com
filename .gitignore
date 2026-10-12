@@ -15,6 +15,9 @@ dist/
 # Accessibility audit report. Regenerate with scripts/audit.mjs.
 audit.json
 
+# Wrangler's local dev state and bundles, written by `wrangler dev`.
+.wrangler/
+
 # --- personal documents: never commit --------------------------------------
 # These sit in the repo root but must not enter git history.
 #
