@@ -266,6 +266,16 @@ Say the word if any of these are wanted after all:
   browser chrome leaks into the design. Not done: it is a 40-second sample clip
   and the attribute only ever hid the button anyway — F, double-click and the
   context menu reach fullscreen in Chromium regardless.
+- **The favicon colour is served in pairs, and the order of the tags matters.**
+  The SVG favicon adapts itself with `prefers-color-scheme`, but Safari does
+  not read SVG favicons and a baked PNG cannot adapt, so `public/icons/` holds
+  both a white-mark set and a `-dark` set. `BaseLayout.astro` references them
+  with `media` queries, **light-scheme first**. That order is load-bearing: a
+  browser that ignores `media` on a link matches both and takes the last one,
+  which is white — the same default the SVG falls back to. Reversing them hands
+  a dark mark to browsers that cannot adapt, and it disappears on dark chrome,
+  which is the exact mirror of the problem the pair solves. Any new icon size
+  needs both variants.
 - **Note on the lightbox's `is-capped` path.** It sets `controlslist`,
   `disablepictureinpicture` and a `dblclick` guard, and the CSS hides the
   WebKit button — but nothing currently sets `data-video-nofullscreen`, so that

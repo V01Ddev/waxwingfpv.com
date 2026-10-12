@@ -93,7 +93,33 @@ const ogImageUrl = ogImage ? new URL(ogImage, site).href : undefined;
     <meta name="theme-color" content="#0F1418" />
 
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="icon" href="/icons/favicon-32.png" sizes="32x32" type="image/png" />
+
+    {/*
+      The SVG above adapts itself with prefers-color-scheme, but Safari does not
+      read SVG favicons and a baked PNG cannot adapt — so both schemes are
+      offered and the browser picks.
+
+      Order matters. The light-scheme link comes first and the dark-scheme link
+      second, so a browser that ignores `media` on a link matches both and takes
+      the last one: white, which is the same default the SVG uses. Reversing
+      these would hand a dark mark to browsers that cannot adapt, and it would
+      vanish on dark chrome — the mirror of the problem this solves.
+    */}
+    <link
+      rel="icon"
+      href="/icons/favicon-32-dark.png"
+      sizes="32x32"
+      type="image/png"
+      media="(prefers-color-scheme: light)"
+    />
+    <link
+      rel="icon"
+      href="/icons/favicon-32.png"
+      sizes="32x32"
+      type="image/png"
+      media="(prefers-color-scheme: dark)"
+    />
+
     <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
 
