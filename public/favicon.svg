@@ -1,21 +1,30 @@
 <!--
-  Favicon: the mark itself, in the site's own colours — silk wings, brand-grey
-  glint and tip, on a plumage tile.
+  Favicon: the mark itself, all silk and transparent — no tile.
+
+  Previously this was the mark on an opaque plumage square, chosen so it held
+  up on both light and dark browser themes. The square is gone: on a light
+  browser chrome a white mark alone would be invisible, so the colour is
+  carried by `currentColor` and flipped under prefers-color-scheme. Where that
+  query is unsupported (some browsers, for favicons specifically) the default
+  applies and it is white, exactly as asked.
 
   Chosen over the glint alone, which was measured at 16/32/64px and reads as an
   X in every one of them, i.e. a close button. The full mark reads as a bird.
-  The tile is opaque so it holds up on both light and dark browser themes.
-  Content sits inside the 80% maskable safe zone.
 -->
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512" role="img" aria-labelledby="favicon-title" style="fill-rule:evenodd;clip-rule:evenodd;">
   <title id="favicon-title">WaxWingFPV</title>
-  <rect width="512" height="512" fill="#0F1418"/>
+  <style>
+    /* currentColor rather than a literal fill: one declaration drives the
+       paths and the gradient stops, so the light-mode flip is a single edit. */
+    svg { color: #e8e6e1; }
+    @media (prefers-color-scheme: light) { svg { color: #0f1418; } }
+  </style>
   <g transform="matrix(1.2298,0,0,1.2298,-359.5,-352.7)">
   <g transform="matrix(2.53257,0,0,2.53257,-753.625,-794.357)">
           <g id="Layer1">
               <g>
                   <g transform="matrix(1,0,0,1,-24.4716,23.5226)">
-                      <path d="M523.232,469.331L490.268,440.81C490.005,440.583 489.977,440.186 490.204,439.924C490.431,439.661 490.828,439.633 491.09,439.86L524.196,468.502L556.765,440.507C557.028,440.281 557.425,440.311 557.651,440.574C557.878,440.837 557.848,441.234 557.584,441.46L525.157,469.334L560.658,500.05C560.921,500.277 560.949,500.674 560.722,500.937C560.495,501.199 560.098,501.228 559.836,501.001L524.193,470.162L488.841,500.549C488.578,500.775 488.181,500.745 487.955,500.482C487.729,500.219 487.759,499.822 488.022,499.596L523.232,469.331Z" style="fill:rgb(128,128,128);"/>
+                      <path d="M523.232,469.331L490.268,440.81C490.005,440.583 489.977,440.186 490.204,439.924C490.431,439.661 490.828,439.633 491.09,439.86L524.196,468.502L556.765,440.507C557.028,440.281 557.425,440.311 557.651,440.574C557.878,440.837 557.848,441.234 557.584,441.46L525.157,469.334L560.658,500.05C560.921,500.277 560.949,500.674 560.722,500.937C560.495,501.199 560.098,501.228 559.836,501.001L524.193,470.162L488.841,500.549C488.578,500.775 488.181,500.745 487.955,500.482C487.729,500.219 487.759,499.822 488.022,499.596L523.232,469.331Z" fill="currentColor"/>
                   </g>
                   <g transform="matrix(1,0,0,1,-0.173079,0.0954687)">
                       <path d="M499.913,493.459L499.913,569.313C492.431,559.824 490.343,544.374 490.343,544.374C474.637,549.601 469.181,563.616 469.181,563.616L321.584,420.755L465.704,522.751L499.913,493.459Z" style="fill:url(#_Linear1);"/>
@@ -24,14 +33,14 @@
                       <path d="M499.763,493.467C507.853,519.695 506.147,544.792 499.533,569.321C492.051,559.832 490.343,544.374 490.343,544.374C474.637,549.601 469.181,563.616 469.181,563.616L321.584,420.755L465.704,522.751L499.763,493.467Z" style="fill:url(#_Linear2);"/>
                   </g>
                   <g transform="matrix(1,0,0,1,-0.101188,-1.63079)">
-                      <path d="M490.268,546.044C490.235,546.058 493.445,552.657 494.649,553.069C494.984,553.436 503.079,553.916 504.592,553.137C504.592,553.137 506.498,552.183 509.103,546.114C509.103,546.114 508.349,553.703 505.674,560.11C505.013,561.693 502.721,560.86 500.657,560.089C500.657,560.089 500.62,560.128 499.565,560.124C499.565,560.124 499.37,560.13 498.627,560.115C496.625,560.751 494.609,561.736 493.964,560.106C493.964,560.106 491.563,554.775 490.268,546.044Z" style="fill:rgb(128,128,128);"/>
+                      <path d="M490.268,546.044C490.235,546.058 493.445,552.657 494.649,553.069C494.984,553.436 503.079,553.916 504.592,553.137C504.592,553.137 506.498,552.183 509.103,546.114C509.103,546.114 508.349,553.703 505.674,560.11C505.013,561.693 502.721,560.86 500.657,560.089C500.657,560.089 500.62,560.128 499.565,560.124C499.565,560.124 499.37,560.13 498.627,560.115C496.625,560.751 494.609,561.736 493.964,560.106C493.964,560.106 491.563,554.775 490.268,546.044Z" fill="currentColor"/>
                   </g>
               </g>
           </g>
       </g>
   </g>
   <defs>
-  <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-209.384,-188.33,188.33,-209.384,406.844,472.276)"><stop offset="0" style="stop-color:rgb(232,230,225);stop-opacity:1"/><stop offset="0.35" style="stop-color:rgb(232,230,225);stop-opacity:0.141176"/><stop offset="1" style="stop-color:rgb(232,230,225);stop-opacity:0"/></linearGradient>
-  <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-209.384,-188.33,191.746,-213.016,406.844,472.276)"><stop offset="0" style="stop-color:rgb(232,230,225);stop-opacity:1"/><stop offset="0.35" style="stop-color:rgb(232,230,225);stop-opacity:0.141176"/><stop offset="1" style="stop-color:rgb(232,230,225);stop-opacity:0"/></linearGradient>
+  <linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-209.384,-188.33,188.33,-209.384,406.844,472.276)"><stop offset="0" stop-color="currentColor" stop-opacity="1"/><stop offset="0.35" stop-color="currentColor" stop-opacity="0.141176"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient>
+  <linearGradient id="_Linear2" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(-209.384,-188.33,191.746,-213.016,406.844,472.276)"><stop offset="0" stop-color="currentColor" stop-opacity="1"/><stop offset="0.35" stop-color="currentColor" stop-opacity="0.141176"/><stop offset="1" stop-color="currentColor" stop-opacity="0"/></linearGradient>
   </defs>
 </svg>

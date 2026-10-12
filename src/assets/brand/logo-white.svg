@@ -1,12 +1,21 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!--
-  WaxWingFPV mark — light-on-dark variant.
+  WaxWingFPV mark — all-white variant. Used by the navbar and the 404 page.
 
-  Geometry is byte-identical to WXlogoblack.svg. Two changes only:
-    1. Wing gradient stops recoloured black -> silk (#E8E6E1); the opacity
-       ramp is untouched, so the trails still fade rather than stopping dead.
-    2. The glint and the trailing tip are the brand grey #808080 — the same
-       grey used in WXlogogray.svg, so the two marks agree.
+  Geometry is byte-identical to WXlogoblack.svg. Every part is now silk
+  (#E8E6E1):
+    1. Wing gradient stops black -> silk; the opacity ramp is untouched, so
+       the trails still fade rather than stopping dead.
+    2. The glint and the trailing tip were the brand grey #808080. They are
+       silk too now, so the mark reads as one solid white bird rather than a
+       white bird with grey detail.
+
+  The mark is 100% silk, deliberately — including the two pieces that were
+  grey. It sits on plumage in the header and in the 404, where the extra
+  contrast is wanted.
+
+  Contrast is why the grey variant (logo-grey.svg) still exists, unchanged,
+  for the footer: there the mark is meant to sit back rather than lead.
 
   viewBox is cropped to the artwork bounds (content spans x 60.8-966.8,
   y 271.1-647.4 in the original 1024 box) plus 60 units of padding. The
@@ -20,7 +29,7 @@
         <g id="Layer1">
             <g>
                 <g transform="matrix(1,0,0,1,-24.4716,23.5226)">
-                    <path d="M523.232,469.331L490.268,440.81C490.005,440.583 489.977,440.186 490.204,439.924C490.431,439.661 490.828,439.633 491.09,439.86L524.196,468.502L556.765,440.507C557.028,440.281 557.425,440.311 557.651,440.574C557.878,440.837 557.848,441.234 557.584,441.46L525.157,469.334L560.658,500.05C560.921,500.277 560.949,500.674 560.722,500.937C560.495,501.199 560.098,501.228 559.836,501.001L524.193,470.162L488.841,500.549C488.578,500.775 488.181,500.745 487.955,500.482C487.729,500.219 487.759,499.822 488.022,499.596L523.232,469.331Z" style="fill:rgb(128,128,128);"/>
+                    <path d="M523.232,469.331L490.268,440.81C490.005,440.583 489.977,440.186 490.204,439.924C490.431,439.661 490.828,439.633 491.09,439.86L524.196,468.502L556.765,440.507C557.028,440.281 557.425,440.311 557.651,440.574C557.878,440.837 557.848,441.234 557.584,441.46L525.157,469.334L560.658,500.05C560.921,500.277 560.949,500.674 560.722,500.937C560.495,501.199 560.098,501.228 559.836,501.001L524.193,470.162L488.841,500.549C488.578,500.775 488.181,500.745 487.955,500.482C487.729,500.219 487.759,499.822 488.022,499.596L523.232,469.331Z" style="fill:rgb(232,230,225);"/>
                 </g>
                 <g transform="matrix(1,0,0,1,-0.173079,0.0954687)">
                     <path d="M499.913,493.459L499.913,569.313C492.431,559.824 490.343,544.374 490.343,544.374C474.637,549.601 469.181,563.616 469.181,563.616L321.584,420.755L465.704,522.751L499.913,493.459Z" style="fill:url(#_Linear1);"/>
@@ -29,7 +38,7 @@
                     <path d="M499.763,493.467C507.853,519.695 506.147,544.792 499.533,569.321C492.051,559.832 490.343,544.374 490.343,544.374C474.637,549.601 469.181,563.616 469.181,563.616L321.584,420.755L465.704,522.751L499.763,493.467Z" style="fill:url(#_Linear2);"/>
                 </g>
                 <g transform="matrix(1,0,0,1,-0.101188,-1.63079)">
-                    <path d="M490.268,546.044C490.235,546.058 493.445,552.657 494.649,553.069C494.984,553.436 503.079,553.916 504.592,553.137C504.592,553.137 506.498,552.183 509.103,546.114C509.103,546.114 508.349,553.703 505.674,560.11C505.013,561.693 502.721,560.86 500.657,560.089C500.657,560.089 500.62,560.128 499.565,560.124C499.565,560.124 499.37,560.13 498.627,560.115C496.625,560.751 494.609,561.736 493.964,560.106C493.964,560.106 491.563,554.775 490.268,546.044Z" style="fill:rgb(128,128,128);"/>
+                    <path d="M490.268,546.044C490.235,546.058 493.445,552.657 494.649,553.069C494.984,553.436 503.079,553.916 504.592,553.137C504.592,553.137 506.498,552.183 509.103,546.114C509.103,546.114 508.349,553.703 505.674,560.11C505.013,561.693 502.721,560.86 500.657,560.089C500.657,560.089 500.62,560.128 499.565,560.124C499.565,560.124 499.37,560.13 498.627,560.115C496.625,560.751 494.609,561.736 493.964,560.106C493.964,560.106 491.563,554.775 490.268,546.044Z" style="fill:rgb(232,230,225);"/>
                 </g>
             </g>
         </g>
