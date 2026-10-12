@@ -1,6 +1,10 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
-  "name": "waxwingfpv",
+
+  // Matches the Worker the Cloudflare dashboard created. Deploying under a
+  // different name would stand up a second Worker and orphan the custom domain
+  // attached to this one.
+  "name": "waxwingfpv-com",
   // Must not exceed the newest date the installed wrangler knows about; it
   // rejects anything later as "in the future". wrangler 4.149.0 ships
   // workerd 1.20261006.1, so this tracks that. Bump both together.
@@ -19,6 +23,16 @@
 
     // The default here is "none", which would return a bare platform 404 and
     // throw away dist/404.html. This is the setting that makes the 404 real.
+    // Worth stating why it matters: the Cloudflare dashboard's first connected
+    // build generated its own config and ignored this file entirely, and the
+    // live 404 was a zero-byte response until this was actually applied.
     "not_found_handling": "404-page"
-  }
+  },
+
+  // Stated rather than left to default, because both defaults are only
+  // *implied* and wrangler warns about them on every deploy. workers.dev stays
+  // on as the way to check a deploy before the custom domain exists; preview
+  // URLs are a Workers Builds feature and are not used by GitHub Actions.
+  "workers_dev": true,
+  "preview_urls": false
 }

@@ -160,19 +160,38 @@ use outright**, and this is a lead-generation site for a business.
 Cloudflare steers new projects to Workers and develops Pages for maintenance
 only. The cost is one small config file.
 
-### One-time setup, not yet done
+### One-time setup — partially done
 
-1. **Enable the workers.dev subdomain** on the Cloudflare account (Workers →
-   Settings). The first deploy fails without it.
+A Worker named **`waxwingfpv-com`** already exists, created through the
+dashboard, and is live at `https://waxwingfpv-com.v01d-dev-sh.workers.dev`.
+`wrangler.jsonc` is named to match it: deploying under any other name would
+stand up a second Worker and orphan the custom domain.
+
+**That first connected build went its own way.** It ran `astro add cloudflare`
+inside the build container, which generated `dist/client/wrangler.json` and
+redirected wrangler to it, so the `wrangler.jsonc` in this repo was never
+read. Two consequences: the live 404 was a **zero-byte response** rather than
+`dist/404.html`, and a KV namespace and Images binding were created for a site
+that uses neither. Deploying through Actions fixes the 404, because this config
+is the one that gets used — but only once the dashboard's build is disconnected.
+
+Still to do:
+
+1. **Disconnect the dashboard build.** Workers & Pages → `waxwingfpv-com` →
+   Settings → Builds → disconnect the Git integration. Until then both systems
+   deploy on every push and the 404 flickers depending on which finishes last.
 2. **Add two repository secrets** (GitHub → Settings → Secrets and variables →
    Actions):
-   - `CLOUDFLARE_API_TOKEN` — create from the "Edit Cloudflare Workers" template
+   - `CLOUDFLARE_API_TOKEN` — from the "Edit Cloudflare Workers" template
    - `CLOUDFLARE_ACCOUNT_ID` — shown in the Cloudflare dashboard URL
 3. Push to `main`, or run the workflow manually.
-4. **Add the custom domain** once the Worker exists: Workers → `waxwingfpv` →
-   Settings → Domains & Routes → Add custom domain. The zone is already on
-   Cloudflare, so this writes its own DNS record. Decide about `www` at the
-   same time — right now nothing resolves at all.
+4. **Add the custom domain:** Workers → `waxwingfpv-com` → Settings → Domains
+   & Routes → Add custom domain. The zone is already on Cloudflare, so this
+   writes its own DNS record. Decide about `www` at the same time — nothing
+   resolves at `waxwingfpv.com` at all right now.
+5. **Optional cleanup.** Deploying with this config drops the two bindings, but
+   the KV namespace the dashboard created lingers in the account and has to be
+   deleted by hand.
 
 ### After the first deploy
 
