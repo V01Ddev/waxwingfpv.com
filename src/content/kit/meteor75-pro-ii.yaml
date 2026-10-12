@@ -24,7 +24,9 @@ specs:
   - label: { tr: 'Sınıf', en: 'Class' }
     value: '80 mm whoop'
   - label: { tr: 'Ağırlık', en: 'Weight' }
-    value: '41,5 g'
+    value:
+      tr: '41,5 g'
+      en: '41.5 g'
   - label: { tr: 'Kamera', en: 'Camera' }
     value: 'DJI O4 Wide · 159°'
   - label: { tr: 'Kayıt', en: 'Recording' }

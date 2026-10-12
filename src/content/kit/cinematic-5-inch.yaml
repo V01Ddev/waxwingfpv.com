@@ -2,9 +2,6 @@
 # stack, F40 V2 motors, ExpressLRS. This is the aircraft that carries the
 # GoPro, which is why it exists at all.
 #
-# TODO(owner) — still missing Uçuş süresi (typical flight time). Add it under
-# the shared rows below and it appears in the comparison automatically; until
-# then that row is simply absent rather than showing an invented figure.
 name: 'Custom 5-inch'
 kind: 'airframe'
 order: 2
@@ -35,6 +32,10 @@ specs:
     value: '4K 60 fps'
   - label: { tr: 'Batarya', en: 'Battery' }
     value: '6S'
+  - label: { tr: 'Uçuş süresi', en: 'Flight time' }
+    value:
+      tr: '~6,5 dk'
+      en: '~6.5 min'
   - label: { tr: 'Kumanda', en: 'Control link' }
     value: 'ExpressLRS 2.4 GHz'
   # --- this aircraft only ---
@@ -45,7 +46,9 @@ specs:
   - label: { tr: 'Motorlar', en: 'Motors' }
     value: 'F40 V2'
   - label: { tr: 'Uçuş kamerası', en: 'Flight camera' }
-    value: 'DJI O4 Lite · 117,6°'
+    value:
+      tr: 'DJI O4 Lite · 117,6°'
+      en: 'DJI O4 Lite · 117.6°'
   # ND and Gyroflow came over from the GoPro's own entry when it was folded in.
   - label: { tr: 'Filtre', en: 'Filtration' }
     value: 'ND'
