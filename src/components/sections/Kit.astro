@@ -91,43 +91,43 @@ const valueFor = (item: (typeof items)[number], label: string) =>
             hidden={i !== 0}
           >
             <div class="kit__media">
-                            {hasSample(item.sample.src) ? (
-                <button
-                  type="button"
-                  class="frame"
-                  data-video-src={item.sample.src}
-                  data-video-poster={item.sample.poster}
-                  data-video-title={item.name}
-                  data-video-label={t(locale, 'kit.sample')}
-                  data-video-orientation={item.sample.orientation}
-                  data-video-source={item.sample.source}
-                  {/* The samples are served at 540p. Handing someone a
-                      fullscreen button for a 540p clip invites them to judge
-                      the work at a size it was never meant to be seen. */}
-                  data-video-nofullscreen
-                  data-video-facts={JSON.stringify(
-                    item.specs.slice(0, 3).map((spec) => [spec.label, spec.value])
-                  )}
-                >
+              {/* Plays inline, in the panel, at panel size. These clips are
+                  served at 540p, and sending them to the full-window lightbox
+                  meant blowing them up to fill a desktop monitor. Keeping them
+                  here also removes the fullscreen question entirely: nothing
+                  about this element is fullscreen-capable. */}
+              {hasSample(item.sample.src) ? (
+                <>
+                <div class="frame" data-sample>
                   <span class="frame__media">
-                    <img
-                      src={item.sample.poster}
-                      width={item.sample.orientation === 'vertical' ? 720 : 1280}
-                      height={item.sample.orientation === 'vertical' ? 1280 : 720}
-                      alt=""
-                      loading="lazy"
-                      decoding="async"
-                    />
+                    <video
+                      class="frame__video"
+                      data-sample-video
+                      poster={item.sample.poster}
+                      preload="none"
+                      playsinline
+                      controlslist="nofullscreen nodownload"
+                      width="960"
+                      height="540"
+                    >
+                      <source src={item.sample.src} type="video/mp4" />
+                    </video>
                   </span>
-                  <span class="frame__play">
+                  <button type="button" class="frame__play" data-sample-play>
                     <svg class="frame__tri" viewBox="0 0 12 14" aria-hidden="true" focusable="false">
                       <path d="M0 0 12 7 0 14Z" />
                     </svg>
-                  </span>
-                  <span class="visually-hidden">
-                    {t(locale, 'kit.playSample')}: {item.name}
-                  </span>
-                </button>
+                    <span class="visually-hidden">
+                      {t(locale, 'kit.playSample')}: {item.name}
+                    </span>
+                  </button>
+                </div>
+                  {item.sample.source && (
+                    <p class="kit__source t-mono">
+                      {t(locale, 'media.sourceNote').replace('{source}', item.sample.source)}
+                    </p>
+                  )}
+                </>
               ) : (
                 <div class="frame">
                   <span class="frame__media">
@@ -346,9 +346,23 @@ const valueFor = (item: (typeof items)[number], label: string) =>
     cursor: pointer;
   }
 
-  .frame__media img {
+  .frame__media img,
+  .frame__video {
+    display: block;
     width: 100%;
     height: auto;
+  }
+
+  /* Once it is playing, the native controls take over and the overlay would
+     only sit on top of them. */
+  .frame.is-playing .frame__play {
+    display: none;
+  }
+
+  .kit__source {
+    color: var(--fg-muted);
+    margin-block: var(--sp-3) 0;
+    font-size: var(--text-xs);
   }
 
   .frame__play {
@@ -620,6 +634,21 @@ const valueFor = (item: (typeof items)[number], label: string) =>
           event.preventDefault();
           select(next);
         }
+      });
+    });
+
+    // Sample clips play in place. No modal, so nothing can be blown up past
+    // the size the clip was encoded for.
+    root.querySelectorAll<HTMLElement>('[data-sample]').forEach((frame) => {
+      const video = frame.querySelector<HTMLVideoElement>('[data-sample-video]');
+      const play = frame.querySelector<HTMLButtonElement>('[data-sample-play]');
+      play?.addEventListener('click', () => {
+        if (!video) return;
+        video.controls = true;
+        frame.classList.add('is-playing');
+        video.play().catch(() => {
+          /* Refused. The native controls are showing, so the visitor can start it. */
+        });
       });
     });
 
