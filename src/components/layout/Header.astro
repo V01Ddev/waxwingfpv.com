@@ -28,7 +28,7 @@ const links = [
 <header class="hdr" data-header>
   <div class="hdr__inner page">
     <a class="hdr__brand" href={prefix || '/'} aria-label={t(locale, 'site.name')}>
-      <Wordmark />
+      <Wordmark size="1.375rem" />
     </a>
 
     <nav class="hdr__nav" aria-label={t(locale, 'nav.menu')}>
@@ -141,7 +141,7 @@ const links = [
 
   .hdr__link {
     color: var(--fg);
-    font-size: var(--text-base);
+    font-size: 1.125rem;
     text-decoration: none;
   }
 
@@ -170,6 +170,7 @@ const links = [
 
   .hdr__lang {
     color: var(--fg-muted);
+    font-size: 1rem;
     text-decoration: none;
     padding: var(--sp-2);
   }

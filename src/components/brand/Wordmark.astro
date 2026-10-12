@@ -4,14 +4,25 @@ import Logo from './Logo.astro';
 interface Props {
   variant?: 'white' | 'grey';
   class?: string;
-  /** Hides the text, leaving the mark — for very tight spaces. */
+  /** Hides the text, leaving the mark, for very tight spaces. */
   markOnly?: boolean;
+  /**
+   * Any CSS length. Owned here rather than set by a parent class, because
+   * scoped styles do not reach a child component's root. The header runs
+   * larger than the footer.
+   */
+  size?: string;
 }
 
-const { variant = 'white', class: className, markOnly = false } = Astro.props;
+const {
+  variant = 'white',
+  class: className,
+  markOnly = false,
+  size = 'var(--text-base)',
+} = Astro.props;
 ---
 
-<span class:list={['wm', className]}>
+<span class:list={['wm', className]} style={`--wm-size:${size}`}>
   <Logo variant={variant} height="1.15em" />
   {
     !markOnly && (
@@ -30,7 +41,7 @@ const { variant = 'white', class: className, markOnly = false } = Astro.props;
     display: inline-flex;
     align-items: center;
     gap: 0.55em;
-    font-size: var(--text-base);
+    font-size: var(--wm-size);
     line-height: 1;
   }
 

@@ -98,6 +98,30 @@ const ogImageUrl = ogImage ? new URL(ogImage, site).href : undefined;
       type="font/woff2"
       crossorigin
     />
+    {/*
+      GoatCounter. Cookieless, so no consent banner is needed for it.
+
+      The beacon is loaded on idle rather than in the head, because an async
+      third-party script still competes for bandwidth and a main-thread slot
+      with the hero poster, which is the LCP element. The timeout means it
+      still loads on a busy page.
+    */}
+    <script is:inline>
+      (function () {
+        var load = function () {
+          var s = document.createElement('script');
+          s.async = true;
+          s.src = 'https://gc.zgo.at/count.js';
+          s.setAttribute('data-goatcounter', 'https://waxwingfpv.goatcounter.com/count');
+          document.head.appendChild(s);
+        };
+        if ('requestIdleCallback' in window) {
+          requestIdleCallback(load, { timeout: 2000 });
+        } else {
+          window.addEventListener('load', load);
+        }
+      })();
+    </script>
   </head>
 
   <body>
