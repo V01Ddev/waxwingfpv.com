@@ -1,106 +1,106 @@
 {
   "site": {
     "name": "WaxWingFPV",
-    "title": "WaxWingFPV | İstanbul'da kafe ve restoranlar için FPV drone çekimi",
-    "tagline": "İstanbul'daki kafe, restoran ve mağazalar için sinematik FPV video.",
-    "description": "İstanbul'da kafe, restoran ve yerel işletmeler için sinematik FPV drone çekimi. Uçuşlar SHGM mevzuatına uygun, lisanslı pilot tarafından yapılır.",
-    "ogAlt": "WaxwingFPV. İstanbul'da bir sokağın üzerinden geçen FPV çekimi; solda The Nish Coffee tabelası görünüyor."
+    "title": "WaxWingFPV | İstanbul’da Profesyonel FPV Drone Çekimi",
+    "tagline": "Mekânınızı farklı bir açıdan anlatan sinematik FPV videolar.",
+    "description": "WaxWingFPV, İstanbul’daki kafe, restoran, mağaza ve işletmeler için sinematik FPV drone çekimleri sunar. Uçuşlar, ilgili SHGM mevzuatına uygun olarak lisanslı pilot tarafından gerçekleştirilir.",
+    "ogAlt": "İstanbul’da bir sokağın üzerinde FPV drone uçuşu. Sol tarafta The Nish Coffee tabelası görünüyor."
   },
   "nav": {
-    "work": "İşler",
+    "work": "Projeler",
     "kit": "Ekipman",
     "services": "Hizmetler",
-    "process": "Süreç",
+    "process": "Çekim süreci",
     "contact": "İletişim",
     "menu": "Menü",
     "close": "Kapat"
   },
   "cta": {
-    "quote": "Teklif alın",
-    "watchReel": "Reeli izle",
-    "whatsapp": "WhatsApp'tan yazın",
+    "quote": "Teklif isteyin",
+    "watchReel": "Reeli izleyin",
+    "whatsapp": "WhatsApp’tan ulaşın",
     "email": "E-posta gönderin",
-    "allWork": "Tüm işler"
+    "allWork": "Tüm projeler"
   },
   "hero": {
-    "scroll": "Aşağı kaydırın"
+    "scroll": "Keşfetmek için kaydırın"
   },
   "work": {
-    "heading": "İşler",
-    "intro": "Her iş aynı çekimden iki format olarak teslim edilir: yatay film ve dikey reel.",
-    "wanted": "İstenen",
-    "result": "Sonuç",
-    "shotOn": "Çekim",
-    "playFilm": "Filmi oynat",
-    "playReel": "Reeli oynat",
-    "place": "Yer",
+    "heading": "Projeler",
+    "intro": "Standart olarak iki format teslim ediyoruz: geniş ekranlar için yatay film, sosyal medya için dikey reel.",
+    "wanted": "Proje hedefi",
+    "result": "Ortaya çıkan iş",
+    "shotOn": "Kullanılan drone",
+    "playFilm": "Filmi izleyin",
+    "playReel": "Reeli izleyin",
+    "place": "Konum",
     "duration": "Süre",
     "camera": "Kamera"
   },
   "kit": {
     "heading": "Ekipman",
-    "intro": "İki hava aracı ve bir kamera. Hangisinin neye yaradığını, neye yaramadığını da yazarak anlatıyorum.",
-    "selectLabel": "Bir araç seçin",
-    "bestFor": "Nerede işe yarar",
-    "limits": "Nerede yaramaz",
-    "specs": "Teknik",
-    "sample": "Örnek klip",
-    "playSample": "Klibi oynat",
-    "compare": "Hava araçları karşılaştırması"
+    "intro": "Her mekânın ihtiyacına uygun iki farklı drone. Kullanım alanlarını, avantajlarını ve sınırlarını keşfedin.",
+    "selectLabel": "Drone seçin",
+    "bestFor": "İdeal kullanım alanları",
+    "limits": "Çekim için uygunsuz koşullar",
+    "specs": "Teknik özellikler",
+    "sample": "Örnek çekim",
+    "playSample": "Videoyu izleyin",
+    "compare": "Drone karşılaştırması"
   },
   "services": {
     "heading": "Hizmetler",
-    "intro": "Hepsi aynı yerden başlar: mekânı görmeden hiçbir şey uçmaz."
+    "intro": "Mekânınıza ve hedeflerinize uygun çekimi, alanı değerlendirerek birlikte planlıyoruz."
   },
   "process": {
-    "heading": "Süreç",
-    "intro": "Beş adım, baştan sona. Her adımda sizden ne gerektiği de yazılı.",
-    "needs": "Sizden"
+    "heading": "Çekim süreci",
+    "intro": "İlk görüşmeden video teslimine kadar beş net adım. Her aşamada nasıl ilerleyeceğimizi ve sizden neler beklediğimizi öğrenin.",
+    "needs": "Sizden beklenenler"
   },
   "trust": {
-    "heading": "Uçuşlar ve izinler",
-    "built": "5 inçlik aracı hazır almadım: Mario 5 gövde, Mamba MK4 F722 kart ve F40 V2 motorlarla kendim topladım, kendim ayarladım.",
-    "checklist": "Her çekimden önce aynı yazılı kontrol listesini baştan sona uygularım.",
+    "heading": "Güvenlik ve uçuş izinleri",
+    "built": "5 inç FPV drone’umuzu hazır satın almak yerine Mario 5 gövde, Mamba MK4 F722 uçuş kontrol sistemi ve F40 V2 motorlarla kendimiz topladık ve uçuşa uygun şekilde ayarladık.",
+    "checklist": "Her çekim öncesinde yazılı uçuş öncesi kontrol listesini eksiksiz uygularız.",
     "licence": "Pilot lisansı",
-    "licenceBody": "Uçuşlar SHGM mevzuatına uygun olarak, lisanslı pilot tarafından yapılır.",
-    "serviceArea": "İstanbul içinde hizmet veriyoruz."
+    "licenceBody": "Uçuşlar, ilgili SHGM mevzuatına uygun olarak lisanslı pilot tarafından gerçekleştirilir.",
+    "serviceArea": "İstanbul genelinde hizmet veriyoruz."
   },
   "contact": {
     "heading": "İletişim",
-    "intro": "Mekânı ve ne yapmak istediğinizi yazın. Bir iş günü içinde dönerim.",
-    "directLabel": "Doğrudan ulaşın",
-    "whatsappPrefill": "Merhaba, mekânım için FPV video çekimi hakkında bilgi almak istiyorum.",
+    "intro": "Mekânınızı ve nasıl bir video istediğinizi kısaca anlatın. Bir iş günü içinde size dönüş yaparız.",
+    "directLabel": "Doğrudan iletişim",
+    "whatsappPrefill": "Merhaba, işletmem için FPV drone çekimi hakkında bilgi almak istiyorum.",
     "form": {
-      "name": "Adınız",
-      "business": "İşletme adı",
-      "businessType": "Ne tür bir işletme",
-      "message": "Ne yapmak istiyorsunuz",
-      "messageHint": "Mekân, tarih ve aklınızdaki şey. Birkaç cümle yeter.",
-      "submit": "Teklif alın",
+      "name": "Adınız ve soyadınız",
+      "business": "İşletmenizin adı",
+      "businessType": "İşletme türü",
+      "message": "Projenizi anlatın",
+      "messageHint": "Mekânınızı, düşündüğünüz tarihi ve çekim fikrinizi birkaç cümleyle paylaşın.",
+      "submit": "Teklif isteyin",
       "sending": "Gönderiliyor…",
-      "submitHint": "WhatsApp açılır ve mesajınız hazır yazılmış olur."
+      "submitHint": "WhatsApp, mesajınız gönderilmeye hazır şekilde açılır."
     },
     "success": {
-      "title": "Mesajınız geldi.",
-      "body": "Bir iş günü içinde, genellikle WhatsApp üzerinden dönerim."
+      "title": "Mesajınız alındı",
+      "body": "Bir iş günü içinde, genellikle WhatsApp üzerinden size dönüş yaparız."
     },
     "error": {
-      "title": "Gönderilemedi.",
-      "body": "Bizde bir sorun oldu. Doğrudan WhatsApp'tan ya da e-postayla yazabilirsiniz.",
-      "required": "Bu alanı doldurun.",
-      "consent": "Devam etmek için onay vermeniz gerekiyor.",
-      "rate": "Çok sık denediniz. Biraz sonra tekrar deneyin ya da doğrudan yazın."
+      "title": "Mesaj gönderilemedi",
+      "body": "Bir hata oluştu. Bizimle doğrudan WhatsApp veya e-posta üzerinden iletişime geçebilirsiniz.",
+      "required": "Lütfen bu alanı doldurun.",
+      "consent": "Devam etmek için kişisel veri işleme onayınızı vermelisiniz.",
+      "rate": "Çok fazla deneme yaptınız. Lütfen biraz bekleyin veya doğrudan iletişime geçin."
     },
     "wa": {
-      "intro": "Merhaba, FPV video çekimi için teklif almak istiyorum.",
-      "name": "Ad",
+      "intro": "Merhaba, FPV drone çekimi için fiyat teklifi almak istiyorum.",
+      "name": "Ad soyad",
       "business": "İşletme",
       "type": "İşletme türü",
       "message": "Mesaj"
     }
   },
   "a11y": {
-    "skipToContent": "İçeriğe geç",
+    "skipToContent": "Ana içeriğe geç",
     "changeLanguage": "Dili değiştir",
     "playVideo": "Videoyu oynat",
     "closeLightbox": "Videoyu kapat",
@@ -110,18 +110,18 @@
   },
   "form": {
     "optional": "isteğe bağlı",
-    "choose": "Seçin"
+    "choose": "Seçiniz"
   },
   "legal": {
     "privacy": "KVKK Aydınlatma Metni",
-    "consent": "Kişisel verilerimin bu talebe yanıt vermek amacıyla işlenmesine onay veriyorum.",
+    "consent": "Kişisel verilerimin talebime yanıt verilmesi amacıyla işlenmesine onay veriyorum.",
     "rights": "Tüm hakları saklıdır.",
-    "credit": "v01d.dev tarafından yapıldı",
+    "credit": "v01d.dev tarafından geliştirildi",
     "updated": "Son güncelleme",
     "back": "Ana sayfaya dön",
-    "questions": "Sorunuz mu var? Bize yazın."
+    "questions": "Sorularınız mı var? Bizimle iletişime geçin."
   },
   "media": {
-    "sourceNote": "{source} kaynak, web için küçültüldü"
+    "sourceNote": "{source} kaynak dosyası web için optimize edildi"
   }
 }

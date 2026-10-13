@@ -33,7 +33,7 @@ licence:
         tr: 'İHA-1 (Sportif / Amatör)'
         en: 'İHA-1 (Sportive / Amateur)'
   note:
-    tr: 'Uçuşlar SHGM mevzuatına uygun olarak, lisanslı pilot tarafından yapılır.'
+    tr: 'Uçuşlar, SHGM mevzuatına uygun olarak lisanslı pilot tarafından yapılır.'
     en: 'Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations.'
 
 # --- enquiry form ----------------------------------------------------------
@@ -80,7 +80,7 @@ services:
       en: '1 × 16:9 · 1 × 9:16 · ~1 min'
 
   - title:
-      tr: 'Sosyal medya reelleri'
+      tr: 'Sosyal medya içerikleri'
       en: 'Social reels'
     description:
       tr: 'Düzenli dikey içerik. Tek çekim, birkaç hafta yetecek kadar reel.'
@@ -126,8 +126,8 @@ process:
       tr: 'Keşif ve uçuş planı'
       en: 'Recce and flight plan'
     description:
-      tr: 'Mekânı gezerim; ışık, güzergâh ve uçuş yüksekliği planlanır. Gerekli izinler bu aşamada çıkar.'
-      en: 'I visit the space, check the light and the sightlines, and plan the route. Permits are handled here.'
+      tr: 'Mekânı gezeriz; ışık, güzergâh ve uçuş yüksekliği planlanır. Gerekli izinler bu aşamada çıkar.'
+      en: 'We visit the space, check the light and the sightlines, and plan the route. Permits are handled here.'
     needs:
       tr: 'Mekâna erişim'
       en: 'Access to the space'
@@ -146,7 +146,7 @@ process:
       tr: 'Kurgu'
       en: 'Edit'
     description:
-      tr: 'Renk düzenlemesi, müzik ve bir tur revizyon.'
+      tr: 'Renk düzenlemesi, müzik ve bir revizyon turu.'
       en: 'Grade, music, and one round of revisions.'
     needs:
       tr: '2 gün içinde geri bildirim'

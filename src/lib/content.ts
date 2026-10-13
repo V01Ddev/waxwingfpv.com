@@ -103,11 +103,28 @@ function cutDimensions(poster: string | undefined, orientation: string) {
 }
 
 export async function getProjects(locale: Locale) {
+  const site = await getSite();
+  /**
+   * A project stores the *kind* of business as an enum the schema enforces
+   * ('cafe', 'retail', …). That key is not a label, and it was reaching the
+   * page: the Turkish work section read "The Nish Coffee cafe ·
+   * Küçükçekmece, İstanbul" — an English slug, lowercase, mid-sentence, in a
+   * language where the word is "kafe".
+   *
+   * The label comes from the enquiry form's own list rather than a second copy
+   * of the same six words, so a project and the dropdown can never disagree
+   * about what a "retail" business is called. Unknown key falls back to the
+   * key, which is the honest thing to show and the way to notice it.
+   */
+  const typeLabels = new Map(
+    site.businessTypes(locale).map((b) => [b.value, b.label])
+  );
   const entries = await getCollection('projects');
   return entries
     .map((entry) => ({
       id: entry.id,
       clientType: entry.data.clientType,
+      clientTypeLabel: typeLabels.get(entry.data.clientType) ?? entry.data.clientType,
       clientName: entry.data.clientName,
       date: entry.data.date,
       order: entry.data.order,

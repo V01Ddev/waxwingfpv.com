@@ -1,106 +1,106 @@
 {
   "site": {
     "name": "WaxWingFPV",
-    "title": "WaxWingFPV | FPV drone filming for cafés and restaurants in Istanbul",
-    "tagline": "Cinematic FPV video for Istanbul's cafés, restaurants and shops.",
-    "description": "Cinematic FPV drone filming for cafés, restaurants and local businesses in Istanbul. Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations.",
-    "ogAlt": "WaxwingFPV. An FPV pass over an Istanbul street, with The Nish Coffee signage visible on the left."
+    "title": "WaxWingFPV | Cinematic FPV Drone Filming in Istanbul",
+    "tagline": "Cinematic FPV films that show your space from a new perspective.",
+    "description": "WaxWingFPV creates cinematic FPV drone videos for cafés, restaurants, shops and local businesses in Istanbul. Flights are conducted by a licensed pilot in accordance with applicable Turkish SHGM regulations.",
+    "ogAlt": "An FPV drone flight over a street in Istanbul, with The Nish Coffee sign visible on the left."
   },
   "nav": {
-    "work": "Work",
-    "kit": "The kit",
+    "work": "Projects",
+    "kit": "Equipment",
     "services": "Services",
-    "process": "Process",
+    "process": "Our process",
     "contact": "Contact",
     "menu": "Menu",
     "close": "Close"
   },
   "cta": {
-    "quote": "Get a quote",
+    "quote": "Request a quote",
     "watchReel": "Watch the reel",
-    "whatsapp": "Message on WhatsApp",
+    "whatsapp": "Chat on WhatsApp",
     "email": "Send an email",
-    "allWork": "All work"
+    "allWork": "View all projects"
   },
   "hero": {
-    "scroll": "Scroll"
+    "scroll": "Scroll to explore"
   },
   "work": {
-    "heading": "Work",
-    "intro": "Every job is delivered as two cuts of the same shoot: a horizontal film and a vertical reel.",
-    "wanted": "Wanted",
-    "result": "Result",
-    "shotOn": "Shot on",
-    "playFilm": "Play the film",
-    "playReel": "Play the reel",
+    "heading": "Projects",
+    "intro": "We deliver two formats as standard: a landscape film for widescreen viewing and a vertical reel for social media.",
+    "wanted": "Project goal",
+    "result": "Final result",
+    "shotOn": "Drone used",
+    "playFilm": "Watch the film",
+    "playReel": "Watch the reel",
     "place": "Location",
     "duration": "Duration",
     "camera": "Camera"
   },
   "kit": {
-    "heading": "The kit",
-    "intro": "Two aircraft and a camera. What each one is good at, and what it isn't.",
-    "selectLabel": "Choose an aircraft",
-    "bestFor": "Where it works",
-    "limits": "Where it doesn't",
-    "specs": "Specs",
-    "sample": "Sample clip",
-    "playSample": "Play clip",
-    "compare": "Aircraft comparison"
+    "heading": "Equipment",
+    "intro": "Two drones, each suited to different spaces and creative goals. Explore their strengths, ideal uses and limitations.",
+    "selectLabel": "Select a drone",
+    "bestFor": "Best for",
+    "limits": "Limitations",
+    "specs": "Technical specifications",
+    "sample": "Sample footage",
+    "playSample": "Watch the clip",
+    "compare": "Drone comparison"
   },
   "services": {
     "heading": "Services",
-    "intro": "They all start the same way: nothing flies until I've seen the space."
+    "intro": "We start every project by understanding your space and planning the right approach for your goals."
   },
   "process": {
-    "heading": "Process",
-    "intro": "Five steps, start to finish. Each one says what it needs from you.",
-    "needs": "You provide"
+    "heading": "Our process",
+    "intro": "Five clear steps, from the first conversation to final delivery. See what happens at each stage and what we need from you.",
+    "needs": "What we need from you"
   },
   "trust": {
-    "heading": "Flights and permissions",
-    "built": "The 5-inch wasn't bought assembled. Mario 5 frame, Mamba MK4 F722 stack, F40 V2 motors, built and tuned here.",
-    "checklist": "Every session starts with the same written preflight checklist.",
+    "heading": "Flight safety and permissions",
+    "built": "We built and tuned our own 5-inch FPV drone using a Mario 5 frame, a Mamba MK4 F722 flight controller stack and F40 V2 motors, rather than buying a ready-to-fly model.",
+    "checklist": "Before every shoot, we work through a written preflight safety checklist.",
     "licence": "Pilot licence",
-    "licenceBody": "Flights are conducted by a licensed pilot in compliance with Turkish SHGM regulations.",
-    "serviceArea": "Serving Istanbul."
+    "licenceBody": "Flights are conducted by a licensed pilot in accordance with applicable Turkish SHGM regulations.",
+    "serviceArea": "Available for projects across Istanbul."
   },
   "contact": {
     "heading": "Contact",
-    "intro": "Tell me about the space and what you want it to do. I reply within one working day.",
-    "directLabel": "Reach me directly",
-    "whatsappPrefill": "Hi, I'd like to ask about FPV video for my venue.",
+    "intro": "Tell us about your space and the video you have in mind. We will get back to you within one business day.",
+    "directLabel": "Get in touch directly",
+    "whatsappPrefill": "Hello, I would like to learn more about FPV drone filming for my business.",
     "form": {
-      "name": "Your name",
+      "name": "Full name",
       "business": "Business name",
-      "businessType": "What kind of business",
-      "message": "What you have in mind",
-      "messageHint": "The space, a date, and what you're picturing. A couple of sentences is plenty.",
-      "submit": "Get a quote",
+      "businessType": "Type of business",
+      "message": "Tell us about your project",
+      "messageHint": "Share a few details about your venue, preferred date and video idea.",
+      "submit": "Request a quote",
       "sending": "Sending…",
-      "submitHint": "Opens WhatsApp with your message ready to send."
+      "submitHint": "WhatsApp will open with your message ready to send."
     },
     "success": {
-      "title": "Got it.",
-      "body": "I'll reply within one working day, usually on WhatsApp."
+      "title": "Message received",
+      "body": "We will get back to you within one business day, usually via WhatsApp."
     },
     "error": {
-      "title": "That didn't send.",
-      "body": "Something went wrong on our end. You can reach me directly on WhatsApp or by email.",
-      "required": "Please fill this in.",
-      "consent": "Please give consent to continue.",
-      "rate": "That's a lot of tries. Wait a moment, or just message me directly."
+      "title": "Message not sent",
+      "body": "Something went wrong. Please contact us directly via WhatsApp or email.",
+      "required": "Please complete this field.",
+      "consent": "Please consent to the processing of your personal data to continue.",
+      "rate": "Too many attempts. Please wait a moment or contact us directly."
     },
     "wa": {
-      "intro": "Hi, I'd like to get a quote for an FPV video.",
-      "name": "Name",
+      "intro": "Hello, I would like to request a quote for FPV drone filming.",
+      "name": "Full name",
       "business": "Business",
       "type": "Business type",
       "message": "Message"
     }
   },
   "a11y": {
-    "skipToContent": "Skip to content",
+    "skipToContent": "Skip to main content",
     "changeLanguage": "Change language",
     "playVideo": "Play video",
     "closeLightbox": "Close video",
@@ -110,18 +110,18 @@
   },
   "form": {
     "optional": "optional",
-    "choose": "Choose"
+    "choose": "Please select"
   },
   "legal": {
     "privacy": "Privacy notice",
-    "consent": "I consent to my personal data being processed in order to answer this enquiry.",
+    "consent": "I consent to the processing of my personal data for the purpose of responding to my enquiry.",
     "rights": "All rights reserved.",
-    "credit": "Made by v01d.dev",
+    "credit": "Developed by v01d.dev",
     "updated": "Last updated",
-    "back": "Back to the site",
-    "questions": "Questions about this? Write to us."
+    "back": "Back to home",
+    "questions": "Have a question? Get in touch."
   },
   "media": {
-    "sourceNote": "{source} source, downscaled for the web"
+    "sourceNote": "{source} source file optimized for the web"
   }
 }
